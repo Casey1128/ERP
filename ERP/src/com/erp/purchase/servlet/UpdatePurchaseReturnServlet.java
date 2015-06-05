@@ -35,8 +35,6 @@ public class UpdatePurchaseReturnServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
 		String code=request.getParameter("returncode");
-		String date=request.getParameter("returndate");
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		String supplier=request.getParameter("returnsupplier");
 		String adduser=request.getParameter("returnadduser");
 		String telphone=request.getParameter("returntelphone");
@@ -45,11 +43,8 @@ public class UpdatePurchaseReturnServlet extends HttpServlet {
 		PurchaseReturn purchaseReturn=new PurchaseReturn();
 		PurchaseReturnService purchaseReturnService=new PurchaseReturnServiceImpl();
 		int ret=0;
-		Date rDate=new Date();
 		try {
-			rDate=sdf.parse(date);
 			purchaseReturn.setCode(code);
-			purchaseReturn.setrDate(rDate);
 			purchaseReturn.setSupplierCode(supplier);
 			purchaseReturn.setAddUser(adduser);
 			purchaseReturn.setTelPhone(telphone);
@@ -62,7 +57,7 @@ public class UpdatePurchaseReturnServlet extends HttpServlet {
 			}else{
 				System.out.println("¸üÐÂÊ§°Ü!");
 			}
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

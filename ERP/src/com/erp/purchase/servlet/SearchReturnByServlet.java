@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 import com.erp.purchase.entity.PurchaseReturn;
 import com.erp.purchase.service.PurchaseReturnService;
 import com.erp.purchase.service.impl.PurchaseReturnServiceImpl;
+import com.erp.utils.JSONDateProcessor;
 
 public class SearchReturnByServlet extends HttpServlet {
 
@@ -37,13 +39,14 @@ public class SearchReturnByServlet extends HttpServlet {
 		PurchaseReturn purchaseReturn=new PurchaseReturn();
 		PurchaseReturnService purchaseReturnService=new PurchaseReturnServiceImpl();
 		purchaseReturn=purchaseReturnService.findByCode(code);
-			
-				purchaseReturn.setrDate(new Date(purchaseReturn.getrDate().getTime()));
-				JSONObject obj=new JSONObject();
-				obj=JSONObject.fromObject(purchaseReturn);
-				String data=obj.toString();
-				System.out.println(data);
-				response.getWriter().println(data);
+		purchaseReturn.setrDate(new Date(purchaseReturn.getrDate().getTime()));
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(Date.class, new JSONDateProcessor());
+		JSONObject obj=new JSONObject();
+		obj=JSONObject.fromObject(purchaseReturn,jsonConfig);
+		String data=obj.toString();
+		System.out.println(data);
+		response.getWriter().println(data);
 			
 		
 	

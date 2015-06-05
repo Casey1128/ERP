@@ -1,5 +1,6 @@
 package com.erp.purchase.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.erp.purchase.entity.PurchaseReturn;
@@ -12,4 +13,6 @@ public interface PurchaseReturnService {
 	public int add(PurchaseReturn purchaseReturn);
 	public PurchaseReturn findByCode(String code);
 	public int update(PurchaseReturn purchaseReturn);
+	public PageBean SearchByCondition(String code,Date startDate,Date endDate,String supplier,int pageNo,int pageSize);
+
 }

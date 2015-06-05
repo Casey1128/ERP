@@ -229,6 +229,13 @@ public class BaseDao {
 		rs=this.executeQuery(pageSql,new Object[]{pageNo*pageSize,(pageNo-1)*pageSize});
 		return rs;
 	}
+	public ResultSet executeQueryForPage(String sql,Object[] params){
+		String pageSql="select * from (select rownum r, x.* from ( ";
+		pageSql+=sql+") x  where rownum<=?)t  where t.r>?";
+		ResultSet rs=null;
+		rs=this.executeQuery(pageSql,params);
+		return rs;
+	}
 	//返回新产生的id
 	public int executeQueryForNewId(String sql){
 		ResultSet rs=this.executeQuery(sql);

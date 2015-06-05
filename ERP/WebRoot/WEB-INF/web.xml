@@ -177,6 +177,16 @@
     <servlet-name>UpdatePurchaseReturnServlet</servlet-name>
     <servlet-class>com.erp.purchase.servlet.UpdatePurchaseReturnServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>DeleteSelectPurchaseReturnServlet</servlet-name>
+    <servlet-class>com.erp.purchase.servlet.DeleteSelectPurchaseReturnServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SearchReturnByConditionServlet</servlet-name>
+    <servlet-class>com.erp.purchase.servlet.SearchReturnByConditionServlet</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -367,6 +377,14 @@
   <servlet-mapping>
     <servlet-name>UpdatePurchaseReturnServlet</servlet-name>
     <url-pattern>/purchase/UpdatePurchaseReturnServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteSelectPurchaseReturnServlet</servlet-name>
+    <url-pattern>/purchase/DeleteSelectPurchaseReturnServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchReturnByConditionServlet</servlet-name>
+    <url-pattern>/purchase/SearchReturnByConditionServlet</url-pattern>
   </servlet-mapping>
   
 

@@ -1,5 +1,6 @@
 package com.erp.purchase.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.erp.purchase.dao.PurchaseReturnDao;
@@ -45,6 +46,13 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
 	public int update(PurchaseReturn purchaseReturn) {
 		// TODO Auto-generated method stub
 		return purchaseReturnDao.update(purchaseReturn);
+	}
+
+	@Override
+	public PageBean SearchByCondition(String code, Date startDate,
+			Date endDate, String supplier, int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		return purchaseReturnDao.SearchByCondition(code, startDate, endDate, supplier, pageNo, pageSize);
 	}
 
 }

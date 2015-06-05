@@ -59,7 +59,7 @@
 						}
 						alert(ids);
 						$("#idsel").val(ids);
-						//$("#delFrm").submit();
+						$("#delFrm").submit();
 					}
 				});
 			});
@@ -102,9 +102,10 @@
 			    	var date=data.rDate.date;
 			    	var month=data.rDate.month+1;
 			    	var year=data.rDate.year+1900;
+			    	
 			    	//alert(date+"/"+month+"/"+year);
 			    	$("input[name='returncode']").val(data.code);
-			    	$("input[name='returndate']").val(year+"-"+month+"-"+date);
+			    	$("input[name='returndate']").val(data.rDate);
 			    	$("input[name='returnsupplier']").val(data.supplierCode);
 			    	$("input[name='returnremarks']").val(data.remarks);
 			    	$("input[name='returnadduser']").val(data.addUser);
@@ -199,14 +200,14 @@
 		
 	</table>
 	<div id="tb" style="padding:5px;height:auto;width:auto">
-	  <form id="searchFrm" action="" method="post">
+	  <form id="searchFrm" action="/ERP/purchase/SearchReturnByConditionServlet" method="post">
         <div id="tb1" style="padding:5px;height:auto;width:auto">
       
 			检索条件: <input class="easyui-textbox" style="width:80px">
-			询价编号: <input class="easyui-textbox" style="width:80px" name="">
-			开始日期: <input class="easyui-datebox" style="width:80px" name="">
-			结束日期: <input class="easyui-datebox" style="width:80px" name="">
-            供应商名: <input class="easyui-textbox" style="width:80px" name="">
+			采退编号: <input class="easyui-textbox" style="width:80px" name="searchcode">
+			开始日期: <input class="easyui-datebox" style="width:80px" name="searchstartdate">
+			结束日期: <input class="easyui-datebox" style="width:80px" name="searchenddate">
+            供应商名: <input class="easyui-textbox" style="width:80px" name="searchsupplier">
 			
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="Search()">搜索</a>
             <a href="#" class="easyui-linkbutton" iconCls="icon-search">重置</a>
@@ -269,7 +270,7 @@
                              <input type="text" name="returncode"  value="" />
                          </td>
                          <td><font color="red">*</font>采退日期:</td>
-                         <td><input type="text"  readonly="readonly" name="returndate" /></td>
+                         <td><input type="text"  readonly="readonly"  name="returndate" /></td>
                    </tr> 
                    <tr>
                          <td><font color="red">*</font>供应商名:</td>
@@ -298,7 +299,7 @@
            <button id="print" >打印</button>&nbsp;&nbsp;
            <button id="close" >关闭</button>&nbsp;&nbsp;
 	</div>
-	<form action="" method="post" id="delFrm">
+	<form action="/ERP/purchase/DeleteSelectPurchaseReturnServlet" method="post" id="delFrm">
 	    <input type="hidden" name="ids" value=""  id="idsel"/>
     </form>
     <form action="" method="post" id="printFrm">
