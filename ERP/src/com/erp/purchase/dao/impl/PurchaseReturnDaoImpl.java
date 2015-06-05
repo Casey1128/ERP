@@ -158,7 +158,7 @@ public class PurchaseReturnDaoImpl extends BaseDao implements PurchaseReturnDao 
 	public PageBean SearchByCondition(String code, Date startDate,
 			Date endDate, String supplier, int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
-		String sql = "select * from purchasereturn order by rdate desc where 1=1";
+		String sql = "select * from purchasereturn  where 1=1";
 		List params=new ArrayList();
 		if(code!=null&&!code.equals("")){
 			sql+=" and code=?";
@@ -176,6 +176,7 @@ public class PurchaseReturnDaoImpl extends BaseDao implements PurchaseReturnDao 
 			sql+=" and suppliercode=?";
 			params.add(supplier);
 		}
+		sql+=" order by rdate desc";
 		Object[] paramArr1=params.toArray();
 		params.add(pageNo*pageSize);
 		params.add((pageNo-1)*pageSize);
