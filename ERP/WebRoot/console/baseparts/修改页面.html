@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>更新信息页面</title>
+	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="../demo.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+</head>
+<body>
+	<div id="dlg" class="easyui-dialog" draggable="true" title="字典内容信息" fixed="true">
+           <table rules="all" bordercolor="#0000CC">
+                   <tr><td>所属类别：</td><td><select><option>1</option></select></td><td><font color="red">*</font>字典编号:</td><td><input type="text" value="" /></td></tr> 
+                   <tr><td><font color="red">*</font>字典名称:</td><td><input type="text" value="" /></td><td>排序编号：</td><td><input type="text" value="" /><br>(请按001格式填写，001为最先)</td></tr>
+                   <tr><td>显示状态：</td><td><input type="radio" value="" name="status" />显示<input type="radio" value="" name="status" />隐藏</td><td>备注：</td><td><input type="text" value="" /></td></tr>
+   
+           </table>
+           <button id="add">新增</button>&nbsp;&nbsp;
+           <button id="save">保存</button>&nbsp;&nbsp;
+           <button id="print">打印</button>&nbsp;&nbsp;
+           <button id="close">关闭</button>&nbsp;&nbsp;
+	</div>
+	
+</body>
+</html>
