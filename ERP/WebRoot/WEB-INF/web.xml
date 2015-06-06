@@ -185,6 +185,36 @@
     <servlet-name>SearchReturnByConditionServlet</servlet-name>
     <servlet-class>com.erp.purchase.servlet.SearchReturnByConditionServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AddPurchaseInqueryServlet</servlet-name>
+    <servlet-class>com.erp.purchase.servlet.AddPurchaseInqueryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SearchInqueryByServlet</servlet-name>
+    <servlet-class>com.erp.purchase.servlet.SearchInqueryByServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdatePurchaseInqueryServlet</servlet-name>
+    <servlet-class>com.erp.purchase.servlet.UpdatePurchaseInqueryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DeletePurchaseInqueryServlet</servlet-name>
+    <servlet-class>com.erp.purchase.servlet.DeletePurchaseInqueryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DeleteSelectPurchaseInqueryServlet</servlet-name>
+    <servlet-class>com.erp.purchase.servlet.DeleteSelectPurchaseInqueryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SearchInqueryByConditionServlet</servlet-name>
+    <servlet-class>com.erp.purchase.servlet.SearchInqueryByConditionServlet</servlet-class>
+  </servlet>
+
+
+
+
+
+
 
 
 
@@ -385,6 +415,30 @@
   <servlet-mapping>
     <servlet-name>SearchReturnByConditionServlet</servlet-name>
     <url-pattern>/purchase/SearchReturnByConditionServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddPurchaseInqueryServlet</servlet-name>
+    <url-pattern>/purchase/AddPurchaseInqueryServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchInqueryByServlet</servlet-name>
+    <url-pattern>/purchase/SearchInqueryByServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdatePurchaseInqueryServlet</servlet-name>
+    <url-pattern>/purchase/UpdatePurchaseInqueryServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeletePurchaseInqueryServlet</servlet-name>
+    <url-pattern>/purchase/DeletePurchaseInqueryServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteSelectPurchaseInqueryServlet</servlet-name>
+    <url-pattern>/purchase/DeleteSelectPurchaseInqueryServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchInqueryByConditionServlet</servlet-name>
+    <url-pattern>/purchase/SearchInqueryByConditionServlet</url-pattern>
   </servlet-mapping>
   
 

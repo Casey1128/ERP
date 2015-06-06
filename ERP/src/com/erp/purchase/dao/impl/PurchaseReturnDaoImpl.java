@@ -166,11 +166,11 @@ public class PurchaseReturnDaoImpl extends BaseDao implements PurchaseReturnDao 
 		}
 		if(startDate!=null){
 			sql+=" and rdate>=?";
-			params.add(startDate);
+			params.add(new java.sql.Date(startDate.getTime()));
 		}
 		if(endDate!=null){
 			sql+=" and rdate<=?";
-			params.add(endDate);
+			params.add(new java.sql.Date(endDate.getTime()));
 		}
 		if(supplier!=null&&!supplier.equals("")){
 			sql+=" and suppliercode=?";

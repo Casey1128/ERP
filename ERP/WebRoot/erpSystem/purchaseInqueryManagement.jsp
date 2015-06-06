@@ -12,8 +12,14 @@
 	<script type="text/javascript" src="/ERP/erpSystem/js/jquery.easyui.min.js"></script>
 <script type="text/javascript">
 		$(function(){
+			$("#details").hide();
 			$("#dlg").dialog("close");
 			$("#deg").dialog("close");
+			$("#dg").datagrid({
+				onDblClickRow:function(rowIndex,rowData){
+					$("#details").show();
+				}
+			});
 			var pager = $('#dg').datagrid().datagrid('getPager');	// get the pager of datagrid
 			pager.pagination({
 				displayMsg:'当前显示从第 {from} 到第 {to} ,共 {total} 条记录',
@@ -42,7 +48,7 @@
 				}]
 			});	
 			//-------------------------------
-			$("#delBatch").click(function(){
+						$("#delBatch").click(function(){
 				var selRows=$("#dg").datagrid("getSelections");
 				if(selRows.length==0){
 					$.messager.alert('消息框',"请选择一条记录");
@@ -53,8 +59,8 @@
 						var ids="";
 						alert(selRows.length);
 						for(var i=0;i<selRows.length;i++){
-							if(i!=selRows.length-1)ids+=selRows[i].code+"-"+selRows[i].type+",";
-							else ids+=selRows[i].code+"-"+selRows[i].type;
+							if(i!=selRows.length-1)ids+=selRows[i].code+",";
+							else ids+=selRows[i].code;
 						}
 						alert(ids);
 						$("#idsel").val(ids);
@@ -64,13 +70,12 @@
 			});
 			//------------------------------------------
 		});
-		function del(code,category){
-			$("input[name='code']").val(code);
+		function del(code){
 			$.messager.confirm("删除提醒", "确认删除吗？", function(r) {
 				if (r) {
 					$.ajax({
-						url:'/ERP/DeleteContentJsonServlet',
-						data:{"code":code,"category":category},
+						url:'/ERP/purchase/DeletePurchaseInqueryServlet',
+						data:{"code":code},
 						type:'post',
 						error:function(){
 							alert("没有得到数据");
@@ -78,7 +83,7 @@
 						success:function(data){
 							if(data>0){
 								alert("删除成功!");
-								 window.location.href="/ERP/SearchBaseContentServlet";
+								 window.location.href="/ERP/purchase/SearchPurchaseInqueryServlet";
 							}else{
 								alert("删除失败!");
 							}
@@ -88,37 +93,23 @@
 			});
 		}
 		//--------------------------------------------------
-		function update(category,code){
+		function update(code){
 			$("#deg").dialog("open");
-		
 			$.ajax({
-				url:'/ERP/SearchContentByServlet',
-			    data:{'category':category,'code':code},//传的参数
+				url:'/ERP/purchase/SearchInqueryByServlet',
+			    data:{'code':code},//传的参数
 			    type:'post',
 			    error : function() {
 					alert('没有得到数据');
 				},
 			    success:function(data){
-			    	$("input[name='code']").val(data.code);
-			    	$("input[name='codename']").val(data.codeName);
-			    	$("input[name='orderno']").val(data.orderNo);
-			    	$("input[name='remarks']").val(data.remarks);
-					$("input[name='status']").each(function(idx,ele){
-						if($(ele).val()==data.isShow){
-							//rid=$(ele).val();
-							$(ele).attr("checked","checked");
-							return;
-						}
-					});
-					//$("select[name='category']").val(data.category);
-					$("select[name='category'] option").each(function(idx,ele){
-						
-						if($(ele).val()==data.categoryCode){
-							//rid=$(ele).val();
-							$(ele).attr("selected","selected");
-							return;
-						}
-					});
+			      	$("input[name='inquerycode']").val(data.code);
+			    	$("input[name='inquerydate']").val(data.addDate);
+			    	$("input[name='inquerysupplier']").val(data.supplierCode);
+			    	$("input[name='inqueryremarks']").val(data.remarks);
+			    	$("input[name='inquerycontacter']").val(data.contacter);
+			    	$("input[name='inquerytelphone']").val(data.telPhone);
+			    	$("input[name='inqueryfax']").val(data.fax);
 			    }
 			});
 
@@ -129,6 +120,18 @@
 		}
 		function add(){
 			$("#dlg").dialog("open");
+			$.ajax({
+				url:'/ERP/common/CrreateIDServlet?prefix=MTXJ',
+				error:function(){
+					alert("error");
+					
+				},
+				success:function(data){
+				
+					$("input[name='ainquerycode']").val(data.newId);
+					
+				}
+			});
 		}
 		function submit(){
 			$("#dd").submit();
@@ -189,21 +192,21 @@
                 <td>${purchase.telPhone }</td>
                 <td>${purchase.state }</td>
                 <td>${purchase.addUser }</td>
-                <td><a href="#" onClick="del()">删除</a>&nbsp;&nbsp;
-                <a href="#" onClick="update()">修改</a></td>
+                <td><a href="#" onClick="del('${purchase.code}')">删除</a>&nbsp;&nbsp;
+                <a href="#" onClick="update('${purchase.code}')">修改</a></td>
             </tr>
             </c:forEach>
 		
 	</table>
 	<div id="tb" style="padding:5px;height:auto;width:auto">
-	  <form id="searchFrm" action="" method="post">
+	  <form id="searchFrm" action="/ERP/purchase/SearchInqueryByConditionServlet" method="post">
         <div id="tb1" style="padding:5px;height:auto;width:auto">
       
 			检索条件: <input class="easyui-textbox" style="width:80px">
-			询价编号: <input class="easyui-textbox" style="width:80px" name="">
-			开始日期: <input class="easyui-textbox" style="width:80px" name="">
-			结束日期: <input class="easyui-textbox" style="width:80px" name="">
-            供应商名: <input class="easyui-textbox" style="width:80px" name="">
+			询价编号: <input class="easyui-textbox" style="width:80px" name="searchcode">
+			开始日期: <input class="easyui-datebox" style="width:80px" name="searchstartdate">
+			结束日期: <input class="easyui-datebox" style="width:80px" name="searchenddate">
+            供应商名: <input class="easyui-textbox" style="width:80px" name="searchsupplier">
 			
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="Search()">搜索</a>
             <a href="#" class="easyui-linkbutton" iconCls="icon-search">重置</a>
@@ -217,59 +220,89 @@
 		</div>
 		
 	</div>
-	<div id="dlg" class="easyui-dialog" draggable="true" title="字典内容信息" fixed="true">
-	   <form id="dd" action="/ERP/AddBaseContentServlet" method="post">
-           <table rules="all" bordercolor="#0000CC">
+	<div id="dlg" class="easyui-dialog" draggable="true" title="添加询价信息" fixed="true">
+	   <form id="dd" action="/ERP/purchase/AddPurchaseInqueryServlet" method="post">
+      <table rules="all" bordercolor="#0000CC" border="1">
                    <tr>
-                         <td>所属类别：</td>
+                         <td><font color="red">*</font>询价编号：</td>
                          <td>
-                               <select name="category">
-                                   <c:forEach items="${bcList }" var="content">
-                                      <option>${content.categoryCode }</option>
-                                   </c:forEach>   
-                               </select>
+                             <input type="text" name="ainquerycode"  value="" />
                          </td>
-                         <td><font color="red">*</font>字典编号:</td>
-                         <td><input type="text"   name="code" /></td>
+                         <td><font color="red">*</font>询价日期:</td>
+                         <td><input type="text"  class="easyui-datebox" name="ainquerydate" /></td>
                    </tr> 
-                   <tr><td><font color="red">*</font>字典名称:</td><td><input type="text"   name="codename" /></td><td>排序编号：</td><td><input type="text"  name="orderno" /><br>(请按001格式填写，001为最先)</td></tr>
-                   <tr><td>显示状态：</td><td><input type="radio" value="1" name="status" />显示<input type="radio" value="0" name="status" />隐藏</td><td>备注：</td><td><input type="text" name="remarks" /></td></tr>
+                   <tr>
+                         <td><font color="red">*</font>供应商名:</td>
+                         <td><input type="text"   name="ainquerysupplier" /></td>
+                         <td><font color="red">*</font>联系人员：</td>
+                         <td><input type="text"  name="ainqueryadduser" /></td>
+                  </tr>
+                   <tr>
+                         <td>电话：</td>
+                         <td><input type="text" name="ainqueryphone" /></td>
+                         <td>传真：</td>
+                         <td><input type="text" name="ainqueryfax" /></td>
+                  </tr>
+                  <tr>
+                        <td>备注：</td>
+                        <td colspan="3"><input type="text" name="ainqueryremarks" /></td>
+                  </tr>
    
            </table>
        </form>    
            <button id="add" onclick="submit()">新增</button>&nbsp;&nbsp;
-           <button id="save">保存</button>&nbsp;&nbsp;
-           <button id="print">打印</button>&nbsp;&nbsp;
+           <button id="addparts" onclick="">添加配件</button>&nbsp;&nbsp;
+           <button id="save" >保存</button>&nbsp;&nbsp;
+           <button id="check" >审核</button>&nbsp;&nbsp;
+           <button id="rollback" >撤销</button>&nbsp;&nbsp;
+           <button id="print" >打印</button>&nbsp;&nbsp;
+           <button id="toWord" >生成Word</button>&nbsp;&nbsp;
+           <button id="toOrder" >生成订单</button>&nbsp;&nbsp;
            <button id="close" >关闭</button>&nbsp;&nbsp;
 	</div>
 	
 	
-	<div id="deg" class="easyui-dialog" draggable="true" title="字典内容信息" fixed="true">
-	   <form id="ee" action="" method="post">
-           <table rules="all" bordercolor="#0000CC">
+	<div id="deg" class="easyui-dialog" draggable="true" title="修改询价信息" fixed="true">
+	   <form id="ee" action="/ERP/purchase/UpdatePurchaseInqueryServlet" method="post">
+           <table rules="all" bordercolor="#0000CC" border="1">
                    <tr>
-                         <td>所属类别：</td>
+                         <td><font color="red">*</font>询价编号：</td>
                          <td>
-                               <select id="printcategory" name="category">
-                                   <c:forEach items="${bcList }" var="content">
-                                      <option value="${content.categoryCode }">${content.categoryCode }</option>
-                                   </c:forEach>   
-                               </select>
+                             <input type="text" name="inquerycode"  value="" />
                          </td>
-                         <td><font color="red">*</font>字典编号:</td>
-                         <td><input type="text"  id="printcode"  name="code" /></td>
+                         <td><font color="red">*</font>询价日期:</td>
+                         <td><input type="text"  readonly="readonly"  name="inquerydate" /></td>
                    </tr> 
-                   <tr><td><font color="red">*</font>字典名称:</td><td><input type="text"  id="printcodename"  name="codename" /></td><td>排序编号：</td><td><input type="text"  id="printorderno" name="orderno" /><br>(请按001格式填写，001为最先)</td></tr>
-                   <tr><td>显示状态：</td><td><input type="radio" value="1" id="printstatus" name="status" />显示<input type="radio" value="0" name="status" />隐藏</td><td>备注：</td><td><input type="text" id="printremarks" name="remarks" /></td></tr>
+                   <tr>
+                         <td><font color="red">*</font>供应商名:</td>
+                         <td><input type="text"   name="inquerysupplier" /></td>
+                         <td><font color="red">*</font>联系人员：</td>
+                         <td><input type="text"  name="inquerycontacter" /></td>
+                  </tr>
+                   <tr>
+                         <td>电话：</td>
+                         <td><input type="text" name="inqueryphone" /></td>
+                         <td>传真：</td>
+                         <td><input type="text" name="inqueryfax" /></td>
+                  </tr>
+                  <tr>
+                        <td>备注：</td>
+                        <td colspan="3"><input type="text" name="inqueryremarks" /></td>
+                  </tr>
    
            </table>
        </form>    
            <button id="add" >新增</button>&nbsp;&nbsp;
+           <button id="addparts" onclick="">添加配件</button>&nbsp;&nbsp;
            <button id="save" onclick="save()">保存</button>&nbsp;&nbsp;
-           <button id="print" onclick="print()">打印</button>&nbsp;&nbsp;
+           <button id="check" >审核</button>&nbsp;&nbsp;
+           <button id="rollback" >撤销</button>&nbsp;&nbsp;
+           <button id="print" >打印</button>&nbsp;&nbsp;
+           <button id="toWord" >生成Word</button>&nbsp;&nbsp;
+           <button id="toOrder" >生成订单</button>&nbsp;&nbsp;
            <button id="close" >关闭</button>&nbsp;&nbsp;
 	</div>
-	<form action="" method="post" id="delFrm">
+	<form action="/ERP/purchase/DeleteSelectPurchaseInqueryServlet" method="post" id="delFrm">
 	    <input type="hidden" name="ids" value=""  id="idsel"/>
     </form>
     <form action="" method="post" id="printFrm">
@@ -280,5 +313,23 @@
          <input type="hidden" name="printstatus" />
          <input type="hidden" name="printremarks" />
     </form>
+  <div id="details">
+      <table rules="all" border='1'>
+         <thead style="border-color: 'blue'   ;background-color:'teal' ;">
+             <td>配件件号</td>
+              <td>配件名称</td>
+               <td>配件品牌</td>
+                <td>配件型号</td>
+                 <td>数量</td>
+                  <td>单价</td>
+                   <td>金额</td>
+                    <td>交货期</td>
+                     <td>备注</td>
+         </thead>
+         <tr></tr>
+         <tr></tr>
+         <tr></tr>
+      </table>
+  </div>
 </body>
 </html>

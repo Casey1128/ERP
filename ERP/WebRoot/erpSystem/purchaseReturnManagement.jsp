@@ -99,11 +99,6 @@
 					alert('没有得到数据');
 				},
 			    success:function(data){
-			    	var date=data.rDate.date;
-			    	var month=data.rDate.month+1;
-			    	var year=data.rDate.year+1900;
-			    	
-			    	//alert(date+"/"+month+"/"+year);
 			    	$("input[name='returncode']").val(data.code);
 			    	$("input[name='returndate']").val(data.rDate);
 			    	$("input[name='returnsupplier']").val(data.supplierCode);

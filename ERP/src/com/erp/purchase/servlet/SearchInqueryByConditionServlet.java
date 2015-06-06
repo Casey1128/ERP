@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,17 +11,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.erp.purchase.entity.PurchaseReturn;
-import com.erp.purchase.service.PurchaseReturnService;
-import com.erp.purchase.service.impl.PurchaseReturnServiceImpl;
+import com.erp.purchase.entity.PurchaseInquery;
+import com.erp.purchase.service.PurchaseInqueryService;
+import com.erp.purchase.service.impl.PurchaseInqueryServiceImpl;
 import com.erp.utils.PageBean;
 
-public class SearchReturnByConditionServlet extends HttpServlet {
+public class SearchInqueryByConditionServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public SearchReturnByConditionServlet() {
+	public SearchInqueryByConditionServlet() {
 		super();
 	}
 
@@ -31,8 +30,8 @@ public class SearchReturnByConditionServlet extends HttpServlet {
 		this.doPost(request, response);
 	}
 
-	private PurchaseReturnService purchaseReturnService = new PurchaseReturnServiceImpl();
 
+	private PurchaseInqueryService purchaseInqueryService=new PurchaseInqueryServiceImpl();
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("utf-8");
@@ -63,24 +62,25 @@ public class SearchReturnByConditionServlet extends HttpServlet {
 				d2=sdf1.parse(endDate);
 			}
 			String supplier = request.getParameter("searchsupplier");
-			PageBean pageBean = purchaseReturnService.SearchByCondition(code,
+			PageBean pageBean = purchaseInqueryService.SearchByCondition(code,
 					d1, d2, supplier, Integer.parseInt(pageNo),
 					Integer.parseInt(pageSize));
 			pageBean.setPageNo(Integer.parseInt(pageNo));
 			pageBean.setPageSize(Integer.parseInt(pageSize));
-			List<PurchaseReturn> list = new ArrayList<PurchaseReturn>();
-			list = purchaseReturnService.findAll();
+			List<PurchaseInquery> list = new ArrayList<PurchaseInquery>();
+			list = purchaseInqueryService.findAll();
 			if (pageBean != null && list != null) {
 				request.setAttribute("pageBean", pageBean);
 				request.setAttribute("plist", list);
 				request.getSession().setAttribute("Bean", pageBean);
 			}
-			request.getRequestDispatcher("/erpSystem/purchaseReturnManagement.jsp")
+			request.getRequestDispatcher("/erpSystem/purchaseInqueryManagement.jsp")
 					.forward(request, response);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
 
 }
