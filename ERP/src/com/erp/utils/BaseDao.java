@@ -10,7 +10,7 @@ import java.util.List;
 public class BaseDao {
 	private static final String DRIVER_CLASS = "oracle.jdbc.driver.OracleDriver";
 	private static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
-	private static final String USER = "pro_user01";
+	private static final String USER = "manager_user01";
 	private static final String PWD = "a1234";
 	private Connection conn = null;
 	private PreparedStatement ps = null;
