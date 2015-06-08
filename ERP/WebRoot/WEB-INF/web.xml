@@ -209,6 +209,11 @@
     <servlet-name>SearchInqueryByConditionServlet</servlet-name>
     <servlet-class>com.erp.purchase.servlet.SearchInqueryByConditionServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>orderListJsonServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.orderListJsonServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -439,6 +444,10 @@
   <servlet-mapping>
     <servlet-name>SearchInqueryByConditionServlet</servlet-name>
     <url-pattern>/purchase/SearchInqueryByConditionServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>orderListJsonServlet</servlet-name>
+    <url-pattern>/order/orderListJsonServlet</url-pattern>
   </servlet-mapping>
   
 
