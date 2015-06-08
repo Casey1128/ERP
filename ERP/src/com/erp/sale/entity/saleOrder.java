@@ -22,14 +22,6 @@ public class saleOrder {
 	private String addUserName;
 	private String addIp;
 	private double total=numsPrice*nums;
-	
-	
-	public double getTotal() {
-		return total;
-	}
-	public void setTotal(double total) {
-		this.total = total;
-	}
 	public String getCode() {
 		return code;
 	}
@@ -138,6 +130,15 @@ public class saleOrder {
 	public void setAddIp(String addIp) {
 		this.addIp = addIp;
 	}
+	public double getTotal() {
+		return total;
+	}
+	public void setTotal(double total) {
+		this.total = total;
+	}
+	
+	
+	
 	
 	
 }

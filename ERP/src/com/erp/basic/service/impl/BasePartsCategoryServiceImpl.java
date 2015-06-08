@@ -15,25 +15,10 @@ public class BasePartsCategoryServiceImpl  implements BasePartsCategoryService{
 		return pCategory.deleteParts(code);
 	}
 
-//	public PageBean getPartsList(int pageNo, int pageSize) {
-//		// TODO Auto-generated method stub   
-//		return pCategory.findAll(pageNo,pageSize);
-//	}
-
 	public int insert(BasePartsCategory partsCategory) {
 		// TODO Auto-generated method stub
 		return pCategory.insertParts(partsCategory);
 	}
-
-//	public PageBean searchByCategory(String pcode,int pageNo,int pageSize) {
-//		// TODO Auto-generated method stub
-//		return pCategory.searchByCategory(pcode,pageNo,pageSize);
-//	}
-
-//	public BasePartsCategory searchByCode(String code) {
-//		// TODO Auto-generated method stub
-//		return pCategory.searchByCode(code);
-//	}
 
 	public int update(BasePartsCategory partsCategory) {
 		// TODO Auto-generated method stub
