@@ -141,7 +141,7 @@ function exportData(){
 function searchData(){
 	
     var code=$("input[name='code']").val();
-    var pcode=$("select[name='pcode']").val();
+    var customercode=$("input[name='customercode']").val();
 	$("#category_list").datagrid('reload',{'code':code,'pcode':pcode});    
     		   
 }
