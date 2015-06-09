@@ -213,6 +213,16 @@
     <servlet-name>orderListJsonServlet</servlet-name>
     <servlet-class>com.erp.sale.servlet.orderListJsonServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>StockInDetailServlet</servlet-name>
+    <servlet-class>com.erp.stock.servlet.StockInDetailServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>StockInServlet</servlet-name>
+    <servlet-class>com.erp.stock.servlet.StockInServlet</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -448,6 +458,14 @@
   <servlet-mapping>
     <servlet-name>orderListJsonServlet</servlet-name>
     <url-pattern>/order/orderListJsonServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StockInDetailServlet</servlet-name>
+    <url-pattern>/stock/StockInDetailServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StockInServlet</servlet-name>
+    <url-pattern>/stock/StockInServlet</url-pattern>
   </servlet-mapping>
   
 
