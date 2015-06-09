@@ -96,9 +96,13 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 	}
 
 	@Override
-	public List sumMoneyNums() {
+	public int addDataStIn(Object[] obj) {
 		// TODO Auto-generated method stub
-		
-		return null;
+		String sql="insert into Stockin(code,indate,supplierCode,contacter,telephone,fax,intype,isinvoice,remarks) "
+				+ "values(?,?,?,?,?,?,?,?,?);";
+		int ret=super.executeUpdate(sql, obj);
+		super.close();
+		return ret;
 	}
+
 }

@@ -23,4 +23,10 @@ public class StockInServiceImpl extends BaseDao implements StockInService {
 		return stock.findAllDataStInDetail(incode);
 	}
 
+	@Override
+	public int addDataStIn(Object[] obj) {
+		// TODO Auto-generated method stub
+		return stock.addDataStIn(obj);
+	}
+
 }
