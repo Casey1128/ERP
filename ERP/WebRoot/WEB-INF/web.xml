@@ -233,6 +233,11 @@
     <servlet-name>StockInPortExcel</servlet-name>
     <servlet-class>com.erp.stock.servlet.StockInPortExcel</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>StockInSearServlet</servlet-name>
+    <servlet-class>com.erp.stock.servlet.StockInSearServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -493,6 +498,10 @@
   <servlet-mapping>
     <servlet-name>StockInPortExcel</servlet-name>
     <url-pattern>/stock/StockInPortExcel</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StockInSearServlet</servlet-name>
+    <url-pattern>/stock/StockInSearServlet</url-pattern>
   </servlet-mapping>
   
 
