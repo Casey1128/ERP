@@ -1,6 +1,7 @@
 package com.erp.sale.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import com.erp.sale.dao.saleOrderDao;
 import com.erp.sale.dao.impl.saleOrderDaoImpl;
@@ -16,6 +17,16 @@ public class orderServiceImpl extends BaseDao implements orderService{
 			String customercode, int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
 		return orderDao.searchOrder(code, startDate, endDate, customercode, pageNo, pageSize);
+	}
+	@Override
+	public int insert(saleOrder saleorder) {
+		// TODO Auto-generated method stub
+		return orderDao.insertOrder(saleorder);
+	}
+	
+	public List<saleOrder> getTrans(){
+		// TODO Auto-generated method stub
+		return orderDao.orderTransList();
 	}
 
 }

@@ -213,6 +213,16 @@
     <servlet-name>orderListJsonServlet</servlet-name>
     <servlet-class>com.erp.sale.servlet.orderListJsonServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>orderAddUpdateServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.orderAddUpdateServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>getOrderTransServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.getOrderTransServlet</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -448,6 +458,14 @@
   <servlet-mapping>
     <servlet-name>orderListJsonServlet</servlet-name>
     <url-pattern>/order/orderListJsonServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>orderAddUpdateServlet</servlet-name>
+    <url-pattern>/order/orderAddUpdateServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>getOrderTransServlet</servlet-name>
+    <url-pattern>/order/getOrderTransServlet</url-pattern>
   </servlet-mapping>
   
 

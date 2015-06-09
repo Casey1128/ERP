@@ -11,30 +11,13 @@
 	<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
 <script type="text/javascript">
 $(function(){
-$.ajax({url:'/ERP/order/getOrderServlet',
+$.ajax({url:'/ERP/order/getOrderTransServlet',
 	success:function(data){
 		for(var i=0;i<data.length;i++){
-			$("<option>").appendTo("select[name='pcode']").html(data[i].pcode).val(data[i].pcode);
+			$("<option>").appendTo("select[name='trans']").html(data[i].trans).val(data[i].trans);
 		}
 	},dataType:'json'});
 	$("#mydg").dialog("close");
-$("input.easyui-datebox").datebox({
-   		 formatter: function(date){
-		   	var y = date.getFullYear();
-			var m = date.getMonth()+1;
-			var d = date.getDate();
-			return y+"-"+m+"-"+d;
-   		 },
-   		 parse:function(date){
-   		 	 var t=Date.parse(date);
-			if (!isNaN(t)){
-				return new Date(t);
-			} else {
-				return new Date();
-			}
-   		 }
-	});
-
 $("#category_list").datagrid({
 		title:'销售订单管理列表',
 		fit:true,
@@ -47,7 +30,7 @@ $("#category_list").datagrid({
 		toolbar:"#category_tb",
 		columns:[[
 		{field:'ck',checkbox:true},
-		{field:'code',title:'订单编号',width:50},
+		{field:'code',title:'订单编号',width:70},
 		{field:'orderDate',title:'订单日期',width:60},
 		{field:'customercode',title:'客户名称',width:50},
 		{field:'nums',title:'数量',width:50},
@@ -92,7 +75,17 @@ function del(nid){
 }
 
 function add(){
-	showDialog('添加配件类型');
+	showDialog('添加销售订单');
+	$.ajax({
+		url:'/ERP/common/CrreateIDServlet?prefix=MTXS',
+		error:function(){
+			alert("error");	
+		},
+		success:function(data){
+			$("input[name='codes']").val(data.newId);
+		}
+	});
+	
 	$("input[name='opt']").val("1");//opt=1表示添加；opt=2表示修改
 }
 function setpwd(idx,code,cname,pcode,addUser,remarks){
@@ -113,7 +106,11 @@ function setpwd(idx,code,cname,pcode,addUser,remarks){
 }
 
 function subFrm(){
-		myFrm.submit();
+	var orderdate=$("input[name='orderDates']").val(); 
+	var deldate=$("input[name='deliverydates']").val();
+	$("input[name='otime']").val(orderdate);
+	$("input[name='dtime']").val(deldate);
+		$("#myFrm").submit();
 		$("#mydg").dialog("close");	
 }
 function delsData(){
@@ -141,9 +138,11 @@ function exportData(){
 function searchData(){
 	
     var code=$("input[name='code']").val();
+    var startDate=$("input[name='startDate']").val();
+    var endDate=$("input[name='endDate']").val();
     var customercode=$("input[name='customercode']").val();
-	$("#category_list").datagrid('reload',{'code':code,'pcode':pcode});    
-    		   
+	$("#category_list").datagrid('reload',{'code':code,
+	'startDate':startDate,'endDate':endDate,'customercode':customercode});		   
 }
 function print(){
 	var pcode=$("select[name='pcode']").val();
@@ -196,28 +195,59 @@ class="easyui-linkbutton" data-options="iconCls:'icon-save'">导出Excel</a>
 </div>
 <div id="mydg"  style="padding:10px" class="easyui-dialog" >
       <table rules="all" bordercolor="#0000CC" border="1">
- <form id="myFrm" action="/ERP/erp/categoryServlet" method="post" >
+ <form id="myFrm" action="/ERP/order/orderAddUpdateServlet" method="post" >
  	<input type="hidden" name="id" /> 
  	<input type="hidden" name="opt"/>
  	<input type="hidden" name="code"/>
     <tr>
-      <td>*所属类别：</td>
-      <td><select name="pcode">      		     	
-     </select></td>
-     <td>*类别名称：</td>
-      <td><input type="text" name="categoryname" /></td>
-    </tr>
-    <tr>
-      <td>操作员：</td>
-      <td><input type="text" name="addUser" /></td>
-      <td>显示状态：</td>
-      <td>
-      <input type="radio" name="isshow" value="1" checked="checked"/>显示
-       <input type="radio" name="isshow" value="0" />隐藏
+      <td>*订单编号：</td>
+      <td><input type="text" name="codes"/></td>
+     <td>*订单日期：</td>
+      <td><input type="text" name="orderDates" class="easyui-datebox" />
+      <input type="hidden" name="otime"/>
       </td>
     </tr>
     <tr>
-      <td>备注：</td>
+      <td>客户名称：</td>
+      <td><input type="text" name="customercode" /></td>
+      <td>审核状态：</td>
+      <td>
+      <input type="radio" name="state" value="1" checked="checked"/>已审核
+       <input type="radio" name="state" value="0" />未审核
+      </td>
+    </tr>
+    <tr>
+    <td>*联系人员:</td>
+    <td><input type="text" name="contacter" /></td>
+    <td>电话：</td>
+    <td><input type="text" name="telphone" /></td>
+    </tr>
+    <tr>
+      <td>传真：</td>
+      <td><input type="text" name="fax" /></td>
+      <td>运输方式：</td>
+      <td><select name="trans"></select></td>
+    </tr>
+    <tr>
+    <td>业务员：</td>
+    <td><input type="text" name="businesser"/></td>
+    <td>交货日期：</td>
+    <td><input type="text" name="deliverydates" class="easyui-datebox"/>
+    <input type="hidden" name="dtime"/>
+    </td>
+    </tr>
+    <tr>
+    <td>数量：</td>
+    <td><input type="text" name="nums" /></td>
+    <td>单价：</td>
+    <td><input type="text" name="numsprice"/></td>
+    </tr>
+    <tr>
+    <td>操作人员：</td>
+    <td><input type="text" name="adduser"></td>
+    </tr>
+    <tr>
+    <td>备注：</td>
       <td colspan="3"><input type="text" name="remarks" size="54"/></td>
     </tr>
      </table>
@@ -226,6 +256,10 @@ class="easyui-linkbutton" data-options="iconCls:'icon-save'">导出Excel</a>
       <td><input type="reset" name="重置"/></td>
       <button id="print" onclick="print();">打印</button>
     </form>
+    
+    
+    
+    
    <form action="/ERP/category/DeletePcategoryServlet" method="post" id="delFrm">
 	    <input type="hidden" name="ids" value=""  id="idsel"/>
     </form>
