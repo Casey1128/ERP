@@ -94,4 +94,11 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 		}
 		return list;
 	}
+
+	@Override
+	public List sumMoneyNums() {
+		// TODO Auto-generated method stub
+		
+		return null;
+	}
 }
