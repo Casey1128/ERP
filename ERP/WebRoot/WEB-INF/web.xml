@@ -213,6 +213,11 @@
     <servlet-name>orderListJsonServlet</servlet-name>
     <servlet-class>com.erp.sale.servlet.orderListJsonServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>saleReturnListJsonServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.saleReturnListJsonServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -448,6 +453,10 @@
   <servlet-mapping>
     <servlet-name>orderListJsonServlet</servlet-name>
     <url-pattern>/order/orderListJsonServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>saleReturnListJsonServlet</servlet-name>
+    <url-pattern>/saleReturn/saleReturnListJsonServlet</url-pattern>
   </servlet-mapping>
   
 
