@@ -1,4 +1,4 @@
-package com.part.servlet;
+package com.erp.stock.servlet;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
