@@ -98,10 +98,9 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 	@Override
 	public int addDataStIn(Object[] obj) {
 		// TODO Auto-generated method stub
-		String sql="insert into Stockin(code,indate,supplierCode,contacter,telephone,fax,intype,isinvoice,remarks) "
-				+ "values(?,?,?,?,?,?,?,?,?);";
+		String sql="insert into Stockin(code,indate) "
+				+ "values(?,?);";
 		int ret=super.executeUpdate(sql, obj);
-		super.close();
 		return ret;
 	}
 

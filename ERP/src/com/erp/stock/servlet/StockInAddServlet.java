@@ -43,7 +43,7 @@ public class StockInAddServlet extends HttpServlet {
 			String isinvoice=request.getParameter("isinvoice");
 			String remarks=request.getParameter("remarks");
 			
-			Object[] obj=new Object[]{code,indate,supplierCode,contacter,telephone,fax,intype,isinvoice,remarks};
+			Object[] obj=new Object[]{code,indate};
 			
 			int ret=stock.addDataStIn(obj);
 			response.sendRedirect("/ERP/erpStock/StockIn/StockInAdd.jsp");
