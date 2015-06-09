@@ -114,7 +114,7 @@ public class orderAddUpdateServlet extends HttpServlet {
 		if(opt.equals("1")){
 			int ret=order.insert(saleorder);
 		}else{//ÐÞ¸Ä
-			
+			int res=order.update(saleorder);
 		}
 		response.sendRedirect("../erpSystem/orderManagement.jsp"); 
 	}

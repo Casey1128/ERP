@@ -11,4 +11,6 @@ public interface orderService {
 			String customercode,int pageNo, int pageSize);
 	public int insert(saleOrder saleorder);
 	public List<saleOrder> getTrans();
+	public int update(saleOrder saleorder);
+	public int del(String code);
 }

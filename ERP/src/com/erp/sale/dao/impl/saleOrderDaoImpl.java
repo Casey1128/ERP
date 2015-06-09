@@ -22,7 +22,7 @@ public class saleOrderDaoImpl extends BaseDao implements saleOrderDao{
 	public PageBean searchOrder(String code,Date startDate, Date endDate, 
 			String customercode,int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
-		String sql="select code,orderdate,customercode,nums,nums*numsprice total,"
+		String sql="select code,orderdate,customercode,nums,nums*numsprice total,businesser,"
 				+"contacter,telphone,state,adduser from saleorder where 1=1";
 		List params=new ArrayList();
 		List queryParmas=new ArrayList();
@@ -61,6 +61,7 @@ public class saleOrderDaoImpl extends BaseDao implements saleOrderDao{
 				sOrder.setCustomercode(rs.getString("customercode"));
 				sOrder.setNums(rs.getInt("nums"));
 				sOrder.setTotal(rs.getDouble("total"));
+				sOrder.setBusinesser(rs.getString("businesser"));
 				sOrder.setContacter(rs.getString("contacter"));
 				sOrder.setTelphone(rs.getString("telphone"));
 				sOrder.setState(rs.getString("state"));
@@ -102,16 +103,23 @@ public class saleOrderDaoImpl extends BaseDao implements saleOrderDao{
 	@Override
 	public int deleteOrder(String code) {
 		// TODO Auto-generated method stub
-		return 0;
+		String sql="delete from saleorder where code=?";
+		return super.executeUpdate(sql, code);
 	}
-
 	@Override
 	public int updateOrder(saleOrder saleorder) {
 		// TODO Auto-generated method stub
-		String sql="update ";
-		return 0;
+		String sql="update saleorder set orderdate=?,state=?"
+	+",contacter=?,fax=?,trans=?,telphone=?,deliverydate=?,nums=?,numsprice=?,remarks=?,adduser=?"
+				+" where code=?";
+		return super.executeUpdate(sql,
+			new Object[]{new java.sql.Date(saleorder.getOrderDate().getTime())
+		,saleorder.getState(),saleorder.getContacter(),saleorder.getFax(),saleorder.getTrans()
+		,saleorder.getTelphone(),new java.sql.Date(saleorder.getDeliveryDate().getTime())
+		,saleorder.getNums(),saleorder.getNumsPrice(),saleorder.getRemarks(),saleorder.getAddUser()
+		,saleorder.getCode()
+		});
 	}
-
 	@Override
 	public List<saleOrder> orderTransList() {
 		// TODO Auto-generated method stub

@@ -28,5 +28,15 @@ public class orderServiceImpl extends BaseDao implements orderService{
 		// TODO Auto-generated method stub
 		return orderDao.orderTransList();
 	}
+	@Override
+	public int update(saleOrder saleorder) {
+		// TODO Auto-generated method stub
+		return orderDao.updateOrder(saleorder);
+	}
+	@Override
+	public int del(String code) {
+		// TODO Auto-generated method stub
+		return orderDao.deleteOrder(code);
+	}
 
 }

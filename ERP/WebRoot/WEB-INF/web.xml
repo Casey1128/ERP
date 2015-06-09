@@ -221,6 +221,21 @@
     <servlet-name>getOrderTransServlet</servlet-name>
     <servlet-class>com.erp.sale.servlet.getOrderTransServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>DeleteorderServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.DeleteorderServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DeletePorderServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.DeletePorderServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>getOrderDetailListServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.getOrderDetailListServlet</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -466,6 +481,18 @@
   <servlet-mapping>
     <servlet-name>getOrderTransServlet</servlet-name>
     <url-pattern>/order/getOrderTransServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteorderServlet</servlet-name>
+    <url-pattern>/order/DeleteorderServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeletePorderServlet</servlet-name>
+    <url-pattern>/order/DeletePorderServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>getOrderDetailListServlet</servlet-name>
+    <url-pattern>/order/getOrderDetailListServlet</url-pattern>
   </servlet-mapping>
   
 

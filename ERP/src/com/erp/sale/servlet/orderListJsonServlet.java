@@ -92,7 +92,7 @@ public class orderListJsonServlet extends HttpServlet {
 PageBean orderPageBean=order.searchOrder(code, startTime, endTime,customerCode,Integer.parseInt(page),Integer.parseInt(rows));
 		request.getSession().setAttribute("orderBean", orderPageBean);
 		JsonConfig config=new JsonConfig();
-		config.setExcludes(new String[]{"fax","trans","businesser","deliveryDate"
+		config.setExcludes(new String[]{"fax","trans","deliveryDate"
 				,"remarks","isShow","adddDate","addUserName","addIp"});
 		config.registerJsonValueProcessor(Date.class,new JSONDateProcessor("yyyyƒÍMM‘¬dd»’"));
 		JSONObject jsonObject=new JSONObject();

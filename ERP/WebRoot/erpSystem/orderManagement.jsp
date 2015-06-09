@@ -37,16 +37,35 @@ $("#category_list").datagrid({
 		{field:'total',title:'总货值',width:50},
 		{field:'contacter',title:'联系人',width:50},
 		{field:'telphone',title:'联系方式',width:70},
+		{field:'businesser',title:'业务人员',width:50},
 		{field:'state',title:'审核状态',width:30},
 		{field:'addUser',title:'操作员',width:50},	
 		{field:'opt',title:'操作',width:100,formatter:function(val,row,idx){	
-var content="<input type='button' value='修改' onclick=\"setpwd("+idx+",'"+row.code+"','"+row.customercode+"','"+row.businesser+"')\"/>";
+var content="<input type='button' value='修改' onclick=\"setpwd("+idx+",'"+row.code+"','"+row.customercode+"','"+row.businesser+"','"+row.addUser+"')\"/>";
 				content+="<input type='button' value='删除' onclick=\"del('"+row.code+"')\"/>";
 			return content;
 		}}
 		]]
 });
 
+$("#category_list").datagrid({
+	onDblClickRow: function(rowIndex, rowData){
+		   //获取物料明细列表；
+        $.ajax({
+            url: '/ERP/order/getOrderDetailListServlet',
+            type: 'POST',
+            data: { 'requestId': rowData['Reqid'] },
+            dataType: 'json',
+            success: function (data) {
+                $('#dg2').datagrid('loadData', data);
+            },
+            error: function () {
+                alert('物料明细');
+            }
+        });
+	}
+
+});
 
 
 });
@@ -65,7 +84,7 @@ function del(nid){
 	$.messager.confirm("删除提醒","确认删除吗？",function(r){
 		if(r){
 			$.ajax({
-		url:'/ERP/category/DeletecategoryServlet?nid='+nid,
+		url:'/ERP/order/DeleteorderServlet?nid='+nid,
 		success:function(data){
 		$("#category_list").datagrid("reload");
 			$("#category_list").datagrid("uncheckAll");	
@@ -89,21 +108,16 @@ function add(){
 	
 	$("input[name='opt']").val("1");//opt=1表示添加；opt=2表示修改
 }
-function setpwd(idx,code,customercode,businesser){
+function setpwd(idx,code,customercode,businesser,addUser){
 	var row=$("#category_list").datagrid("getRows")[idx];
-	$("input[name='customercode']").val(cname);
-	$("input[name='code']").val(code);
 	$("input[name='customercode']").val(customercode);
+	$("input[name='code']").val(code);
 	$("input[name='businesser']").val(businesser);
-	$("input[name='codes']").attr(readonly,"readonly");
-	
+	$("input[name='addusers']").val(addUser);
+	$("input[name='code']").attr("readonly","readonly");
+	$("input[name='customercode']").attr("readonly","readonly");
+	$("input[name='businesser']").attr("readonly","readonly");
 	$("input[name='opt']").val("2");
-	$("select[name='trans'] option").each(function(idx,ele){
-						if($(ele).val()==trans){
-							$(ele).attr("selected","selected");
-							return;
-						}
-					});
 	showDialog("修改订单信息");
 }
 
@@ -142,7 +156,7 @@ function searchData(){
     var code=$("input[name='codes']").val();
     var startDate=$("input[name='startDate']").val();
     var endDate=$("input[name='endDate']").val();
-    var customercode=$("input[name='customercode']").val();
+    var customercode=$("input[name='customercodes']").val();
 	$("#category_list").datagrid('reload',{'code':code,
 	'startDate':startDate,'endDate':endDate,'customercode':customercode});		   
 }
@@ -168,30 +182,30 @@ function print(){
 </div>
 <div id="category_tb"  style="padding:3px">
 <form action="#" method="post" name="Form" >
-检索条件:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+检索条件:&nbsp;
 <input type="hidden" value="1" name="status"/>
 
 <span>订单编号:</span><input type="text"  class="txt" name="codes"/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;
 <span>开始日期:</span>
  	<input type="text" name="startDate" class="easyui-datebox" >	        	
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;
 <span>结束日期:</span>
  	<input type="text" name="endDate" class="easyui-datebox">	        	
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<span>客户名称:</span><input type="text" class="txt" name="customercode">
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;
+<span>客户名称:</span><input type="text" class="txt" name="customercodes">
+&nbsp;
 <a href="#" onclick="searchData();"
 class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
-&nbsp;&nbsp;&nbsp;
+&nbsp;
 <input type="reset" name="重置"/>
 <div style="height:10px;"></div>
-<div>
+<div>&nbsp;&nbsp;&nbsp;
 <a href="#" id="add" onclick="add()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加账号</a>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;
 <a href="#" onclick="delsData();"
 class="easyui-linkbutton" data-options="iconCls:'icon-cut'">批量删除</a>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;
 <a href="#" onclick="exportData();"
 class="easyui-linkbutton" data-options="iconCls:'icon-save'">导出Excel</a>
 </div>
@@ -264,7 +278,7 @@ class="easyui-linkbutton" data-options="iconCls:'icon-save'">导出Excel</a>
 
     
     
-   <form action="/ERP/category/DeletePcategoryServlet" method="post" id="delFrm">
+   <form action="/ERP/order/DeletePorderServlet" method="post" id="delFrm">
 	    <input type="hidden" name="ids" value=""  id="idsel"/>
     </form>
    <form action="/ERP/category/printPartsServlet" method="post" id="printFrm">
