@@ -29,4 +29,10 @@ public class StockInServiceImpl extends BaseDao implements StockInService {
 		return stock.addDataStIn(obj);
 	}
 
+	@Override
+	public int delDataStIn(String code) {
+		// TODO Auto-generated method stub
+		return stock.delDataStIn(code);
+	}
+
 }

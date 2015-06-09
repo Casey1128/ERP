@@ -104,4 +104,15 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 		return ret;
 	}
 
+	@Override
+	public int delDataStIn(String code) {
+		// TODO Auto-generated method stub
+		String sql="delete from Stockin where code=? ";
+		String sql2="delete from Stockin_detail where incode=?";
+		int ret=super.executeUpdate(sql2, new Object[]{code});
+		ret=super.executeUpdate(sql, new Object[]{code});
+		super.close();
+		return ret;
+	}
+
 }

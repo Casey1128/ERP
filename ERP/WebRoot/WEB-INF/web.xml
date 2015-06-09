@@ -225,6 +225,16 @@
     <servlet-name>StockInAddServlet</servlet-name>
     <servlet-class>com.erp.stock.servlet.StockInAddServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>StockInDelServlet</servlet-name>
+    <servlet-class>com.erp.stock.servlet.StockInDelServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>StockInPortExcel</servlet-name>
+    <servlet-class>com.erp.stock.servlet.StockInPortExcel</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -475,6 +485,14 @@
   <servlet-mapping>
     <servlet-name>StockInAddServlet</servlet-name>
     <url-pattern>/stock/StockInAddServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StockInDelServlet</servlet-name>
+    <url-pattern>/stock/StockInDelServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StockInPortExcel</servlet-name>
+    <url-pattern>/stock/StockInPortExcel</url-pattern>
   </servlet-mapping>
   
 
