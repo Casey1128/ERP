@@ -39,6 +39,7 @@
  }
  function save(){
 	 $("input[name='ids']").val(2);
+	 
 	 $("#clist").submit();
 		 
  }
@@ -116,7 +117,7 @@
   
    <tr>
 	  <td>*代码:</td><td><input type="text" readonly="readonly" value="${list.get(0).getCode() }" name="code" /></td>
-	  <td>*操作日期:</td><td><input type="text" value="<%=time %>" readonly="readonly" name="date"/></td></tr>
+	  <td>*操作日期:</td><td><input type="text" value="<%=time %>"  name="date"/></td></tr>
   <tr>
 	  <td>*名称:</td><td><input type="text" value="${list.get(0).getCsName() }" name="pname"/></td>
 	  <td>联系人员:</td><td><input type="text" value="${list.get(0).getContacter() }" name="contacter"/></td></tr>

@@ -81,27 +81,24 @@ public class UnitDaoImpl extends BaseDao implements UnitDao {
 
 	public int updateUnit(basecusTomerSipplier bSipplier) {
 		// TODO Auto-generated method stub
-		String sql=" update BASECUSTOMERSUPPLIER "
+		String sql="update BASECUSTOMERSUPPLIER  "
 				+ "set Categorycode=?,AddDate=?,CsName=?,Spell=?,Contacter=?,"
-				+ "Telephone=?,Mobilephone=?,Fax=?,Emall=?,Url=?,"
-				+ "Address=?,Province=?,City=?,Qq=?,Postcide=?,"
+				+ "Telephone=?,Mobilephone=?,Fax=?,Email=?,Url=?,"
+				+ "Address=?,Province=?,City=?,Qq=?,Postcode=?,"
 				+ "msn=?,Account=?,Aliwang=?,bank=?,legaler=?,"
-				+ "tax=?,agent=?,isshow=?,remark=?where code=?";
+				+ "tax=?,agent=?,isshow=?,remarks=?where code=?";
 		
 		
 		int ret=super.executeUpdate(sql, new Object[]{
 				bSipplier.getCategorycode(),bSipplier.getAddDate(),bSipplier.getCsName(),bSipplier.getSpell(),bSipplier.getContacter(),
-				bSipplier.getTelephone(),bSipplier.getMobilephone(),bSipplier.getFax(),bSipplier.getEmall(),bSipplier.getUrl(),bSipplier.getAddress(),
-				bSipplier.getProvince(),bSipplier.getCity(),bSipplier.getQq(),bSipplier.getPostcide(),bSipplier.getMsn(),bSipplier.getAccount(),bSipplier.getAliwang(),
-				bSipplier.getBank(),bSipplier.getLegaler(),bSipplier.getTax(),bSipplier.getAgent(),bSipplier.getIsShow(),bSipplier.getReMarks(),bSipplier.getCode()});
+				bSipplier.getTelephone(),bSipplier.getMobilephone(),bSipplier.getFax(),bSipplier.getEmall(),bSipplier.getUrl(),
+				bSipplier.getAddress(),	bSipplier.getProvince(),bSipplier.getCity(),bSipplier.getQq(),bSipplier.getPostcide(),
+				bSipplier.getMsn(),bSipplier.getAccount(),bSipplier.getAliwang(),bSipplier.getBank(),bSipplier.getLegaler(),
+				bSipplier.getTax(),bSipplier.getAgent(),bSipplier.getIsShow(),bSipplier.getReMarks(),bSipplier.getCode()});
 		return ret;
 	}
 
-	public List<basecusTomerSipplier> searchList() {
-		// TODO Auto-generated method stub
-		
-		return null;
-	}
+	
 
 	public PageBean findList(basecusTomerSipplier bts, int pageNO, int pageSize) {
 		// TODO Auto-generated method stub
@@ -113,7 +110,7 @@ public class UnitDaoImpl extends BaseDao implements UnitDao {
 			sql+=" and csName="+"'"+bts.getCsName()+"'";
 		}
 		if(bts.getAddDate()!=null&&!bts.getAddDate().equals("")){
-			sql+=" and adddate="+"'"+bts.getAddDate()+"'";
+			sql+=" and adddate=%"+"'"+bts.getAddDate()+"'"+"%";
 		}
 		System.out.println(sql);
 		
@@ -139,8 +136,9 @@ public class UnitDaoImpl extends BaseDao implements UnitDao {
 			super.close();
 		}
 		pageBean.setData(list);
-		pageBean.setRecordCount(super.executeTotalCount(sql));
-
+		int total=super.executeTotalCount(sql);
+		pageBean.setRecordCount(total);
+		System.out.println(total+"bbbbbb");
 		return pageBean;
 	}
 
@@ -215,7 +213,14 @@ public class UnitDaoImpl extends BaseDao implements UnitDao {
 		pageBean.setData(unitList);
 		int pageCount=super.executeTotalCount(sql);		
 		pageBean.setRecordCount(pageCount);
+		System.out.println(pageCount+"bbbbbb");
 		return pageBean;
+	}
+
+	@Override
+	public List<basecusTomerSipplier> searchList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

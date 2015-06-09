@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.erp.basic.entity.basecusTomerSipplier;
 import com.erp.sale.dao.saleOrderDao;
 import com.erp.sale.entity.saleOrder;
-import com.erp.sale.service.impl.orderServiceImpl;
+import com.erp.sale.entity.saleQuotation;
 import com.erp.utils.BaseDao;
 import com.erp.utils.PageBean;
 
@@ -91,6 +92,8 @@ public class saleOrderDaoImpl extends BaseDao implements saleOrderDao{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	
 	
 
 }

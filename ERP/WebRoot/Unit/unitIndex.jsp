@@ -4,7 +4,6 @@
 <%@page import="com.erp.basic.service.UnitService"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/common/base_path.jsp"/>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -12,12 +11,8 @@
   <head>   
     
     <title>单位管理</title>
-    <script src="js/jquery-1.7.2.min.js"></script>
-<script src="js/jquery.easyui.min.js"></script>
-<link type="text/css" href="themes/default/easyui.css" rel="stylesheet" />
-<link type="text/css" href="themes/icon.css" rel="stylesheet" />
-
-<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+    
+	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="../demo.css">
 	<script type="text/javascript" src="js/jquery.min.js"></script>
@@ -154,11 +149,10 @@ function search(){
 		url:'/ERP/unit/SearchServlet',
 		data: {'code':code,'csName':csName,'addDate':addDate},
 		success:function(data){
-//	   		 $("#customers").datagrid("reload");
-	   	   $("#customers").datagrid("reload");
-		}
+				    $("#customers").datagrid("reload");
+				}
 		});
-	//	 $("#customers").datagrid("reload");
+	
  }
  
  
