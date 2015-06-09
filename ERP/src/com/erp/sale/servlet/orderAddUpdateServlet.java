@@ -56,7 +56,7 @@ public class orderAddUpdateServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		
-		String code=request.getParameter("codes");
+		String code=request.getParameter("code");
 		String orderTime=request.getParameter("otime");
 		
 		SimpleDateFormat sdfDateFormat=new SimpleDateFormat("MM/dd/yyyy");
@@ -93,13 +93,14 @@ public class orderAddUpdateServlet extends HttpServlet {
 		}
 		String nums=request.getParameter("nums");
 		String numsprice=request.getParameter("numsprice");
-		String adduser=request.getParameter("adduser");
+		String adduser=request.getParameter("addusers");
 		String remarks=request.getParameter("remarks");
 		String opt=request.getParameter("opt");
 		saleOrder saleorder=new saleOrder();
 		saleorder.setCode(code);
 		saleorder.setOrderDate(orderDate);
 		saleorder.setCustomercode(customercode);
+		saleorder.setAddUser(adduser);
 		saleorder.setState(state);
 		saleorder.setContacter(contacter);
 		saleorder.setTelphone(telphone);
@@ -116,8 +117,6 @@ public class orderAddUpdateServlet extends HttpServlet {
 			
 		}
 		response.sendRedirect("../erpSystem/orderManagement.jsp"); 
-		
-		
 	}
 
 }

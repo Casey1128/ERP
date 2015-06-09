@@ -40,7 +40,7 @@ $("#category_list").datagrid({
 		{field:'state',title:'审核状态',width:30},
 		{field:'addUser',title:'操作员',width:50},	
 		{field:'opt',title:'操作',width:100,formatter:function(val,row,idx){	
-			var content="<input type='button' value='修改' onclick=\"setpwd("+idx+",'"+row.code+"','"+row.categoryName+"','"+row.pcode+"','"+row.addUser+"','"+row.remarks+"')\"/>";
+var content="<input type='button' value='修改' onclick=\"setpwd("+idx+",'"+row.code+"','"+row.customercode+"','"+row.businesser+"')\"/>";
 				content+="<input type='button' value='删除' onclick=\"del('"+row.code+"')\"/>";
 			return content;
 		}}
@@ -60,6 +60,7 @@ function showDialog(stitle){
 		});
 		$("#mydg").dialog("open");	
 	}
+	
 function del(nid){
 	$.messager.confirm("删除提醒","确认删除吗？",function(r){
 		if(r){
@@ -82,27 +83,28 @@ function add(){
 			alert("error");	
 		},
 		success:function(data){
-			$("input[name='codes']").val(data.newId);
+			$("input[name='code']").val(data.newId);
 		}
 	});
 	
 	$("input[name='opt']").val("1");//opt=1表示添加；opt=2表示修改
 }
-function setpwd(idx,code,cname,pcode,addUser,remarks){
+function setpwd(idx,code,customercode,businesser){
 	var row=$("#category_list").datagrid("getRows")[idx];
-	$("input[name='categoryname']").val(cname);
+	$("input[name='customercode']").val(cname);
 	$("input[name='code']").val(code);
-	$("input[name='addUser']").val(addUser);
-	$("input[name='remarks']").val(remarks);
+	$("input[name='customercode']").val(customercode);
+	$("input[name='businesser']").val(businesser);
+	$("input[name='codes']").attr(readonly,"readonly");
+	
 	$("input[name='opt']").val("2");
-	$("select[name='pcode'] option").each(function(idx,ele){
-						if($(ele).val()==pcode){
-							//rid=$(ele).val();
+	$("select[name='trans'] option").each(function(idx,ele){
+						if($(ele).val()==trans){
 							$(ele).attr("selected","selected");
 							return;
 						}
 					});
-	showDialog("修改类型信息");
+	showDialog("修改订单信息");
 }
 
 function subFrm(){
@@ -137,7 +139,7 @@ function exportData(){
 }
 function searchData(){
 	
-    var code=$("input[name='code']").val();
+    var code=$("input[name='codes']").val();
     var startDate=$("input[name='startDate']").val();
     var endDate=$("input[name='endDate']").val();
     var customercode=$("input[name='customercode']").val();
@@ -169,7 +171,7 @@ function print(){
 检索条件:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <input type="hidden" value="1" name="status"/>
 
-<span>订单编号:</span><input type="text"  class="txt" name="code"/>
+<span>订单编号:</span><input type="text"  class="txt" name="codes"/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <span>开始日期:</span>
  	<input type="text" name="startDate" class="easyui-datebox" >	        	
@@ -181,6 +183,8 @@ function print(){
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="#" onclick="searchData();"
 class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+&nbsp;&nbsp;&nbsp;
+<input type="reset" name="重置"/>
 <div style="height:10px;"></div>
 <div>
 <a href="#" id="add" onclick="add()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加账号</a>
@@ -201,7 +205,7 @@ class="easyui-linkbutton" data-options="iconCls:'icon-save'">导出Excel</a>
  	<input type="hidden" name="code"/>
     <tr>
       <td>*订单编号：</td>
-      <td><input type="text" name="codes"/></td>
+      <td><input type="text" name="code"/></td>
      <td>*订单日期：</td>
       <td><input type="text" name="orderDates" class="easyui-datebox" />
       <input type="hidden" name="otime"/>
@@ -243,8 +247,8 @@ class="easyui-linkbutton" data-options="iconCls:'icon-save'">导出Excel</a>
     <td><input type="text" name="numsprice"/></td>
     </tr>
     <tr>
-    <td>操作人员：</td>
-    <td><input type="text" name="adduser"></td>
+    <td>操作员：</td>
+    <td><input type="text" name="addusers"></td>
     </tr>
     <tr>
     <td>备注：</td>
@@ -257,7 +261,7 @@ class="easyui-linkbutton" data-options="iconCls:'icon-save'">导出Excel</a>
       <button id="print" onclick="print();">打印</button>
     </form>
     
-    
+
     
     
    <form action="/ERP/category/DeletePcategoryServlet" method="post" id="delFrm">

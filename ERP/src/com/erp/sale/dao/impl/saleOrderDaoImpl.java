@@ -99,36 +99,6 @@ public class saleOrderDaoImpl extends BaseDao implements saleOrderDao{
 		,saleorder.getNums(),saleorder.getNumsPrice(),saleorder.getState(),saleorder.getAddUser()});
 		return ret;
 	}
-//	public static void main(String[] args){
-//		saleOrderDaoImpl s=new saleOrderDaoImpl();
-//		saleOrder saleorder=new saleOrder();
-//		saleorder.setCode("9999");
-//		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-//		Date date1,date2;
-//		try {
-//			date1= sdf.parse("2015-06-09");
-//			saleorder.setOrderDate(date1);
-//			saleorder.setCustomercode("9");
-//			saleorder.setContacter("9");
-//			saleorder.setTelphone("99999");
-//			saleorder.setFax("9");
-//			saleorder.setTrans("9");
-//			saleorder.setBusinesser("9");
-//			saleorder.setRemarks("9");
-//			date2=sdf.parse("2015-06-09");
-//			saleorder.setDeliveryDate(date2);
-//			saleorder.setNums(9);
-//			saleorder.setNumsPrice(9);
-//			saleorder.setState("1");
-//			saleorder.setAddUser("9");
-//			s.insertOrder(saleorder);
-//			
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//	}
 	@Override
 	public int deleteOrder(String code) {
 		// TODO Auto-generated method stub
@@ -138,6 +108,7 @@ public class saleOrderDaoImpl extends BaseDao implements saleOrderDao{
 	@Override
 	public int updateOrder(saleOrder saleorder) {
 		// TODO Auto-generated method stub
+		String sql="update ";
 		return 0;
 	}
 
