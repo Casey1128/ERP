@@ -141,7 +141,7 @@ function exportData(){
 function searchData(){
 	
     var code=$("input[name='code']").val();
-    var pcode=$("select[name='pcode']").val();
+    var customercode=$("input[name='customercode']").val();
 	$("#category_list").datagrid('reload',{'code':code,'pcode':pcode});    
     		   
 }
@@ -173,12 +173,10 @@ function print(){
 <span>订单编号:</span><input type="text"  class="txt" name="code"/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <span>开始日期:</span>
- 	<select name="startDate" class="easyui-datebox" >	        	
-     </select>
+ 	<input type="text" name="startDate" class="easyui-datebox" >	        	
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <span>结束日期:</span>
- 	<select name="endDate" class="easyui-datebox">	        	
-     </select>
+ 	<input type="text" name="endDate" class="easyui-datebox">	        	
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <span>客户名称:</span><input type="text" class="txt" name="customercode">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

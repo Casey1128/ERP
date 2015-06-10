@@ -2,6 +2,7 @@ package com.erp.basic.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,9 +56,9 @@ public class UnitDaoImpl extends BaseDao implements UnitDao {
 		//String code =unitCode.getUnitCode();
 		//String sql="insert into BASECUSTOMERSUPPLIER(code,csname,categorycode,contacter,address,telephone) "
 		String sql="insert into BASECUSTOMERSUPPLIER  "
-				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "values(?,?,sysdate,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		int ret=super.executeUpdate(sql, new Object[]{
-				bSipplier.getCode(),bSipplier.getCategorycode(),bSipplier.getAddDate(),
+				bSipplier.getCode(),bSipplier.getCategorycode(),
 				bSipplier.getCsName(),bSipplier.getSpell(),bSipplier.getContacter(),
 				bSipplier.getTelephone(),bSipplier.getMobilephone(),bSipplier.getFax(),
 				bSipplier.getEmall(),bSipplier.getUrl(),bSipplier.getAddress(),
@@ -82,7 +83,7 @@ public class UnitDaoImpl extends BaseDao implements UnitDao {
 	public int updateUnit(basecusTomerSipplier bSipplier) {
 		// TODO Auto-generated method stub
 		String sql="update BASECUSTOMERSUPPLIER  "
-				+ "set Categorycode=?,AddDate=?,CsName=?,Spell=?,Contacter=?,"
+				+ "set Categorycode=?,AddDate=sysdate,CsName=?,Spell=?,Contacter=?,"
 				+ "Telephone=?,Mobilephone=?,Fax=?,Email=?,Url=?,"
 				+ "Address=?,Province=?,City=?,Qq=?,Postcode=?,"
 				+ "msn=?,Account=?,Aliwang=?,bank=?,legaler=?,"
@@ -90,7 +91,7 @@ public class UnitDaoImpl extends BaseDao implements UnitDao {
 		
 		
 		int ret=super.executeUpdate(sql, new Object[]{
-				bSipplier.getCategorycode(),bSipplier.getAddDate(),bSipplier.getCsName(),bSipplier.getSpell(),bSipplier.getContacter(),
+				bSipplier.getCategorycode(),bSipplier.getCsName(),bSipplier.getSpell(),bSipplier.getContacter(),
 				bSipplier.getTelephone(),bSipplier.getMobilephone(),bSipplier.getFax(),bSipplier.getEmall(),bSipplier.getUrl(),
 				bSipplier.getAddress(),	bSipplier.getProvince(),bSipplier.getCity(),bSipplier.getQq(),bSipplier.getPostcide(),
 				bSipplier.getMsn(),bSipplier.getAccount(),bSipplier.getAliwang(),bSipplier.getBank(),bSipplier.getLegaler(),
@@ -110,7 +111,7 @@ public class UnitDaoImpl extends BaseDao implements UnitDao {
 			sql+=" and csName="+"'"+bts.getCsName()+"'";
 		}
 		if(bts.getAddDate()!=null&&!bts.getAddDate().equals("")){
-			sql+=" and adddate=%"+"'"+bts.getAddDate()+"'"+"%";
+			sql+=" and to_char(adddate,'yyyy-mm-dd')= "+"'"+new SimpleDateFormat("yyyy-MM-dd").format(bts.getAddDate())+"'";
 		}
 		System.out.println(sql);
 		
@@ -138,7 +139,7 @@ public class UnitDaoImpl extends BaseDao implements UnitDao {
 		pageBean.setData(list);
 		int total=super.executeTotalCount(sql);
 		pageBean.setRecordCount(total);
-		System.out.println(total+"bbbbbb");
+		System.out.println(total+"bbbbbba");
 		return pageBean;
 	}
 

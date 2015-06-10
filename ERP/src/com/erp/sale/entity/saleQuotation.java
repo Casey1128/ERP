@@ -21,8 +21,23 @@ public class saleQuotation {
 	private String addUserName;
 	private String addIp;
 	private String compcode;
+	private Date startdate;
+	private Date enddate;
 	private basecusTomerSipplier bSipplier;
 	
+	
+	public Date getStartdate() {
+		return startdate;
+	}
+	public void setStartdate(Date startdate) {
+		this.startdate = startdate;
+	}
+	public Date getEnddate() {
+		return enddate;
+	}
+	public void setEnddate(Date enddate) {
+		this.enddate = enddate;
+	}
 	public String getFax() {
 		return fax;
 	}

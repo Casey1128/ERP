@@ -18,9 +18,39 @@ public class saleQuotationDaoImpl extends BaseDao implements saleQuotationDao {
 	PageBean pagebean=new PageBean(); 
 	@Override
 	public PageBean searchSaleQuotation(int pageNo, int pageSize,
-			saleQuotation sQuotation) {
+			saleQuotation saleQuotation) {
 		// TODO Auto-generated method stub
-		return null;
+		String sql="select  sq.* , b.csname csname from basecustomersupplier b  JOIN salequotation sq  ON b.code=sq.CUSTOMERCODE  ";
+		rs=super.executeQueryForPage(sql, pageNo, pageSize);
+		List<saleQuotation> orderList=new ArrayList<saleQuotation>();
+		saleQuotation sQuotation=null;
+		basecusTomerSipplier bSipplier=new basecusTomerSipplier();
+		try {
+			while (rs.next()) {
+				sQuotation=new saleQuotation();
+				sQuotation.setCode(rs.getString("code"));
+				sQuotation.setSqdate(rs.getDate("sqdate"));
+				bSipplier.setCsName(rs.getString("csname"));
+				sQuotation.setbSipplier(bSipplier);
+				sQuotation.setNums(rs.getInt("nums"));
+				sQuotation.setNumsprice(rs.getInt("numsprice"));
+				sQuotation.setContacter(rs.getString("contacter"));
+				sQuotation.setTelphone(rs.getString("telphone"));
+				sQuotation.setState(rs.getString("state"));
+				sQuotation.setAddUser(rs.getString("addUser"));
+				
+				orderList.add(sQuotation);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			super.close();
+		}
+		pagebean.setData(orderList);
+		pagebean.setRecordCount(super.executeTotalCount(sql));
+		return pagebean;
 	}
 
 	@Override

@@ -12,17 +12,20 @@
     
     <title>报价单管理</title>
     
+	 <script src="/ERP/js/jquery-1.7.2.min.js"></script>
+	<script src="/ERP/js/jquery.easyui.min.js"></script>
+	<link type="text/css" href="/ERP/themes/default/easyui.css" rel="stylesheet" />
+	<link type="text/css" href="/ERP/themes/icon.css" rel="stylesheet" />
+	
 	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="themes/icon.css">
-	
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../demo.css">
 
 <script>
 
 		
 $(function(){
-	$("input.easyui-datebox").datebox({
+	 $("input.easyui-datebox").datebox({
 		formatter:function(date){
 			var y = date.getFullYear();
 			var m = date.getMonth() + 1;
@@ -42,7 +45,7 @@ $(function(){
 		}
 	});
 	$("#quotation").datagrid({
-	    url:'sale/SearchQuotationJsonServlet',
+	    url:'/ERP/sale/SearchQuotationServlet',
 		title:'报价单据管理',
 		idField:'code',
 		singleSelect:false,
@@ -54,7 +57,11 @@ $(function(){
 		toolbar:'#Tool',
 		columns:[[	
 			{checkbox:true},
-			{field:'code',title:'报价单号',width:130},
+			{field:'code',title:'报价单号',width:130,
+				/* formatter:function(val,row,idx){
+			         return "<a href='#' onclick='linkQuotation(val)' />+"+val+"+</a>";
+			}, */
+			},
 			{field:'sqdate',title:'报价日期',width:130},
 			{field:'csName',title:'客户名称',width:150},
 			{field:'nums',title:'数量',width:130},
@@ -84,21 +91,30 @@ $(function(){
 		]],
 		
 		});
-	$('#customers').datagrid('getPager').pagination({
+	$('#quotation').datagrid('getPager').pagination({
     	displayMsg:'当前显示从第 {from}到第 {to}，共 {total} 条记录'
-	}); 
+	});  
+	
+	
 });
 
+function linkQuotation(code){
+
+    window.location.href="/ERP/sale/addQuotation.jsp?code="+code;
+}
 
 function change(code){
 
-    window.location.href="/ERP/sale/updateSaleQuotationServlet?code="+code;
+    //window.location.href="/ERP/sale/updateSaleQuotationServlet?code="+code;
+    $("input[name='ids']").val(1);
+	window.location.href="/ERP/sale/addQuotation.jsp?code="+code;
 }
 function del(code){
 	
 	$.ajax({
 	url:'/ERP/sale/deleteSaleQuotationServlet?code='+code,
 	success:function(data){
+	alert(code)
 	 $("#quotation").datagrid("reload");
 	}
 	})
@@ -128,7 +144,9 @@ function delBatch(){
 }
 
 function add(){
-   window.location.href="/ERP/sale/addSaleQuotationServlet";
+ $("input[name='ids']").val(2);
+ //  window.location.href="/ERP/sale/addSaleQuotationServlet";
+  window.location.href="/ERP/sale/addQuotation.jsp";
 }
 
 function search(){
@@ -136,16 +154,11 @@ function search(){
   //alert(code);
   var csName=$("input[name='csName']").val();
   //alert(csName);
-  var addDate=$("input[name='adddate']").val();
-  //alert(addDate);
-  $.ajax({
-  		
-		url:'/ERP/unit/SearchServlet',
-		data: {'code':code,'csName':csName,'addDate':addDate},
-		success:function(data){
-				    $("#quotation").datagrid("reload");
-				}
-		});
+  var startdate=$("input[name='startdate']").val();
+  //alert(startdate);
+   var enddate=$("input[name='enddate']").val();
+   //alert(enddate);
+  $("#quotation").datagrid("reload",{'code':code,'csName':csName,'startdate':startdate,'enddate':enddate});
 	
  }
  
@@ -169,6 +182,7 @@ function outExcel(){
 
 <body>
 <div id="Tool">
+	<input type="hidden" name="ids" val="">
 	<form action="" method="post">
         <b>检索条件：</b>
         报价单号：<input type="text" name="scode" width="10px;"/>
@@ -184,7 +198,9 @@ function outExcel(){
     <button class="easyui-linkbutton" iconCls="icon-ok" onclick="outExcel()">导出excel</button>
    
 </div>
-<div id="quotation" name="quotation">
+<br/>
+
+<div id="quotation" class="easyui-datagrid" name="quotation">
 	
 </div>
 </body>

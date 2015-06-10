@@ -51,7 +51,7 @@ $(function(){
 		singleSelect:false,
 		fitColumns:true,
 		fit:true,
-		pageSize:10,
+		pageSize:5,
 		pagination:true,
 		pageList:[2,5,10],
 		toolbar:'#Tool',
@@ -144,14 +144,15 @@ function search(){
   //alert(csName);
   var addDate=$("input[name='adddate']").val();
   //alert(addDate);
-  $.ajax({
+ // $.ajax({
   		
-		url:'/ERP/unit/SearchServlet',
-		data: {'code':code,'csName':csName,'addDate':addDate},
-		success:function(data){
-				    $("#customers").datagrid("reload");
-				}
-		});
+		//url:'/ERP/unit/SearchUnitJsoServlet',
+		//data: {'code':code,'csName':csName,'addDate':addDate},
+		//success:function(data){
+		   $("#customers").datagrid("reload", {'code':code,'csName':csName,'addDate':addDate});
+		//return; 
+		//		}
+	//	});
 	
  }
  

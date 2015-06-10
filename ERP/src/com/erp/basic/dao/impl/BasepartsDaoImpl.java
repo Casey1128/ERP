@@ -18,8 +18,9 @@ public class BasepartsDaoImpl extends BaseDao implements BasepartsDao {
 
 	public PageBean findBasepartsAll(String partsGeneralpartsno,String partsName,String partsCategory,int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
-		String sql="select PARTSCODE,PARTSGENERALPARTSNO,PARTSNAME,PARTSMODEL,PARTSMODELOLD," +
-				"PARTSBRAND,PARTSCATEGORY,SALEPRICE,ADDUSERNAME,REMARKS,ISSHOW from baseparts where 1=1 ";
+//		String sql="select PARTSCODE,PARTSGENERALPARTSNO,PARTSNAME,PARTSMODEL,PARTSMODELOLD," +
+//				"PARTSBRAND,PARTSCATEGORY,SALEPRICE,ADDUSERNAME,REMARKS,ISSHOW from baseparts where 1=1 ";
+		String sql="select * from baseparts where 1=1 ";
 		if(partsGeneralpartsno!=null&&!partsGeneralpartsno.equals("")){
 			sql+=" and PARTSCODE="+"'"+partsGeneralpartsno+"'";	
 		}
@@ -41,6 +42,7 @@ public class BasepartsDaoImpl extends BaseDao implements BasepartsDao {
 				baseparts.setPartsCode(rs.getString("PartsCode"));
 				baseparts.setPartsGeneralpartsno(rs.getString("PARTSGENERALPARTSNO"));
 				baseparts.setPartsName(rs.getString("partsname"));
+				baseparts.setPartsNo(rs.getString("partsno"));
 				baseparts.setPartsModel(rs.getString("partsmodel"));
 				baseparts.setPartsModelOld(rs.getString("partsmodelold"));
 				baseparts.setPartsBrand(rs.getString("partsbrand"));
