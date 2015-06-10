@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.erp.sale.dao.saleOrderDao;
 import com.erp.sale.entity.saleOrder;
+import com.erp.sale.entity.saleOrderDetails;
 import com.erp.sale.service.impl.orderServiceImpl;
 import com.erp.utils.BaseDao;
 import com.erp.utils.PageBean;
@@ -25,6 +26,7 @@ public class saleOrderDaoImpl extends BaseDao implements saleOrderDao{
 		String sql="select code,orderdate,customercode,nums,nums*numsprice total,businesser,"
 				+"contacter,telphone,state,adduser from saleorder where 1=1";
 		List params=new ArrayList();
+		SimpleDateFormat sdf=new SimpleDateFormat("dd-MÔÂ-yyyy");
 		List queryParmas=new ArrayList();
 		if(code!=null&&!code.equals("")){
 			sql+=" and code=?";
@@ -45,6 +47,7 @@ public class saleOrderDaoImpl extends BaseDao implements saleOrderDao{
 		}
 		sql+=" order by adddate desc ";
 		queryParmas.addAll(params);
+		Object[] paramsArr1=queryParmas.toArray();
 		queryParmas.add(pageNo*pageSize);
 		queryParmas.add((pageNo-1)*pageSize);
 		Object[] paramsArr=queryParmas.toArray();
@@ -76,7 +79,7 @@ public class saleOrderDaoImpl extends BaseDao implements saleOrderDao{
 		}	
 		pageBean.setData(orderList);
 		String sqlw = "select count(code)"+sql.substring(sql.indexOf("from"));
-		pageBean.setRecordCount(super.executeTotalCount(sqlw,params.toArray()));
+		pageBean.setRecordCount(super.executeTotalCount(sqlw,paramsArr1));
 		return pageBean;
 	}
 
@@ -141,5 +144,47 @@ public class saleOrderDaoImpl extends BaseDao implements saleOrderDao{
 		}
 		return transList;
 	}
-	
+
+	@Override
+	public List<saleOrderDetails> orderDetailsShow(String scode) {
+		// TODO Auto-generated method stub
+		String sql="select salorder_detail.scode a,baseparts.partsno b,baseparts.partsname c,"
+				+"baseparts.partsbrand d,baseparts.partsmodel e,salorder_detail.nums f,"
++"salorder_detail.price g,salorder_detail.nums*salorder_detail.price totals,salorder_detail.remarks h"
+				+" from salorder_detail  join baseparts"
+				+" on salorder_detail.pcode=baseparts.partscode"
+				+" where scode=?";
+		rs=super.executeQuery(sql,new Object[]{scode});
+		List<saleOrderDetails> orderDetails=new ArrayList<saleOrderDetails>();
+		saleOrderDetails details=null;
+		try {
+			while(rs.next()){
+				details=new saleOrderDetails();
+				details.setCode(rs.getString("a"));
+				details.setPartsNo(rs.getString("b"));
+				details.setPartsNname(rs.getString("c"));
+				details.setPartsBrand(rs.getString("d"));
+				details.setPartsModel(rs.getString("e"));
+				details.setNums(rs.getInt("f"));
+				details.setPrice(rs.getDouble("g"));
+				details.setTotals(rs.getDouble("totals"));
+				details.setRemark(rs.getString("h"));
+				orderDetails.add(details);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			super.close();
+		}
+		return orderDetails;
+	}
+//	public static void main(String[] args){
+//		saleOrderDaoImpl s=new saleOrderDaoImpl();
+//		List<saleOrderDetails> list=s.orderDetailsShow("9999");
+//		for(int i=0;i<list.size();i++){
+//			System.out.println(list.get(i).getCode());
+//			System.out.println(list.get(i).getPartsNname());
+//		}
+//	}
 }

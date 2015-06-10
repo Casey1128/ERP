@@ -22,7 +22,7 @@ $.ajax({url:'/ERP/order/getOrderTransServlet',
 	$("#mydg").dialog("close");
 $("#category_list").datagrid({
 		title:'销售订单管理列表',
-		fit:true,
+		fixed:true,
 		fitColumns:true,
 		url:'/ERP/order/orderListJsonServlet',
 		idField:'code',
@@ -47,56 +47,55 @@ var content="<input type='button' value='修改' onclick=\"setpwd("+idx+",'"+row
 				content+="<input type='button' value='删除' onclick=\"del('"+row.code+"')\"/>";
 			return content;
 		}}
-		]]
+		]],
+		onDblClickRow:function(rowIndex,rowData){
+			$("#details").show();
+			$("span[id='orderid']").html(rowData.code);
+			$.ajax({
+				url:'/ERP/order/getOrderDetailListServlet', 
+				data:{"code":rowData.code},
+				type:'post',
+				error:function(){
+					alert("抱歉,没有得到数据");
+				},
+				success:function(data){
+				$("#createtable").html("");
+				var table=$("<table  rules=\"all\" border='1' ><tr style=\"border-color: 'blue' ;background-color:'teal' ;\"><td>报价单号</td><td>件号</td><td>配件名称</td><td>配件品牌</td><td>配件型号</td><td>数量</td><td>单价</td><td>金额</td><td>备注</td></tr>");
+				table.appendTo($("#createtable"));
+				var nums=0;
+		        var price=0;
+				 for(var i=0;i<data.rows.length;i++)
+			     {
+			        var tr=$("<tr></tr>");
+			        price+=data.rows[i].total;
+			        nums+=data.rows[i].nums;
+			        tr.appendTo(table);
+			           var td0=$("<td>"+data.rows[i].code+"</td>");
+			           td0.appendTo(tr);
+			           var td1=$("<td>"+data.rows[i].partsNo+"</td>");
+			           td1.appendTo(tr);
+			           var td2=$("<td>"+data.rows[i].partsNname+"</td>");
+			           td2.appendTo(tr);
+			           var td3=$("<td>"+data.rows[i].partsBrand+"</td>");
+			           td3.appendTo(tr);
+			           var td4=$("<td>"+data.rows[i].partsModel+"</td>");
+			           td4.appendTo(tr);
+			           var td5=$("<td>"+data.rows[i].nums+"</td>");
+			           td5.appendTo(tr);
+			           var td6=$("<td>"+data.rows[i].price+"</td>");
+			           td6.appendTo(tr);
+			           var td7=$("<td>"+data.rows[i].totals+"</td>");
+			           td7.appendTo(tr);
+			           var td8=$("<td>"+data.rows[i].remark+"</td>");
+			           td8.appendTo(tr);   
+			     }
+				}
+			});
+		}
+		
+		
 });
-$("#category_list").datagrid({
-	onDblClickRow:function(rowIndex,rowData){
-		$("#details").show();
-		$("span[id='orderid']").html(rowData.code);
-		$.ajax({
-			url:'/ERP/order/getOrderDetailListServlet',
-			data:{"code":rowData.code},
-			type:'post',
-			error:function(){
-				alert("没有得到数据");
-			},
-			success:function(data){
-				
-			var table=$("<table  rules=\"all\" border='1' ><tr style=\"border-color: 'blue' ;background-color:'teal' ;\"><td>报价单号</td><td>件号</td><td>配件名称</td><td>配件品牌</td><td>配件型号</td><td>数量</td><td>单价</td><td>金额</td><td>备注</td></tr>");
-			table.appendTo($("#createtable"));
-			var nums=0;
-	        var price=0;
-			 for(var i=0;i<data.rows.length;i++)
-		     {
-		        var tr=$("<tr></tr>");
-		        price+=data.rows[i].total;
-		        nums+=data.rows[i].nums;
-		        tr.appendTo(table);
-		           var td1=$("<td>"+data.rows[i].partsNo+"</td>");
-		           td1.appendTo(tr);
-		           var td2=$("<td>"+data.rows[i].partsName+"</td>");
-		           td2.appendTo(tr);
-		           var td3=$("<td>"+data.rows[i].partsBrand+"</td>");
-		           td3.appendTo(tr);
-		           var td4=$("<td>"+data.rows[i].partsModel+"</td>");
-		           td4.appendTo(tr);
-		           var td5=$("<td>"+data.rows[i].nums+"</td>");
-		           td5.appendTo(tr);
-		           var td6=$("<td>"+data.rows[i].numsprice+"</td>");
-		           td6.appendTo(tr);
-		           var td7=$("<td>"+data.rows[i].total+"</td>");
-		           td7.appendTo(tr);
-		           var td8=$("<td>"+data.rows[i].remarks+"</td>");
-		           td8.appendTo(tr);
-		     }
-			 var tr1=$("<tr><td colspan=\"3\">"+"合计:"+"</td><td colspan=\"2\">"+"数量："+nums+"</td><td colspan=\"4\">"+"金额："+price+"</td></tr>");
-			 tr1.appendTo(table);
-		     trend.appendTo(table);
-		     $("#createtable").append("</table>");	
-			}
-		});
-	}
-});
+
 
 
 
@@ -326,7 +325,6 @@ class="easyui-linkbutton" data-options="iconCls:'icon-save'">导出Excel</a>
     <div id="details">
      单据标号为:<span id="orderid"></span> 的明细如下所列!
      <div id="createtable" ></div>
-     <div id="createrow"></div>
   </div>
    
 </body>

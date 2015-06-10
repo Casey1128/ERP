@@ -6,6 +6,7 @@ import java.util.List;
 import com.erp.sale.dao.saleOrderDao;
 import com.erp.sale.dao.impl.saleOrderDaoImpl;
 import com.erp.sale.entity.saleOrder;
+import com.erp.sale.entity.saleOrderDetails;
 import com.erp.sale.service.orderService;
 import com.erp.utils.BaseDao;
 import com.erp.utils.PageBean;
@@ -37,6 +38,11 @@ public class orderServiceImpl extends BaseDao implements orderService{
 	public int del(String code) {
 		// TODO Auto-generated method stub
 		return orderDao.deleteOrder(code);
+	}
+	@Override
+	public List<saleOrderDetails> orderDetails(String scode) {
+		// TODO Auto-generated method stub
+		return orderDao.orderDetailsShow(scode);
 	}
 
 }
