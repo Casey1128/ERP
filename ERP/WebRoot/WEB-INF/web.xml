@@ -233,6 +233,11 @@
     <servlet-name>getOrderDetailListServlet</servlet-name>
     <servlet-class>com.erp.sale.servlet.getOrderDetailListServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ExportOrderDataServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.ExportOrderDataServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -493,6 +498,10 @@
   <servlet-mapping>
     <servlet-name>getOrderDetailListServlet</servlet-name>
     <url-pattern>/order/getOrderDetailListServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ExportOrderDataServlet</servlet-name>
+    <url-pattern>/order/ExportOrderDataServlet</url-pattern>
   </servlet-mapping>
   
 

@@ -93,7 +93,7 @@ PageBean orderPageBean=order.searchOrder(code, startTime, endTime,customerCode,I
 		request.getSession().setAttribute("orderBean", orderPageBean);
 		JsonConfig config=new JsonConfig();
 		config.setExcludes(new String[]{"fax","trans","deliveryDate"
-				,"remarks","isShow","adddDate","addUserName","addIp"});
+				,"remarks","adddDate","addUserName","addIp"});
 		config.registerJsonValueProcessor(Date.class,new JSONDateProcessor("yyyyƒÍMM‘¬dd»’"));
 		JSONObject jsonObject=new JSONObject();
 		Map attrs=new HashMap();
