@@ -3,10 +3,10 @@
 <html>
   <head>
     <title>单据-添加</title>
-	<script src="/ERP/js/jquery.min.js"></script>
-	<script src="/ERP/js/jquery.easyui.min.js"></script>
-	<link rel="/ERP/stylesheet" type="text/css"  href="themes/icon.css" />
-	<link rel="/ERP/stylesheet" type="text/css" href="themes/default/easyui.css" /> 	
+	<script src="/ERP/erpStock/StockIn/js_lib/jquery-2.1.3.min.js" type="text/javascript"></script>
+	<script src="/ERP/erpStock/StockIn/js_lib/jquery-easyui-1.4/jquery.easyui.min.js" type="text/javascript"></script>
+	<link href="/ERP/erpStock/StockIn/js_lib/jquery-easyui-1.4/themes/default/easyui.css" rel="stylesheet"  type="text/css"></link>
+	<link href="/ERP/erpStock/StockIn/js_lib/jquery-easyui-1.4/themes/icon.css" rel="stylesheet"  type="text/css"></link>
 	
 	<script>
 		$(function(){

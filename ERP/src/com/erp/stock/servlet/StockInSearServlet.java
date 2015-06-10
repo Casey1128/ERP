@@ -39,25 +39,31 @@ public class StockInSearServlet extends HttpServlet {
 		String startdatestr=request.getParameter("searchstartdate");
 		String enddatestr =request.getParameter("searchenddate");
 		
-
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		java.util.Date startdatetime=new Date();
-		try {
-			startdatetime=sdf.parse(startdatestr);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		java.sql.Date startdate=new java.sql.Date(startdatetime.getTime());
+		Date startdate=new Date();
+		Date enddate=new Date();
 		
-		java.util.Date enddatetime=new Date();
-		try {
-			enddatetime=sdf.parse(startdatestr);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf2=new SimpleDateFormat("dd-MÔÂ-yyyy");
+		if(startdatestr!=null&&!startdatestr.equals("")){
+			try {
+				startdate=sdf.parse(startdatestr);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//startdate=new java.sql.Date(startdatetime.getTime());
 		}
-		java.sql.Date enddate=new java.sql.Date(enddatetime.getTime());
+		
+		if(enddatestr!=null&&!enddatestr.equals("")){
+			try {
+				enddate=sdf.parse(enddatestr);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//enddate=new java.sql.Date(enddatetime.getTime());	
+		}
+		
 		
 
 		String pageNostr=request.getParameter("page");
@@ -76,17 +82,17 @@ public class StockInSearServlet extends HttpServlet {
 		if(code==null || code.equals("")){
 			sql2="";
 		}else{
-			sql2="and code like '%'?'%' ";
+			sql2=" and code like '%"+code+"%' ";
 		}
-		if(startdate==null || startdate.equals("")){
+		if(startdatestr==null || startdatestr.equals("")){
 			sql3="";
 		}else{
-			sql3="and indate>?";
+			sql3=" and indate>='"+sdf2.format(startdate)+"'";
 		}
-		if(enddate==null || enddate.equals("")){
+		if(enddatestr==null || enddatestr.equals("")){
 			sql4="";
 		}else{
-			sql4="and indate<?";
+			sql4=" and indate<='"+sdf2.format(enddate)+"'";
 		}
 		String sql=sql1+sql2+sql3+sql4;
 		String sqlcount=sql6+sql2+sql3+sql4;
@@ -107,7 +113,6 @@ public class StockInSearServlet extends HttpServlet {
 		obj.putAll(attrs,config);
 		
 		String data=obj.toString();	
-
 		response.getWriter().println(data);
 	}
 

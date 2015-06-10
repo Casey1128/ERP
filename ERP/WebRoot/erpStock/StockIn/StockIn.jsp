@@ -1,14 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<jsp:include page="/erpStock/StockIn/page.jsp"/>
+
 <html>
   <head>
     <title>3-2-1 库存管理-入库管理-管理界面</title>
-	<script src="js/jquery.min.js"></script>
-	<script src="js/jquery.easyui.min.js"></script>
-	<link rel="stylesheet" type="text/css"  href="themes/icon.css" />
-	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css" /> 	
+	<script src="/ERP/erpStock/StockIn/js_lib/jquery-2.1.3.min.js" type="text/javascript"></script>
+	<script src="/ERP/erpStock/StockIn/js_lib/jquery-easyui-1.4/jquery.easyui.min.js" type="text/javascript"></script>
+	<link href="/ERP/erpStock/StockIn/js_lib/jquery-easyui-1.4/themes/default/easyui.css" rel="stylesheet"  type="text/css"></link>
+	<link href="/ERP/erpStock/StockIn/js_lib/jquery-easyui-1.4/themes/icon.css" rel="stylesheet"  type="text/css"></link>
  	
- 		<style>
+ 	<style>
 	body,div,table,form{
 	margin:0px;
 	padding:0px;
@@ -122,7 +122,7 @@
  	function del(code){
  		$.messager.confirm("删除提醒","确认要执行删除操作吗?",function(r){
 			if(r){
-				window.location.href="/ERP/stock/StockInDelServlet?opt=1&code";
+				window.location.href="/ERP/stock/StockInDelServlet?opt=1&code="+code;
 			}
 		});
  	}
@@ -150,14 +150,14 @@
 	//搜索
  	function selerows(){
  		$.ajax({
- 			url:'',
+ 			url:'/ERP/stock/StockInSearServlet',
  			type:"post",
  			data:{
  				'page':'1',
  				'rows':'3',
- 				'search':$("input[name='searchcode']").val(),
- 				'search':$("input[name='searchstartdate']").val(),
- 				'search':$("select[name='searchenddate']").val(),
+ 				'searchcode':$("input[name='searchcode']").val(),
+ 				'searchstartdate':$("input[name='searchstartdate']").val(),
+ 				'searchenddate':$("input[name='searchenddate']").val(),
  			},			
 			dataType:"json",
 			success:function(data){

@@ -32,7 +32,6 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 				StockIn stock=new StockIn();
 				stock.setCode(rs.getString("code"));
 				stock.setIndate(rs.getTimestamp("indate"));
-				System.out.println(stock.getIndate());
 				stock.setContacter(rs.getString("contacter"));
 				stock.setNums(rs.getInt("nums"));
 				stock.setNumsPrice(rs.getInt("numsPrice"));
@@ -128,7 +127,6 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 				StockIn stock=new StockIn();
 				stock.setCode(rs.getString("code"));
 				stock.setIndate(rs.getTimestamp("indate"));
-				System.out.println(stock.getIndate());
 				stock.setContacter(rs.getString("contacter"));
 				stock.setNums(rs.getInt("nums"));
 				stock.setNumsPrice(rs.getInt("numsPrice"));

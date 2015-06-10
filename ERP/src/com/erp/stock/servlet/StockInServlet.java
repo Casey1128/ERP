@@ -49,7 +49,6 @@ public class StockInServlet extends HttpServlet {
 		obj.putAll(attrs,config);
 			
 		String data=obj.toString();
-		System.out.println(data);
 		response.getWriter().println(data);
 	}
 
