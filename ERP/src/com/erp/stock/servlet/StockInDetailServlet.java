@@ -32,7 +32,6 @@ public class StockInDetailServlet extends HttpServlet {
 		
 		JSONArray arr=JSONArray.fromObject(list);
 		String data=arr.toString();
-		System.out.println(data);
 		response.getWriter().println(data);
 		
 //		JSONObject obj=new JSONObject();

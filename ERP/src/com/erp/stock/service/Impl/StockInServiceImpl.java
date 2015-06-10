@@ -35,4 +35,11 @@ public class StockInServiceImpl extends BaseDao implements StockInService {
 		return stock.delDataStIn(code);
 	}
 
+	@Override
+	public PageBean SearchDataStIn(String sql, String sqlcount, int pageNo,
+			int pageSize) {
+		// TODO Auto-generated method stub
+		return stock.SearchDataStIn(sql, sqlcount, pageNo, pageSize);
+	}
+
 }

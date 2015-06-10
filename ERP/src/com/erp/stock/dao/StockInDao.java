@@ -9,4 +9,5 @@ public interface StockInDao {
 	public List findAllDataStInDetail(String incode);
 	public int addDataStIn(Object[] obj);
 	public int delDataStIn(String code);
+	public PageBean SearchDataStIn(String sql,String sqlcount,int pageNo,int pageSize);
 }

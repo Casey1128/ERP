@@ -17,6 +17,9 @@
 	width:100%;
 	height:95%;
 	}
+	#detailtb td{
+	width:150px;
+	}
 	</style>
  	<script>
  	
@@ -77,7 +80,7 @@
 			error:function(){alert("请求失败")},
 			success:function(data){
 				$("#detailtb").html("");
-				$("#detailtbtr").appendTo("#detailtb");
+				$("<td>订单编号</td><td>件号</td><td>数量</td>	<td>单价</td><td>金额</td><td>所属仓库</td><td>备注</td>").appendTo("#detailtb");
 				for(var i=0;i<data.length;i++){
 					var trobj=$("<tr>").appendTo("#detailtb");
 					var tdobj=$("<td>").appendTo(trobj);
@@ -189,16 +192,10 @@
 
 				<span><b>开始日期</b></span>
 					<input type="date" name="searchstartdate">
-						<option></option>
-					</select>
+
 					
 				<span><b>结束日期</b></span>
 					<input type="date" name="searchenddate">
-						<option></option>
-					</select>
-					
-				<span><b></b></span>
-				<input type="text" name="search" />
 				
 				<a href="javascript:selerows()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
 				<a href="javascript:selereset()" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">重置</a>	
@@ -214,15 +211,11 @@
 	<div id="smallbox">
 			<div id="detailtitle">
 				<span><b>单据标号为：</b></span>
-				<input type="text" display="display" name="detailincode" style="border-style:none" />
+				<input type="text" readonly="true" name="detailincode" style="border-style:none" />
 				<span><b>的明细如下所列</b></span>
 			</div>
 
 			<table rules="all" border="1" id="detailtb">
-				<tr id="detailtbtr">
-					<td>订单编号</td><td>件号</td><td>数量</td>
-					<td>单价</td><td>金额</td><td>所属仓库</td><td>备注</td>
-				</tr>
 			</table>
 	</div>
 	

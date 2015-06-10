@@ -31,7 +31,8 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 			while(rs.next()){
 				StockIn stock=new StockIn();
 				stock.setCode(rs.getString("code"));
-				stock.setIndate(rs.getDate("indate"));
+				stock.setIndate(rs.getTimestamp("indate"));
+				System.out.println(stock.getIndate());
 				stock.setContacter(rs.getString("contacter"));
 				stock.setNums(rs.getInt("nums"));
 				stock.setNumsPrice(rs.getInt("numsPrice"));
@@ -113,6 +114,41 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 		ret=super.executeUpdate(sql, new Object[]{code});
 		super.close();
 		return ret;
+	}
+
+	@Override
+	public PageBean SearchDataStIn(String sql, String sqlcount, int pageNo,
+			int pageSize) {
+		// TODO Auto-generated method stub
+		PageBean pb=new PageBean();
+		List<StockIn> list=new ArrayList<StockIn>();
+		rs=super.executeQueryForPage(sql, pageNo, pageSize);
+		try {
+			while(rs.next()){
+				StockIn stock=new StockIn();
+				stock.setCode(rs.getString("code"));
+				stock.setIndate(rs.getTimestamp("indate"));
+				System.out.println(stock.getIndate());
+				stock.setContacter(rs.getString("contacter"));
+				stock.setNums(rs.getInt("nums"));
+				stock.setNumsPrice(rs.getInt("numsPrice"));
+				stock.setState(rs.getString("state"));
+				stock.setAddUser(rs.getString("addUser"));
+				list.add(stock);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			super.close();
+		}
+		pb.setData(list);
+		int total=super.executeTotalCount(sqlcount);
+		pb.setRecordCount(total);
+		pb.setPageCount(total%pageSize==0?total/pageSize:total/pageSize+1);
+		pb.setPageNo(pageNo);
+		pb.setPageSize(pageSize);
+		return pb;
 	}
 
 }
