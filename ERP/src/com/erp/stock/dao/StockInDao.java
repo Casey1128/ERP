@@ -5,8 +5,11 @@ import java.util.List;
 import com.erp.utils.PageBean;
 
 public interface StockInDao {
+	public int seekPriceSum(String inCode);
+	public int seekNumsSum(String inCode);
 	public PageBean findAllDataStIn(int pageNo, int pageSize);
-	public List findAllDataStInDetail(String incode);
+	public List findDataStInByCode(String code);
+	public List findDataStInDetailByIncode(String incode);
 	public int addDataStIn(Object[] obj);
 	public int delDataStIn(String code);
 	public PageBean SearchDataStIn(String sql,String sqlcount,int pageNo,int pageSize);

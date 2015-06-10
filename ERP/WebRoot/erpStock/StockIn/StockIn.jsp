@@ -147,7 +147,7 @@
 		});
  	}
 
-	//搜索
+	//搜索.
  	function selerows(){
  		$.ajax({
  			url:'/ERP/stock/StockInSearServlet',
@@ -160,6 +160,7 @@
  				'searchenddate':$("input[name='searchenddate']").val(),
  			},			
 			dataType:"json",
+			error:function(data){alert("条件错误")},
 			success:function(data){
 				$("#stockface").datagrid("loadData",data);//重读
 			}
@@ -167,7 +168,9 @@
  	}
  	
  	function selereset(){
- 		$("#seleff").reset();
+ 		$("input[name='searchcode']").val("");
+ 		$("input[name='searchstartdate']").val("");
+ 		$("input[name='searchenddate']").val("");
  	}
  	
  	

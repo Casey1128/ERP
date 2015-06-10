@@ -10,7 +10,7 @@
 	
 	<script>
 		$(function(){
-			
+			$("#detailff").hide();
 		})
 
 		function sly1(){
@@ -23,19 +23,52 @@
 		}
 		
 		function addff(){
-			$("#totalff").submit();
+			$.ajax({
+				url:'/ERP/stock/StockInAddServlet?opt=1',
+				data:{
+					'code':$("input[name='code']").val(),
+					'indate':$("input[name='indate']").val(),
+					'supplierCode':$("input[name='supplierCode']").val(),
+					'contacter':$("input[name='contacter']").val(),
+					'telephone':$("input[name='telephone']").val(),
+					'fax':$("input[name='fax']").val(),
+					'intypese':$("select[name='intypese']").val(),
+					'intypere':$("input[name='intypere']").val(),
+					'isinvoice':$("input[name='isinvoice']").val(),
+					'remarks':$("input[name='remarks']").val(),
+				},
+				type:"post",
+				dataType:"json",
+				async:false,
+				error:function(){alert("请求失败")},
+				success:function(data){
+						$("input[name='code']").val(data.rows[0].code);
+						$("input[name='indate']").val(data.rows[0].indate);
+						$("input[name='supplierCode']").val(data.rows[0].supplierCode);
+						$("input[name='contacter']").val(data.rows[0].contacter);
+						$("input[name='telephone']").val(data.rows[0].telephone);
+						$("input[name='fax']").val(data.rows[0].fax);
+						$("select[name='intypese']").val(data.rows[0].intypese);
+						if("1"==(data.rows[0].intypere)){$("input[name='intypere'][value='1']").attr("checked","checked")};
+						if("0"==(data.rows[0].intypere)){$("input[name='intypere'][value='0']").attr("checked","checked")};	
+						if("1"==(data.rows[0].isinvoice)){$("input[name='isinvoice'][value='1']").attr("checked","checked")};
+						if("0"==(data.rows[0].isinvoice)){$("input[name='isinvoice'][value='0']").attr("checked","checked")};
+						$("input[name='remarks']").val(data.rows[0].remarks);
+				},	
+			})
+		$("input[name='addbutton']").attr("disabled","disabled");
+		$("input[name='orderdetail']").attr("disabled",false);
+		$("input[name='addparts']").attr("disabled",false);
 		}
 		
-		function add(){
-			
-		}
+
 		
 	</script>
 	
   </head>
   
   <body>
-  		<form id="totalff" action="/ERP/stock/StockInAddServlet?opt=1" target="_self" method="post">
+  		<form id="totalff" action="" target="_self" method="post">
   			<table rules="all" border="1" id="totaltb" border-color="#C4D1E3">
 		  			<%
 		  				Date date=new Date();
@@ -59,9 +92,9 @@
   				
   				<tr>	<td></td></tr>
   				
-  				<tr>	<td colspan="4"><input type="button" name="" value="新增" onclick="addff();"/>
-			  				<input type="button" name="" value="采购订单"  onclick="orderpay();" disabled="disabled"/>
-			  				<input type="button" name="" value="添加配件" onclick="order" disabled="disabled"/>
+  				<tr>	<td colspan="4"><input type="button" name="addbutton" value="新增" onclick="addff();"/>
+			  				<input type="button" name="orderdetail" value="采购订单"  onclick="orderpay();" disabled="disabled"/>
+			  				<input type="button" name="addparts" value="添加配件" onclick="addparts()" disabled="disabled"/>
 			  				<input type="button" name="" value="保存"  onclick="" disabled="disabled"/>
 			  				<input type="button" name="" value="审核" onclick="" disabled="disabled"/>
 			  				<input type="reset" name="" value="撤销"/>
@@ -79,7 +112,7 @@
   							<td>配件类型</td><td>数量</td><td>单价</td><td>金额</td>
   							<td>所属仓库</td><td>备注</td><td>操作</td></tr>
   							
-  				<tr id="p2tr">	<input type="hidden" name="code" value="<%=datestr %>"/>
+  				<tr id="p2tr">	<input type="hidden" name="incode" value="<%=datestr %>"/>
   							<td><input type="text" name="orderCode" size="10"/></td>
   							<td><input type="text" name="pCode"  size="10"/></td>
   							<td><input type="text" name="pName"  size="10"/></td>

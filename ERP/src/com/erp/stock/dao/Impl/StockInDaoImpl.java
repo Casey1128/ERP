@@ -18,7 +18,41 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 	Connection conn=null;
 	PreparedStatement pstm=null;
 	ResultSet rs=null;
+
 	
+	@Override
+	public int seekPriceSum(String inCode) {
+		// TODO Auto-generated method stub
+		String sql="select incode,sum(nums*price)  from stockin_detail where incode=? group by incode";
+		rs=super.executeQueryForPage(sql, new Object[]{inCode});
+		int ret=0;
+		try {
+			while(rs.next()){
+				ret=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
+	}
+
+	@Override
+	public int seekNumsSum(String inCode) {
+		// TODO Auto-generated method stub
+		String sql="select incode,sum(nums)  from stockin_detail where incode=? group by incode";
+		rs=super.executeQueryForPage(sql, new Object[]{inCode});
+		int ret=0;
+		try {
+			while(rs.next()){
+				ret=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
+	}
 	
 	@Override
 	public PageBean findAllDataStIn(int pageNo, int pageSize) {
@@ -56,7 +90,44 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 	}
 
 	@Override
-	public List findAllDataStInDetail(String incode) {
+	public List findDataStInByCode(String code) {
+		// TODO Auto-generated method stub
+		List<StockIn> list=new ArrayList<StockIn>();
+		String sql="select * from StockIn where code=?";
+		rs=super.executeQuery(sql, new Object[]{code});
+		try {
+			while(rs.next()){
+				StockIn stock=new StockIn();
+				stock.setCode(rs.getString("code"));
+				stock.setIndate(rs.getTimestamp("indate"));
+				stock.setSupplierCode(rs.getString("supplierCode"));
+				stock.setContacter(rs.getString("contacter"));
+				stock.setTelephone(rs.getString("telephone"));
+				stock.setFax(rs.getString("fax"));
+				stock.setIntype(rs.getString("intype"));
+				String intype=rs.getString("intype");
+				String[] intypess=intype.split("-");
+				String intypese=intypess[0];
+				String intypere=intypess[1];
+				if(intypere.equals("正常入库")){intypere="0";}
+				if(intypere.equals("冲抵入库")){intypere="1";}
+				stock.setIntypere(intypere);
+				stock.setIntypese(intypese);
+				stock.setIsinvoice(rs.getString("isinvoice"));
+				stock.setRemarks(rs.getString("remarks"));
+				list.add(stock);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			super.close();
+		}
+		return list;
+	}
+
+	@Override
+	public List findDataStInDetailByIncode(String incode) {
 		// TODO Auto-generated method stub
 		List<StockInDetail> list=new ArrayList<StockInDetail>();
 		String sql="select * from StockIn_Detail where incode=?";
@@ -94,6 +165,7 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 		}
 		return list;
 	}
+		
 
 	@Override
 	public int addDataStIn(Object[] obj) {
@@ -148,5 +220,8 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 		pb.setPageSize(pageSize);
 		return pb;
 	}
+
+
+
 
 }

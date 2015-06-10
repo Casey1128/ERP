@@ -18,9 +18,15 @@ public class StockInServiceImpl extends BaseDao implements StockInService {
 	}
 
 	@Override
-	public List findAllDataStInDetail(String incode) {
+	public List findDataStInByCode(String code) {
 		// TODO Auto-generated method stub
-		return stock.findAllDataStInDetail(incode);
+		return stock.findDataStInByCode(code);
+	}
+
+	@Override
+	public List findDataStInDetailByIncode(String incode) {
+		// TODO Auto-generated method stub
+		return  stock.findDataStInDetailByIncode(incode);
 	}
 
 	@Override
@@ -41,5 +47,7 @@ public class StockInServiceImpl extends BaseDao implements StockInService {
 		// TODO Auto-generated method stub
 		return stock.SearchDataStIn(sql, sqlcount, pageNo, pageSize);
 	}
+
+
 
 }

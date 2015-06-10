@@ -24,6 +24,26 @@ public class StockIn {
 	private String addIp;
 	
 	
+	private String intypese;
+	private String intypere;
+	
+	
+	
+	
+	
+	
+	public String getIntypese() {
+		return intypese;
+	}
+	public void setIntypese(String intypese) {
+		this.intypese = intypese;
+	}
+	public String getIntypere() {
+		return intypere;
+	}
+	public void setIntypere(String intypere) {
+		this.intypere = intypere;
+	}
 	public String getCode() {
 		return code;
 	}
@@ -138,35 +158,7 @@ public class StockIn {
 	public void setAddIp(String addIp) {
 		this.addIp = addIp;
 	}
-	public StockIn(String code, Date indate, String supplierCode,
-			String contacter, String telephone, String fax, String intype,
-			String isroad, String isinvoice, String remarks, String isShow,
-			int nums, int numsPrice, String state, String compCode,
-			Date addDate, String addUser, String addUserName, String addIp) {
-		super();
-		this.code = code;
-		this.indate = indate;
-		this.supplierCode = supplierCode;
-		this.contacter = contacter;
-		this.telephone = telephone;
-		this.fax = fax;
-		this.intype = intype;
-		this.isroad = isroad;
-		this.isinvoice = isinvoice;
-		this.remarks = remarks;
-		this.isShow = isShow;
-		this.nums = nums;
-		this.numsPrice = numsPrice;
-		this.state = state;
-		this.compCode = compCode;
-		this.addDate = addDate;
-		this.addUser = addUser;
-		this.addUserName = addUserName;
-		this.addIp = addIp;
-	}
-	public StockIn() {
-		super();
-	}
+	
 	 
 	
 	
