@@ -18,8 +18,14 @@ $.ajax({url:'/ERP/order/getOrderTransServlet',
 			$("<option>").appendTo("select[name='trans']").html(data[i].trans).val(data[i].trans);
 		}
 	},dataType:'json'});
-	
+$.ajax({url:'/ERP/order/getOrderTransServlet',
+	success:function(data){
+		for(var i=0;i<data.length;i++){
+			$("<option>").appendTo("select[name='trans2']").html(data[i].trans).val(data[i].trans);
+		}
+	},dataType:'json'});
 	$("#mydg").dialog("close");
+	$("#mydgs").dialog("close");
 $("#category_list").datagrid({
 		title:'销售订单管理列表',
 		fixed:true,
@@ -110,7 +116,16 @@ function showDialog(stitle){
 		});
 		$("#mydg").dialog("open");	
 	}
-	
+function updateshowDialog(stitle){
+	$("#mydgs").dialog({
+		title:stitle,
+		width:600,
+		heigth:400,
+		modal:true,
+		closed:true	
+		});
+		$("#mydgs").dialog("open");	
+	}	
 function del(nid){
 	$.messager.confirm("删除提醒","确认删除吗？",function(r){
 		if(r){
@@ -141,15 +156,15 @@ function add(){
 }
 function setpwd(idx,code,customercode,businesser,addUser){
 	var row=$("#category_list").datagrid("getRows")[idx];
-	$("input[name='customercode']").val(customercode);
-	$("input[name='code']").val(code);
-	$("input[name='businesser']").val(businesser);
-	$("input[name='addusers']").val(addUser);
-	$("input[name='code']").attr("readonly","readonly");
-	$("input[name='customercode']").attr("readonly","readonly");
-	$("input[name='businesser']").attr("readonly","readonly");
+	$("input[name='customercode2']").val(customercode);
+	$("input[name='code2']").val(code);
+	$("input[name='businesser2']").val(businesser);
+	$("input[name='addusers2']").val(addUser);
+	$("input[name='code2']").attr("readonly","readonly");
+	$("input[name='customercode2']").attr("readonly","readonly");
+	$("input[name='businesser2']").attr("readonly","readonly");
 	$("input[name='opt']").val("2");
-	showDialog("修改订单信息");
+	updateshowDialog("修改订单信息");
 }
 
 function subFrm(){
@@ -159,6 +174,14 @@ function subFrm(){
 	$("input[name='dtime']").val(deldate);
 		$("#myFrm").submit();
 		$("#mydg").dialog("close");	
+}
+function subFrms(){
+	var orderdate=$("input[name='orderDates2']").val(); 
+	var deldate=$("input[name='deliverydates2']").val();
+	$("input[name='otime2']").val(orderdate);
+	$("input[name='dtime2']").val(deldate);
+		$("#myFrms").submit();
+		$("#mydgs").dialog("close");	
 }
 function delsData(){
 	var selRows=$("#category_list").datagrid("getSelections");
@@ -306,6 +329,7 @@ class="easyui-linkbutton" data-options="iconCls:'icon-save'">导出Excel</a>
       <button id="print" onclick="print();">打印</button>
     </form>
     
+    
 
     
     
@@ -322,7 +346,89 @@ class="easyui-linkbutton" data-options="iconCls:'icon-save'">导出Excel</a>
     </form>
    </div> 
    
-    <div id="details">
+   <div id="mydgs"  style="padding:10px" class="easyui-dialog" >
+      <table rules="all" bordercolor="#0000CC" border="1">
+ <form id="myFrms" action="/ERP/order/orderAddUpdateServlet" method="post" >
+ 	
+ 	<input type="hidden" name="opt"/>
+ 	
+    <tr>
+      <td>*订单编号：</td>
+      <td><input type="text" name="code2"/></td>
+     <td>*订单日期：</td>
+      <td><input type="text" name="orderDates2" class="easyui-datebox" />
+      <input type="hidden" name="otime2"/>
+      </td>
+    </tr>
+    <tr>
+      <td>客户名称：</td>
+      <td><input type="text" name="customercode2" /></td>
+      <td>审核状态：</td>
+      <td>
+      <input type="radio" name="state2" value="1" checked="checked"/>已审核
+       <input type="radio" name="state2" value="0" />未审核
+      </td>
+    </tr>
+    <tr>
+    <td>*联系人员:</td>
+    <td><input type="text" name="contacter2" /></td>
+    <td>电话：</td>
+    <td><input type="text" name="telphone2" /></td>
+    </tr>
+    <tr>
+      <td>传真：</td>
+      <td><input type="text" name="fax2" /></td>
+      <td>运输方式：</td>
+      <td><select name="trans2"></select></td>
+    </tr>
+    <tr>
+    <td>业务员：</td>
+    <td><input type="text" name="businesser2"/></td>
+    <td>交货日期：</td>
+    <td><input type="text" name="deliverydates2" class="easyui-datebox"/>
+    <input type="hidden" name="dtime2"/>
+    </td>
+    </tr>
+    <tr>
+    <td>数量：</td>
+    <td><input type="text" name="nums2" /></td>
+    <td>单价：</td>
+    <td><input type="text" name="numsprice2"/></td>
+    </tr>
+    <tr>
+    <td>操作员：</td>
+    <td><input type="text" name="addusers2"></td>
+    </tr>
+    <tr>
+    <td>备注：</td>
+      <td colspan="3"><input type="text" name="remarks2" size="54"/></td>
+    </tr>
+     </table>
+     <br/>
+      <td><input type="button" value="确定" onclick="subFrms()"/></td>
+      <td><input type="reset" name="重置"/></td>
+      <button id="print" onclick="print();">打印</button>
+    </form>
+    
+    
+
+    
+    
+   <form action="/ERP/order/DeletePorderServlet" method="post" id="delFrm">
+	    <input type="hidden" name="ids" value=""  id="idsel"/>
+    </form>
+   <form action="/ERP/category/printPartsServlet" method="post" id="printFrm">
+	    <input type="hidden" name="lpcode" value=""  id="lpcode"/>
+	    <input type="hidden" name="lcategoryname" value=""  id="lcategoryname"/>
+	    <input type="hidden" name="laddUser" value=""  id="laddUser"/>
+	    <input type="hidden" name="lisshow" value=""  id="lisshow"/>
+	    <input type="hidden" name="lremarks" value=""  id="lremarks"/>
+	  
+    </form>
+   </div> 
+   
+   <div style="height:10px"></div>
+    <div id="details" class="easyui-panel" title="明细面板(双击单号即可显示哦！)" style="padding:3px">
      单据标号为:<span id="orderid"></span> 的明细如下所列!
      <div id="createtable" ></div>
   </div>
