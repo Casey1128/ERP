@@ -25,10 +25,10 @@ public class SaleReturnDaoImpl extends BaseDao implements SaleReturnDao{
 		}
 		
 		if(startDate!=null){
-			sql+=" and xtDate>='"+startDate+"'";
+			sql+=" and xtDate>='"+new java.sql.Date(startDate.getTime())+"'";
 		}
 		if(endDate!=null){
-			sql+=" and xtDate<='"+endDate+"'";
+			sql+=" and xtDate<='"+new java.sql.Date(endDate.getTime())+"'";
 		}	
 		if(customercode!=null&&!customercode.equals("")){
 			sql+=" and customercode='"+customercode+"'";
@@ -77,10 +77,14 @@ public class SaleReturnDaoImpl extends BaseDao implements SaleReturnDao{
 	@Override
 	public int insertSaleReturn(SaleReturn salereturn) {
 		// TODO Auto-generated method stub
-		String sql="insert into saleReturn (code,xtDate,customerCode,contacter,telphone,fax," +
-				"remarks,isShow,nums,numsPrice,state,compCode,addDate,addUser,addUserName,addIp)" +
+		String sql="insert into saleReturn (code,xtDate,customerCode," +
+				"contacter,telphone,fax," +
+				"remarks,isShow,nums," +
+				"numsPrice,state,compCode," +
+				"addDate,addUser,addUserName," +
+				"addIp)" +
 				"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		int ret=super.executeUpdate(sql, new Object[]{salereturn.getCode(),
+		int ret=super.executeUpdate(sql, new Object[]{salereturn.getCode(),salereturn.getXtDate(),
 				salereturn.getCustomerCode(),salereturn.getContacter(),salereturn.getTelphone(),
 				salereturn.getFax(),salereturn.getRemarks(),salereturn.getIsShow(),
 				salereturn.getNums(),salereturn.getNumsPrice(),salereturn.getState(),
@@ -93,15 +97,15 @@ public class SaleReturnDaoImpl extends BaseDao implements SaleReturnDao{
 	@Override
 	public int updateSaleReturn(SaleReturn salereturn) {
 		// TODO Auto-generated method stub
-		String sql="update SaleReturn set code=?,xtDate=?,customerCode=?,contacter=?," +
+		String sql="update SaleReturn set xtDate=?,customerCode=?,contacter=?," +
 				"telphone=?,fax=?,remarks=?,isShow=?,nums=?,numsPrice=?,state=?,compCode=?," +
-				"addDate=?,addUser=?,addUserName=?,addIp=?";
-		return super.executeUpdate(sql, new Object[]{salereturn.getCode(),
+				"addDate=?,addUser=?,addUserName=?,addIp=? where code=?";
+		return super.executeUpdate(sql, new Object[]{salereturn.getXtDate(),
 				salereturn.getCustomerCode(),salereturn.getContacter(),salereturn.getTelphone(),
 				salereturn.getFax(),salereturn.getRemarks(),salereturn.getIsShow(),
 				salereturn.getNums(),salereturn.getNumsPrice(),salereturn.getState(),
 				salereturn.getCompCode(),salereturn.getAddDate(),salereturn.getAddUser(),
-				salereturn.getAddUserName(),salereturn.getAddIp()});
+				salereturn.getAddUserName(),salereturn.getAddIp(),salereturn.getCode()});
 	}
 
 }

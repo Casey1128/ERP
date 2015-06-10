@@ -217,6 +217,21 @@
     <servlet-name>saleReturnListJsonServlet</servlet-name>
     <servlet-class>com.erp.sale.servlet.saleReturnListJsonServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>UpdateSaleReturnServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.UpdateSaleReturnServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>delSaleReturnJsonServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.delSaleReturnJsonServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DelSaleReturnServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.DelSaleReturnServlet</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -457,6 +472,18 @@
   <servlet-mapping>
     <servlet-name>saleReturnListJsonServlet</servlet-name>
     <url-pattern>/saleReturn/saleReturnListJsonServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateSaleReturnServlet</servlet-name>
+    <url-pattern>/saleReturn/UpdateSaleReturnServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>delSaleReturnJsonServlet</servlet-name>
+    <url-pattern>/saleReturn/delSaleReturnJsonServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DelSaleReturnServlet</servlet-name>
+    <url-pattern>/saleReturn/DelSaleReturnServlet</url-pattern>
   </servlet-mapping>
   
 
