@@ -12,6 +12,7 @@ public class DateUtilSly {
 	private static SimpleDateFormat longFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	private static SimpleDateFormat chFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
 	private static SimpleDateFormat chFormat2 = new SimpleDateFormat("yyyy年MM月dd日 E");
+	private static SimpleDateFormat OracleDate=new SimpleDateFormat("dd-M月-yyyy");
 
 	public static Date toDate(String strDate) {
 		Date date = null;
@@ -40,7 +41,13 @@ public class DateUtilSly {
 	public static long getTime() {
 		return new Date().getTime();
 	}
-
+	
+	public static Date toOracleDate(String strDate) throws ParseException{
+		return OracleDate.parse(strDate);
+	}
+	public static String toOracleString(Date date){
+		return OracleDate.format(date);
+	}
 	public static String getNamedByTime() {
 		Calendar c = Calendar.getInstance();
 		String name = c.get(Calendar.YEAR) + "" + c.get(Calendar.MONTH) + ""

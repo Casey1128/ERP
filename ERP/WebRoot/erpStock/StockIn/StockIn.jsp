@@ -115,15 +115,15 @@
 	}
  	
  	
- 	//单行删除
+ 	//单行删除.
  	function del(code){
  		$.messager.confirm("删除提醒","确认要执行删除操作吗?",function(r){
 			if(r){
-				window.location.href="?opt=1&";
+				window.location.href="/ERP/stock/StockInDelServlet?opt=1&code";
 			}
 		});
  	}
- 	//批量删除
+ 	//批量删除.
  	function delall(){
 		var row=$("#stockface").datagrid("getSelections");
 		if (row.length==0){
@@ -153,10 +153,9 @@
  				'page':'1',
  				'rows':'3',
  				'search':$("input[name='searchcode']").val(),
- 				'search':$("input[name='searchcodeName']").val(),
- 				'search':$("select[name='searchcateGoryCode']").val(),
- 			},
- 			
+ 				'search':$("input[name='searchstartdate']").val(),
+ 				'search':$("select[name='searchenddate']").val(),
+ 			},			
 			dataType:"json",
 			success:function(data){
 				$("#stockface").datagrid("loadData",data);//重读
@@ -164,10 +163,14 @@
  		});
  	}
  	
+ 	function selereset(){
+ 		$("#seleff").reset();
+ 	}
  	
-	//导出excel
+ 	
+	//导出excel.
 	function portexcel(){
-		window.location="";
+		window.location="/ERP/stock/StockInPortExcel";
 	}
  </script>
   </head>
@@ -182,15 +185,15 @@
 			<form id="seleff" action="" method="post" target="_self">
 				<span style="color:#E33633" ><b>检索条件</b></span>&nbsp;&nbsp;
 				<span><b>入库单号</b></span>
-					<input type="text" name="search" />
+					<input type="text" name="searchcode" />
 
 				<span><b>开始日期</b></span>
-					<select name="search">
+					<input type="date" name="searchstartdate">
 						<option></option>
 					</select>
 					
 				<span><b>结束日期</b></span>
-					<select name="search">
+					<input type="date" name="searchenddate">
 						<option></option>
 					</select>
 					
@@ -198,7 +201,7 @@
 				<input type="text" name="search" />
 				
 				<a href="javascript:selerows()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
-				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">重置</a>	
+				<a href="javascript:selereset()" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">重置</a>	
 			</form>	
 		</div>
 		<div>
@@ -224,7 +227,7 @@
 	</div>
 	
 	
-	<form id="delallff" action="/21-part/BCont/BContDelServlet?opt=2" method="post" target="_self">
+	<form id="delallff" action="/ERP/stock/StockInDelServlet?opt=2" method="post" target="_self">
 		<input id="addallput" type="hidden" name="deleteallrows" value="" />
 	</form>
 	

@@ -12,8 +12,9 @@ public class StockInDetail {
 	private int price;//配件单价
 	private String wareHouse;
 	private String remarks;
-	private int oldPrice;
+
 	
+	private int totalNums;//配件数量总数
 	private int pdTotal;//配件单个总价
 	private int totalMoney;//配件全部总价
 	
@@ -22,11 +23,11 @@ public class StockInDetail {
 	
 	
 	
-	public int getOldPrice() {
-		return oldPrice;
+	public int getTotalNums() {
+		return totalNums;
 	}
-	public void setOldPrice(int oldPrice) {
-		this.oldPrice = oldPrice;
+	public void setTotalNums(int totalNums) {
+		this.totalNums = totalNums;
 	}
 	public String getpCode() {
 		return pCode;
@@ -108,27 +109,5 @@ public class StockInDetail {
 	}
 	
 
-	public StockInDetail(String code, String inCode, String orderCode,
-			String pCode, String pName, String pBrand, String pModel, int nums,
-			int price, String wareHouse, String remarks, int oldPrice,
-			int pdTotal, int totalMoney) {
-		super();
-		this.code = code;
-		this.inCode = inCode;
-		this.orderCode = orderCode;
-		this.pCode = pCode;
-		this.pName = pName;
-		this.pBrand = pBrand;
-		this.pModel = pModel;
-		this.nums = nums;
-		this.price = price;
-		this.wareHouse = wareHouse;
-		this.remarks = remarks;
-		this.oldPrice = oldPrice;
-		this.pdTotal = pdTotal;
-		this.totalMoney = totalMoney;
-	}
-	public StockInDetail() {
-		super();
-	}
+	
 }
