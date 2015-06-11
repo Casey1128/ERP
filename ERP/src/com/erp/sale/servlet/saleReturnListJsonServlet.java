@@ -39,7 +39,7 @@ public class saleReturnListJsonServlet extends HttpServlet {
 		
 		String endDate=request.getParameter("endDate");
 		String customerCode=request.getParameter("customerCode");
-		SimpleDateFormat sdFormat=new SimpleDateFormat();
+		SimpleDateFormat sdFormat=new SimpleDateFormat("yyyy-MM-dd");
 		Date startTime=new Date();
 		Date endTime=new Date();
 		if(startDate==null||startDate.equals("")){
@@ -64,9 +64,10 @@ public class saleReturnListJsonServlet extends HttpServlet {
 		}
 		PageBean pageBean=saleReturnService.getSaleReturn(code, startTime, endTime, customerCode, Integer.parseInt(pageNo), Integer.parseInt(pageSize));
 		JsonConfig config=new JsonConfig();
+		request.getSession().setAttribute("Bean", pageBean);
 		config.setExcludes(new String[]{"fax","remarks","isShow","compCode"
 				,"addDate","addUser","addIp"});
-		config.registerJsonValueProcessor(Date.class,new JSONDateProcessor("yyyy-MM-dd"));
+		config.registerJsonValueProcessor(Date.class,new JSONDateProcessor());
 		JSONObject jsonObject=new JSONObject();
 		Map attrs=new HashMap();
 		attrs.put("rows", pageBean.getData());

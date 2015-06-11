@@ -1,6 +1,8 @@
 package com.erp.basic.servlet;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.ParseException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.erp.basic.entity.basecusTomerSipplier;
 import com.erp.basic.service.UnitService;
 import com.erp.basic.service.impl.UnitServiceImpl;
+import com.erp.utils.DateUtil;
 
 public class addUnit extends HttpServlet {
 
@@ -51,9 +54,10 @@ public class addUnit extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
+		
 		String code=request.getParameter("code");
        String pname=request.getParameter("pname");
-     //  String date=request.getParameter("date");
+       String date=request.getParameter("date");
        String contacter=request.getParameter("contacter");
        String telephone=request.getParameter("telephone");
        String fax=request.getParameter("fax");
@@ -76,6 +80,15 @@ public class addUnit extends HttpServlet {
        String remarks=request.getParameter("remarks");
        String ids=request.getParameter("ids");
        
+       DateUtil dateUtil=new DateUtil();
+       java.util.Date addDate=null;
+       try {
+		addDate=dateUtil.toDate(date);
+	} catch (ParseException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+       
        basecusTomerSipplier bSipplier=new basecusTomerSipplier();
        bSipplier.setCode(code);
        bSipplier.setCsName(pname);
@@ -88,6 +101,7 @@ public class addUnit extends HttpServlet {
        bSipplier.setContacter(contacter);
        bSipplier.setTelephone(telephone);
        bSipplier.setFax(fax);
+       bSipplier.setAddDate(addDate);
        bSipplier.setPostcide(postcide);
        bSipplier.setEmall(email);
        bSipplier.setProvince(prov);
@@ -105,14 +119,22 @@ public class addUnit extends HttpServlet {
        bSipplier.setIsShow(isshow);
        bSipplier.setCategorycode(categorycode);
        bSipplier.setReMarks(remarks);
+       
+       int ret=0;
        if(ids.equals("1")){
     	   unitService.addUnit(bSipplier);
        }
-       else {
+       if(ids.equals("2")){
     	   
-    	   unitService.updateUnit(bSipplier);
+    	 ret=unitService.updateUnit(bSipplier);
        }
+     //  System.out.println(ret);
+      // System.out.println(date);
+     //  System.out.println(code+ " "+pname);
+       
 	  response.sendRedirect("/ERP/Unit/unitIndex.jsp");
        
 	}
+
+	
 }

@@ -66,7 +66,7 @@ public class orderListJsonServlet extends HttpServlet {
 		String startDate=request.getParameter("startDate");
 		String endDate=request.getParameter("endDate");
 		String customerCode=request.getParameter("customercode");
-		SimpleDateFormat sdFormat=new SimpleDateFormat();
+		SimpleDateFormat sdFormat=new SimpleDateFormat("MM/dd/yyyy");
 		Date startTime=new Date();
 		Date endTime=new Date();
 		if(startDate==null||startDate.equals("")){
@@ -92,8 +92,8 @@ public class orderListJsonServlet extends HttpServlet {
 PageBean orderPageBean=order.searchOrder(code, startTime, endTime,customerCode,Integer.parseInt(page),Integer.parseInt(rows));
 		request.getSession().setAttribute("orderBean", orderPageBean);
 		JsonConfig config=new JsonConfig();
-		config.setExcludes(new String[]{"fax","trans","businesser","deliveryDate"
-				,"remarks","isShow","adddDate","addUserName","addIp"});
+		config.setExcludes(new String[]{"fax","trans","deliveryDate"
+				,"remarks","adddDate","addUserName","addIp"});
 		config.registerJsonValueProcessor(Date.class,new JSONDateProcessor("yyyyƒÍMM‘¬dd»’"));
 		JSONObject jsonObject=new JSONObject();
 		Map attrs=new HashMap();
@@ -101,7 +101,7 @@ PageBean orderPageBean=order.searchOrder(code, startTime, endTime,customerCode,I
 		attrs.put("total",orderPageBean.getRecordCount());
 		jsonObject.putAll(attrs,config);
 		String datas=jsonObject.toString();
-		System.out.println("dfgh:"+datas);
+		//System.out.println("dfgh:"+datas);
 		response.getWriter().println(datas);
 
 	}

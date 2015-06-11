@@ -1,5 +1,7 @@
 package com.erp.sale.entity;
 
+import com.erp.basic.entity.Baseparts;
+
 public class SaleReturn_Detail {
 	private String code;//明细主键
 	private String xtCode;//销退单号
@@ -57,5 +59,5 @@ public class SaleReturn_Detail {
 		super();
 	}
 	
-
+	
 }

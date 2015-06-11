@@ -2,6 +2,8 @@ package com.erp.sale.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,7 @@ public class SaleReturnDaoImpl extends BaseDao implements SaleReturnDao{
 	
 	public PageBean searchSaleReturn(String code, Date startDate, Date endDate,
 			String customercode, int pageNo, int pageSize) {
+		SimpleDateFormat sdf2=new SimpleDateFormat("dd-M月-yyyy");
 		String sql="select code,xtDate,customerCode,nums,numsPrice,contacter,telphone," +
 				"state,addUserName from salereturn where 1=1 ";
 		if(code!=null&&!code.equals("")){
@@ -25,10 +28,10 @@ public class SaleReturnDaoImpl extends BaseDao implements SaleReturnDao{
 		}
 		
 		if(startDate!=null){
-			sql+=" and xtDate>='"+new java.sql.Date(startDate.getTime())+"'";
+			sql+=" and xtDate>='"+sdf2.format(new java.sql.Date(startDate.getTime()))+"'";//把date类型的时间转换层数据库的时间‘dd-M月-yyyy’格式
 		}
 		if(endDate!=null){
-			sql+=" and xtDate<='"+new java.sql.Date(endDate.getTime())+"'";
+			sql+=" and xtDate<='"+sdf2.format(new java.sql.Date(endDate.getTime()))+"'";//把date类型的时间转换层数据库的时间‘dd-M月-yyyy’格式
 		}	
 		if(customercode!=null&&!customercode.equals("")){
 			sql+=" and customercode='"+customercode+"'";

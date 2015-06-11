@@ -12,6 +12,12 @@
 <script type="text/javascript">
 $(function(){
 
+	$("#salereturn_list").datagrid({
+				onDblClickRow:function(rowIndex,rowData){
+					alert(rowData.code);
+					alert(rowIndex);
+				}
+			});
 $("#mydg").dialog("close"); 
 $("input.easyui-datebox").datebox({
    		 formatter: function(date){
@@ -183,7 +189,7 @@ function sousuo(){
   $("#salereturn_list").datagrid("reload",{code:code,startDate:startDate,endDate:endDate,customerCode:customerCode});
 }
 function getExcel(){
-window.location.href="/ERP/baseparts/getExecelServlet";
+window.location.href="/ERP/saleReturn/getSaleReturnExecelServlet";
 }
 </script>
 </head>
@@ -243,15 +249,7 @@ window.location.href="/ERP/baseparts/getExecelServlet";
       	<td>备注：</td><td><input type="text" name="remarks" /></td>
       </tr>   
   
-   <!--  <tr>
-      <td><input type="button" value="确定" onclick="subFrm()" /></td>
-      <td><input type="button" value="选出库单"/></td>
-      <td><input type="button" value="保存"/></td>
-      <td><input type="button" value="审核"/></td>
-      <td><input type="regist" name="撤销"/></td>
-      <td><input type="button" value="打印"/></td>
-      <td><input type="button" value="关闭"/></td>
-    </tr> -->
+
     </form>
     </table>
     <td><input type="button" value="确定" onclick="subFrm()" /></td>
@@ -259,7 +257,7 @@ window.location.href="/ERP/baseparts/getExecelServlet";
       <td><input type="button" value="保存"/></td>
       <td><input type="button" value="审核"/></td>
       <td><input type="reset" name="撤销"/></td>
-      <td><input type="button" value="打印"/></td>
+      <td><input type="button" value="打印" /></td>
       <td><input type="button" value="关闭"/></td>
    </div> 
 </body>
