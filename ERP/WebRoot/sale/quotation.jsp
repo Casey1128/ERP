@@ -105,16 +105,17 @@ function linkQuotation(code){
 
 function change(code){
 
-    //window.location.href="/ERP/sale/updateSaleQuotationServlet?code="+code;
-    $("input[name='ids']").val(1);
-	window.location.href="/ERP/sale/addQuotation.jsp?code="+code;
+    window.location.href="/ERP/sale/updateQuotation?code="+code;
+   // $("input[name='ids']").val(1);
+	//window.location.href="/ERP/sale/addQuotation.jsp?code="+code;
+	//$("#toadd").submit();
 }
 function del(code){
 	
 	$.ajax({
 	url:'/ERP/sale/deleteSaleQuotationServlet?code='+code,
 	success:function(data){
-	alert(code)
+	alert(code);
 	 $("#quotation").datagrid("reload");
 	}
 	})
@@ -144,9 +145,10 @@ function delBatch(){
 }
 
 function add(){
- $("input[name='ids']").val(2);
- //  window.location.href="/ERP/sale/addSaleQuotationServlet";
-  window.location.href="/ERP/sale/addQuotation.jsp";
+ //$("input[name='ids']").val(2);
+  window.location.href="/ERP/sale/addSaleQuotationServlet";
+ //$("#toadd").submit();
+  //window.location.href="/ERP/sale/addQuotation.jsp";
 }
 
 function search(){
@@ -182,8 +184,9 @@ function outExcel(){
 
 <body>
 <div id="Tool">
+	
+	<form action="/ERP/sale/addQuotation.jsp" method="post" id="toadd">
 	<input type="hidden" name="ids" val="">
-	<form action="" method="post">
         <b>检索条件：</b>
         报价单号：<input type="text" name="scode" width="10px;"/>
         开始日期：<input type="text" class="easyui-datebox" name="startdate" />

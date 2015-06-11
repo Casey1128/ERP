@@ -21,10 +21,6 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	 <script src="/ERP/js/jquery-1.7.2.min.js"></script>
-	<script src="/ERP/js/jquery.easyui.min.js"></script>
-	<link type="text/css" href="/ERP/themes/default/easyui.css" rel="stylesheet" />
-	<link type="text/css" href="/ERP/themes/icon.css" rel="stylesheet" />
 	
 	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="themes/icon.css">

@@ -149,7 +149,7 @@ function search(){
 		//url:'/ERP/unit/SearchUnitJsoServlet',
 		//data: {'code':code,'csName':csName,'addDate':addDate},
 		//success:function(data){
-		   $("#customers").datagrid("reload", {'code':code,'csName':csName,'addDate':addDate});
+ $("#customers").datagrid("reload", {'code':code,'csName':csName,'addDate':addDate});
 		//return; 
 		//		}
 	//	});

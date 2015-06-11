@@ -2,11 +2,19 @@ package com.erp.sale.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.erp.basic.entity.basecusTomerSipplier;
+import com.erp.sale.entity.saleQuotation;
+import com.erp.utils.UnitCode;
 
 public class addSaleQuotationServlet extends HttpServlet {
 
@@ -29,10 +37,22 @@ public class addSaleQuotationServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
+		UnitCode uc=new UnitCode();
+	    String code= uc.getQuotationCode();
+	    Date date=new Date();
+	    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		String time=sdf.format(date);
 		
+		//basecusTomerSipplier bSipplier=new basecusTomerSipplier();
+		saleQuotation saleQuotation=new saleQuotation();
+		saleQuotation.setCode(code);
 		
+		List<saleQuotation> list=new ArrayList<saleQuotation>();
+		list.add(saleQuotation);
+		request.setAttribute("list",list);
+		
+		request.getRequestDispatcher("/sale/addQuotation.jsp").forward(request, response);
+
 		
 	}
 

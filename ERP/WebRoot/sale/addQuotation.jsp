@@ -1,5 +1,10 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.erp.utils.UnitCode"%>
+<%@page import="com.erp.sale.entity.saleQuotation"%>
+<%@page import="com.erp.sale.service.impl.saleQuotationServiceimpl"%>
+<%@page import="com.erp.sale.service.saleQuotationService"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -17,14 +22,21 @@
 	<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
     <title>添加SaleQuotation</title>
     
+	 <%
+	/* 	String scode=(String)request.getAttribute("code");
+		//String ids=(String)request.getParameter("ids");
+		
+		saleQuotationService sQuotationService=new saleQuotationServiceimpl();
+		saleQuotation sQuotation=sQuotationService.searchQuotation(scode);
+		UnitCode unitCode=new UnitCode();
+		String quotationCode=unitCode.getQuotationCode();
+		session.setAttribute("unitcode", quotationCode);
+		
+	 */	%>
 	
 	
-	<%
-		String code=(String)request.getAttribute("code");
-		String ids=(String)request.getParameter("ids");
-	
-	 %>
  <script >
+
  $(function(){	
  	$("input.easyui-datebox").datebox({
 		formatter:function(date){
@@ -45,8 +57,6 @@
 				return new Date();
 		}
 	});
-	
-	
 	
 	$("#Quotationlist").datagrid({
 	    url:'/ERP/baseparts/SearchBasepartsjsonServlet',
@@ -82,8 +92,43 @@
 	$('#customers').datagrid('getPager').pagination({
     	displayMsg:'当前显示从第 {from}到第 {to}，共 {total} 条记录'
 	}); 
-	 
-	
+	<%--  $.ajax({
+		url:'/ERP/common/CrreateIDServlet?prefix=BJ',
+		error:function(){
+			alert("error");
+			
+		},
+		success:function(data){
+		
+			//$("input[name='salecode']").val(data.newId);
+		<%
+		if(ids==null){
+			ids="2";
+		%>
+			$("input[name='salecode']").val(${data.newId});
+			
+		<%}
+		if(ids.equals("1")){
+		%>
+			$("input[name='salecode']").val(<%=sQuotation.getCode()%>);
+			$("input[name='adddate']").val(<%=sQuotation.getAddDate()%>);
+			$("input[name='csName']").val(<%=sQuotation.getbSipplier().getCsName()%>);
+			$("input[name='contacter']").val(<%=sQuotation.getContacter()%>);
+			$("input[name='telphone']").val(<%=sQuotation.getTelphone()%>);
+			$("input[name='fax']").val(<%=sQuotation.getFax() %>);
+			$("input[name='remarks']").val(<%=sQuotation.getRemarks() %>);
+			
+		<% } %>
+		<%
+		if(ids.equals("2")){
+		%>
+			$("input[name='salecode']").val(data.newId);
+			
+		<% } %>	
+		}
+	});
+		
+		 --%>
 	
 });
 
@@ -141,7 +186,7 @@
 		pageSize:5,
 		pagination:true,
 		pageList:[2,5,10],
-		toolbar:'#Tool',
+		toolbar:'#tool',
 		columns:[[	
 			{checkbox:true},
 			{field:'code',title:'代码',width:130},
@@ -189,8 +234,8 @@
 	// $("#quotation").datagrid("reload");
 		window.location.href="/ERP/sale/quotation.jsp";
 	}
-	}) */
-	 
+	})  */
+	 $("#hid").val("1");
 	 $("#plist").submit();
 		 
  }
@@ -211,13 +256,28 @@
   
   <body>
    <form action="/ERP/sale/updateSaleQuotationServlet" name="plist">
+  	<input type="hidden" name="hid" value=""> 
   <div>
-  
-   	<table border="1px">
-	   	<tr><td>*报价编号</td><td><input type="text" name="salecode"></td><td>*报价日期</td><td><input type="text" class="easyui-datebox" name="adddate" /></td></tr>
-	   	<tr><td>*客户名称</td><td><input type="text" name="csName"></td><td>*联系人员</td><td><input type="text" name="contacter"></td></tr>
-	   	<tr><td>电     话</td><td><input type="text" name="telphone"></td><td>传     真</td><td><input type="text" name="fax"></td></tr>
-	   	<tr><td>备     注</td><td rowspan="3"><input type="text" name="remarks"></td></tr>  	
+  	 <%
+  			Date date=new Date();
+		    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			String time=sdf.format(date);
+  %>
+   	<table border="1px" name="BJtable">
+	   	<tr><td>*报价编号</td><td><input type="text" name="salecode" value="${list.get(0).getCode() }"></td>
+	   		<td>*报价日期</td><td><input type="text" class="easyui-datebox" name="adddate" value="<%=time %>" /></td>
+	   	</tr>
+	   	<tr>
+	   		<td>*客户名称</td><td><input type="text" name="csName" value="${list.get(0).getbSipplier().getCsName()}"></td>
+	   		<td>*联系人员</td><td><input type="text" name="contacter" value="${list.get(0).getContacter() }"></td>
+	   	</tr>
+	   	<tr>
+	   		<td>电     话</td><td><input type="text" name="telphone" value="${list.get(0).getTelphone() }"></td>
+	   		<td>传     真</td><td><input type="text" name="fax" value="${list.get(0).getFax()}"></td>
+	   	</tr>
+	   	<tr>
+	   		<td>备     注</td><td rowspan="3"><input type="text" name="remarks" value="${list.get(0).getRemarks() }"></td>
+	   	</tr>  	
    	</table> 
   
    </div>

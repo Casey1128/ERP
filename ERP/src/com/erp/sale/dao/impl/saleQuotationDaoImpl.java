@@ -2,6 +2,7 @@ package com.erp.sale.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,24 @@ public class saleQuotationDaoImpl extends BaseDao implements saleQuotationDao {
 	public PageBean searchSaleQuotation(int pageNo, int pageSize,
 			saleQuotation saleQuotation) {
 		// TODO Auto-generated method stub
-		String sql="select  sq.* , b.csname csname from basecustomersupplier b  JOIN salequotation sq  ON b.code=sq.CUSTOMERCODE  ";
+		String sql="select  sq.* , b.csname csname from basecustomersupplier b  JOIN salequotation sq  ON b.code=sq.CUSTOMERCODE where 1=1 ";
+		if(saleQuotation.getCode()!=null&&!saleQuotation.getCode().equals("")){
+			sql+=" and code="+"'"+saleQuotation.getCode()+"'";
+		}
+		if(saleQuotation.getbSipplier()!=null&&!saleQuotation.getbSipplier().equals("")){
+			if(saleQuotation.getbSipplier().getCsName()!=null&&!saleQuotation.getbSipplier().getCsName().equals("")){
+				sql+=" and csName="+"'"+saleQuotation.getbSipplier().getCsName()+"'";
+			}
+		}
+		if(saleQuotation.getStartdate()!=null&&!saleQuotation.getStartdate().equals("")){
+			sql+=" and to_char(adddate,'yyyy-mm-dd')= "+"'"+new SimpleDateFormat("yyyy-MM-dd").format(saleQuotation.getStartdate())+"'";
+		}
+		if(saleQuotation.getEnddate()!=null&&!saleQuotation.getEnddate().equals("")){
+			sql+=" and to_char(adddate,'yyyy-mm-dd')= "+"'"+new SimpleDateFormat("yyyy-MM-dd").format(saleQuotation.getEnddate())+"'";
+		}
+		System.out.println(sql);
+		
+		
 		rs=super.executeQueryForPage(sql, pageNo, pageSize);
 		List<saleQuotation> orderList=new ArrayList<saleQuotation>();
 		saleQuotation sQuotation=null;
@@ -56,13 +74,24 @@ public class saleQuotationDaoImpl extends BaseDao implements saleQuotationDao {
 	@Override
 	public saleQuotation searchQuotation(String scode) {
 		// TODO Auto-generated method stub
-		String sql="select * from salequotation where code=?";
+		String sql="select  sq.* , b.csname csname from basecustomersupplier b  JOIN salequotation sq  ON b.code=sq.CUSTOMERCODE  where sq.code=?";
 		rs=super.executeQuery(sql,scode);
 		saleQuotation sQuotation=null;
+		basecusTomerSipplier bSipplier=new basecusTomerSipplier();
 		try {
 			while (rs.next()) {
 				sQuotation=new saleQuotation();	
 				sQuotation.setCode(rs.getString("code"));
+				//sQuotation.setCode(rs.getString("code"));
+				sQuotation.setSqdate(rs.getDate("sqdate"));
+				bSipplier.setCsName(rs.getString("csname"));
+				sQuotation.setbSipplier(bSipplier);
+				sQuotation.setNums(rs.getInt("nums"));
+				sQuotation.setNumsprice(rs.getInt("numsprice"));
+				sQuotation.setContacter(rs.getString("contacter"));
+				sQuotation.setTelphone(rs.getString("telphone"));
+				sQuotation.setState(rs.getString("state"));
+				sQuotation.setAddUser(rs.getString("addUser"));
 				
 			}
 		} catch (SQLException e) {
