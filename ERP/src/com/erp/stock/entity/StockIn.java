@@ -2,24 +2,25 @@ package com.erp.stock.entity;
 
 import java.util.Date;
 
+import com.erp.stock.entity.others.BaseCustomerSupplier;
+
 public class StockIn {
-	private String code;//.
-	private Date indate;//.
-	private String supplierCode;
-	private String contacter;//.
-	private String teltphone;//修改数据库数据
+	private String code;//...入库单据主键
+	private Date indate;//...入库日期
+	private String contacter;
+	private String teltphone;
 	private String fax;
 	private String intype;
 	private String isroad;
 	private String isinvoice;
 	private String remarks;
 	private String isShow;
-	private int nums;//.
-	private int numsPrice;//.
-	private String state;//.入库单据状态，1已审核0未审核
+	private int nums;//...入库配件数量
+	private int numsPrice;//...入库配件总价值
+	private String state;//...入库单据状态，1已审核0未审核
 	private String compCode;
 	private Date addDate;
-	private String addUser;//.
+	private String addUser;//...操作员
 	private String addUserName;
 	private String addIp;
 	
@@ -28,6 +29,13 @@ public class StockIn {
 	private String intypere;
 	
 	
+	
+	
+	private String supplierCode;//供应商编号
+	
+	
+	private StockInDetail stockInDetail;//入库明细相关信息
+	private BaseCustomerSupplier baseCustomerSupplier;//供应商表相关信息
 	
 	
 	
@@ -167,6 +175,19 @@ public class StockIn {
 	}
 	public void setIntypere(String intypere) {
 		this.intypere = intypere;
+	}
+
+	public StockInDetail getStockInDetail() {
+		return stockInDetail;
+	}
+	public void setStockInDetail(StockInDetail stockInDetail) {
+		this.stockInDetail = stockInDetail;
+	}
+	public BaseCustomerSupplier getBaseCustomerSupplier() {
+		return baseCustomerSupplier;
+	}
+	public void setBaseCustomerSupplier(BaseCustomerSupplier baseCustomerSupplier) {
+		this.baseCustomerSupplier = baseCustomerSupplier;
 	}
 	
 	

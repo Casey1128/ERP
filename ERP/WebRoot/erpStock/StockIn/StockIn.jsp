@@ -39,7 +39,7 @@
  				{field:'id',checkbox:true}, 
 		        {field:'code',title:'入库单号',width:100},    
 		        {field:'indate',title:'入库日期',width:100},    
-		        {field:'contacter',title:'供应商名',width:100},
+		        {field:'csName',title:'供应商名',width:100,formater:function(value,row,index){return row.baseCustomerSupplier.csName}},
 		        {field:'nums',title:'数量',width:100},
 		        {field:'numsPrice',title:'总货值',width:100},
 		        {field:'state',title:'审核状态',width:100},
@@ -87,7 +87,7 @@
 					var tdobj=$("<td>").appendTo(trobj);
 					var inputobj=$("<input>").appendTo(tdobj).val(data[i].orderCode);
 					var tdobj=$("<td>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val(data[i].PCode);
+					var inputobj=$("<input>").appendTo(tdobj).val(data[i].pCode);
 					var tdobj=$("<td>").appendTo(trobj);
 					var inputobj=$("<input>").appendTo(tdobj).val(data[i].nums);
 					var tdobj=$("<td>").appendTo(trobj);

@@ -1,5 +1,7 @@
 package com.erp.stock.entity;
 
+import com.erp.stock.entity.others.PurchaseOrderDetail;
+
 public class StockInDetail {
 	private String code;
 	private String inCode;
@@ -9,23 +11,15 @@ public class StockInDetail {
 	private int price;//配件单价
 	private String wareHouse;
 	private String remarks;
+	
+	private PurchaseOrderDetail purchaseOrderDetail;//订单明细表相关信息
+	private StockIn stockIn;
+	
+	
+	
+	
+	
 
-	
-	private int totalNums;//配件数量总数
-	private int pdTotal;//配件单个总价
-	private int totalMoney;//配件全部总价
-	
-	
-	
-	
-	
-	
-	public int getTotalNums() {
-		return totalNums;
-	}
-	public void setTotalNums(int totalNums) {
-		this.totalNums = totalNums;
-	}
 	public String getpCode() {
 		return pCode;
 	}
@@ -74,18 +68,13 @@ public class StockInDetail {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	public int getPdTotal() {
-		return pdTotal;
+	public PurchaseOrderDetail getPurchaseOrderDetail() {
+		return purchaseOrderDetail;
 	}
-	public void setPdTotal(int pdTotal) {
-		this.pdTotal = pdTotal;
+	public void setPurchaseOrderDetail(PurchaseOrderDetail purchaseOrderDetail) {
+		this.purchaseOrderDetail = purchaseOrderDetail;
 	}
-	public int getTotalMoney() {
-		return totalMoney;
-	}
-	public void setTotalMoney(int totalMoney) {
-		this.totalMoney = totalMoney;
-	}
+
 	
 
 	

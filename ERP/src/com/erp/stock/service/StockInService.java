@@ -6,6 +6,22 @@ import com.erp.utils.PageBean;
 
 public interface StockInService {
 	public PageBean findAllDataStIn(int pageNo, int pageSize);
+	public PageBean findSupplier(int pageNo,int pageSize);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public List findDataStInByCode(String code);
 	public List findDataStInDetailByIncode(String incode);
 	public int addDataStIn(Object[] obj);

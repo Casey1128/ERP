@@ -9,16 +9,8 @@
 	<link href="/ERP/erpStock/StockIn/js_lib/jquery-easyui-1.4/themes/icon.css" rel="stylesheet"  type="text/css"></link>
 	<style>
 		body,div,table,form{
-		margin:0px;
-		padding:0px;
-		}
-		table tr td{
-		width:150px;
-		hight:22px;
-		}
-		#detailtb input{
-		width:80px;
-		hight:22px;
+			margin:0px;
+			padding:0px;
 		}
 		table{
 		  border:2px;
@@ -30,129 +22,46 @@
 			$("#detailff").hide();
 		});
 
-		function sly1(){
-			var nums=("input[name='nums']").val();
-			var price=$("input[name='price']").val();
-			var pdTotal=nums*price;
-			$("input[name='pdTotal']").val(pdTotal);
-			$("input[name='totalNums']").val(nums);
-			$("input[name='totalMoney']").val(pdTotal);
-		}
-		
-		
-		//新增按钮
-		function addbtff(){
-			$.ajax({
-				url:'/ERP/stock/StockInAddServlet',
-				data:{
-					'opt':'1',
-					'code':$("input[name='code']").val(),
-					'indate':$("input[name='indate']").val(),
-					'supplierCode':$("input[name='supplierCode']").val(),
-					'contacter':$("input[name='contacter']").val(),
-					'telephone':$("input[name='telephone']").val(),
-					'fax':$("input[name='fax']").val(),
-					'intypese':$("select[name='intypese']").val(),
-					'intypere':$("input[name='intypere']").val(),
-					'isinvoice':$("input[name='isinvoice']").val(),
-					'remarks':$("input[name='remarks']").val()
-				},
-				type:"post",
-				dataType:"json",
-				async:false,
-				error:function(){alert("请求失败")},
-				success:function(data){
-						$("input[name='code']").val(data.rows[0].code);
-						$("input[name='indate']").val(data.rows[0].indate);
-						$("input[name='supplierCode']").val(data.rows[0].supplierCode);
-						$("input[name='contacter']").val(data.rows[0].contacter);
-						$("input[name='telephone']").val(data.rows[0].telephone);
-						$("input[name='fax']").val(data.rows[0].fax);
-						$("select[name='intypese']").val(data.rows[0].intypese);
-						if("1"==(data.rows[0].intypere)){$("input[name='intypere'][value='1']").attr("checked","checked");}
-						if("0"==(data.rows[0].intypere)){$("input[name='intypere'][value='0']").attr("checked","checked");}
-						if("1"==(data.rows[0].isinvoice)){$("input[name='isinvoice'][value='1']").attr("checked","checked");}
-						if("0"==(data.rows[0].isinvoice)){$("input[name='isinvoice'][value='0']").attr("checked","checked");}
-						$("input[name='remarks']").val(data.rows[0].remarks);
-				}
-			});
-		$("input[name='addbutton']").attr("disabled","disabled");
-		$("input[name='orderbtdetail']").attr("disabled",false);
-		$("input[name='addbtparts']").attr("disabled",false);
-		}
-		
-		
-		//添加配件按钮
-		function addbtpart(){
-			$("#detailff").show();
-			$.ajax({
-				url:'/ERP/stock/StockInAddServlet',
-				data:{
-					'opt':'2',
-					'incode':$("input[name='code']").val()
-				},
-				type:"post",
-				dataType:"json",
-				async:false,
-				error:function(){alert("请求失败")},
-				success:function(data){
-					$("#detailtb").html("");
-					$("<tr><td>订单编号</td><td>件号</td><td>配件名称</td><td>配件品牌</td><td>配件类型</td><td>数量</td>"
-							+"<td>单价</td><td>金额</td><td>所属仓库</td><td>备注</td><td>操作</td></tr>").appendTo("#detailtb");
-					for(var i=0;i<data.length;i++){
-						var trobj=$("<tr >").appendTo("#detailtb");
-						var tdobj=$("<td>").appendTo(trobj);
-						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].orderCode);
-						var tdobj=$("<td>").appendTo(trobj);
-						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].PCode);
-						var tdobj=$("<td>").appendTo(trobj);
-						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].nums);
-						var tdobj=$("<td>").appendTo(trobj);
-						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].price);
-						var tdobj=$("<td>").appendTo(trobj);
-						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].pdTotal);
-						var tdobj=$("<td>").appendTo(trobj);
-						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].wareHouse);
-						var tdobj=$("<td>").appendTo(trobj);
-						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].remarks);
-					}
-					var trobj=$("<tr>").appendTo("#detailtb");
-					var tdobj=$("<td>").appendTo(trobj);
-					var inputobj=$("<input >").appendTo(tdobj).val();
-					var tdobj=$("<td>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val();
-					var tdobj=$("<td>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val();
-					var tdobj=$("<td>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val();
-					var tdobj=$("<td>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val();
-					var tdobj=$("<td>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val();
-					var tdobj=$("<td>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val();
-					var tdobj=$("<td>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val();
-					var tdobj=$("<td>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val();
-					var tdobj=$("<td>").appendTo(trobj);
-					var inputobj=$("<input type='button'  value='添加' onclick='addpartrows()'>").appendTo(tdobj);
-					var inputobj=$("<input type='button'  value='删除' onclick='delpartrows()'>").appendTo(tdobj);
-					var tdobj=$("<td>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val();
-					
-					var trobj=$("<tr>").appendTo("#detailtb");
-					var tdobj=$("<td colspan='5' align='center' valign='middle'>合计：</td>").appendTo(trobj);
-					
-					var tdobj=$("<td colspan='2'>").appendTo(trobj);
-					var inputobj=$("<input width='100'>").appendTo(tdobj).val();
-					var tdobj=$("<td colspan='4'>").appendTo(trobj);
-					var inputobj=$("<input width='150'>").appendTo(tdobj).val();
-				}
-			});
+		function supplierclick(){
 			
+			$("#supplierdiv").dialog({
+				title: '供应商选择列表',    
+			    width: 600,    
+			    height: 400,    
+			    closed: false,    
+			    cache: false,  
+			    resizable:true,
+			});
+			$("#supplierdivdata").datagrid({
+				url:'/ERP/stock/StockInAddServlet',
+				data:{
+					'opt':'3',
+				},			
+				fit:true,
+	 			fitColumns:true,
+	 			singleSelect:true,
+				type:"post",
+	 			toolbar: '#tb',
+	 			pagination:true,
+	 			rownumbers:true,
+	 			pageList:[3,5,10],
+	 		    pageSize:3,
+	 			columns:[[
+	 				{field:'id',checkbox:true}, 
+			        {field:'code',title:'供应商编号',width:100},    
+			        {field:'csName',title:'供应商名称',width:100},
+			        {field:'contacter',title:'联系人',width:100}, 
+			        {field:'telephone',title:'电话',width:100},
+			        {field:'fax',title:'传真',width:100},
+			        {field:'opt',title:'操作',width:100,
+			        	formatter: function(value,row,index){
+							var content="<input type='button' value='确定' onclick=\"oksubs('"+row.code+"')\"/>";
+							return content;
+						}
+			        }, 
+			    ]],
+			})
 		}
-
 		
 	</script>
 	
@@ -165,11 +74,11 @@
 		  				Date date=new Date();
 						DateUtilSly dut=new DateUtilSly();
 						String datestr="MTRK"+dut.getNamedByTime()+((int)(Math.random()*900+100)); 
-						String idstr=dut.getNamedByTime()+((int)(Math.random()*9000+1000));
 		  			 %>
   				<tr>	<td>入库单号</td><td><input type="text" name="code" value="<%=datestr %>" readonly="readonly" /></td>
   							<td>入库日期</td><td><input type="date" name="indate" value="" /></td></tr>
-  				<tr>	<td>供应商名</td><td><input type="text" name="supplierCode" value="测试单位" readonly="readonly" /></td>
+  				<tr>	<td>供应商名</td><td><input type="text" name="supplierCode" value="" readonly="readonly""/>
+  							<input type="button" value="请选择" onclick="supplierclick();"/></td>
   							<td>联系人员</td><td><input type="text" name="contacter" value="" /></td></tr>
   				<tr>	<td>电话</td><td><input type="text" name="telephone" value="" /></td>
   							<td>传真</td><td><input type="text" name="fax" value="" /></td></tr>
@@ -202,5 +111,16 @@
 
   			</table>
   		</form>
+  		
+  		
+  		
+  		
+  		
+  		
+  		
+  		<div id="supplierdiv" class="easyui-class">
+  			<div id="supplierdivdata" class="easyui-class">
+  			</div>
+  		</div>
   </body>
 </html>
