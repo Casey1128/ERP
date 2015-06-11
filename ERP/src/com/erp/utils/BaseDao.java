@@ -222,7 +222,24 @@ public class BaseDao {
 		}
 		return total;
 	}
-	
+
+	public int executeTotalCount(String sql,Object[] params) {
+
+		rs = this.executeQuery(sql,params);
+		int total = 0;
+		try {
+			if (rs.next()) {
+				total = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			this.close();
+		}
+		return total;
+	}
+
 	public ResultSet executeQueryForPage(String sql,int pageNo,int pageSize){
 		String pageSql="select * from (select rownum r, x.* from ( ";
 		pageSql+=sql+") x  where rownum<=?)t  where t.r>?";
