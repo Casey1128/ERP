@@ -18,6 +18,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import com.erp.stock.entity.StockIn;
+import com.erp.stock.entity.StockInDetail;
 import com.erp.stock.service.StockInService;
 import com.erp.stock.service.Impl.StockInServiceImpl;
 import com.erp.utils.DateUtil;
@@ -87,11 +88,26 @@ public class StockInAddServlet extends HttpServlet {
 			attrs.put("rows", list);
 			jsonObj.putAll(attrs,config);
 			String data=jsonObj.toString();	
+			response.getWriter().println(data);
+		}
+		
+		
+		
+		
+		if(opt.equals("2")){
+			String incode=request.getParameter("incode");
+			List<StockInDetail> listdetail=new ArrayList<StockInDetail>();
+			listdetail=stock.findDataStInDetailByIncode(incode);
+			
+			JsonConfig config=new JsonConfig();
+			config.registerJsonValueProcessor(Date.class,new JSONDateProcessor("yyyy-MM-dd"));
+			Map attrs =new HashMap();
+			JSONObject jsonObj=new JSONObject();
+			attrs.put("rows",listdetail);
+			jsonObj.putAll(attrs,config);
+			String data=jsonObj.toString();	
 			System.out.println(data);
 			response.getWriter().println(data);
-			
-			
-			
 		}
 		
 

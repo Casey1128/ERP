@@ -7,11 +7,26 @@
 	<script src="/ERP/erpStock/StockIn/js_lib/jquery-easyui-1.4/jquery.easyui.min.js" type="text/javascript"></script>
 	<link href="/ERP/erpStock/StockIn/js_lib/jquery-easyui-1.4/themes/default/easyui.css" rel="stylesheet"  type="text/css"></link>
 	<link href="/ERP/erpStock/StockIn/js_lib/jquery-easyui-1.4/themes/icon.css" rel="stylesheet"  type="text/css"></link>
-	
+	<style>
+		body,div,table,form{
+		margin:0px;
+		padding:0px;
+		}
+		table tr td{
+		width:150px;
+		}
+		#detailtb input{
+		width:80px;
+		}
+		table{
+		  border:2px;
+		  rules:"all";
+		}
+	</style>
 	<script>
 		$(function(){
 			$("#detailff").hide();
-		})
+		});
 
 		function sly1(){
 			var nums=("input[name='nums']").val();
@@ -22,10 +37,13 @@
 			$("input[name='totalMoney']").val(pdTotal);
 		}
 		
-		function addff(){
+		
+		//新增按钮
+		function addbtff(){
 			$.ajax({
-				url:'/ERP/stock/StockInAddServlet?opt=1',
+				url:'/ERP/stock/StockInAddServlet',
 				data:{
+					'opt':'1',
 					'code':$("input[name='code']").val(),
 					'indate':$("input[name='indate']").val(),
 					'supplierCode':$("input[name='supplierCode']").val(),
@@ -35,7 +53,7 @@
 					'intypese':$("select[name='intypese']").val(),
 					'intypere':$("input[name='intypere']").val(),
 					'isinvoice':$("input[name='isinvoice']").val(),
-					'remarks':$("input[name='remarks']").val(),
+					'remarks':$("input[name='remarks']").val()
 				},
 				type:"post",
 				dataType:"json",
@@ -49,18 +67,89 @@
 						$("input[name='telephone']").val(data.rows[0].telephone);
 						$("input[name='fax']").val(data.rows[0].fax);
 						$("select[name='intypese']").val(data.rows[0].intypese);
-						if("1"==(data.rows[0].intypere)){$("input[name='intypere'][value='1']").attr("checked","checked")};
-						if("0"==(data.rows[0].intypere)){$("input[name='intypere'][value='0']").attr("checked","checked")};	
-						if("1"==(data.rows[0].isinvoice)){$("input[name='isinvoice'][value='1']").attr("checked","checked")};
-						if("0"==(data.rows[0].isinvoice)){$("input[name='isinvoice'][value='0']").attr("checked","checked")};
+						if("1"==(data.rows[0].intypere)){$("input[name='intypere'][value='1']").attr("checked","checked");}
+						if("0"==(data.rows[0].intypere)){$("input[name='intypere'][value='0']").attr("checked","checked");}
+						if("1"==(data.rows[0].isinvoice)){$("input[name='isinvoice'][value='1']").attr("checked","checked");}
+						if("0"==(data.rows[0].isinvoice)){$("input[name='isinvoice'][value='0']").attr("checked","checked");}
 						$("input[name='remarks']").val(data.rows[0].remarks);
-				},	
-			})
+				}
+			});
 		$("input[name='addbutton']").attr("disabled","disabled");
-		$("input[name='orderdetail']").attr("disabled",false);
-		$("input[name='addparts']").attr("disabled",false);
+		$("input[name='orderbtdetail']").attr("disabled",false);
+		$("input[name='addbtparts']").attr("disabled",false);
 		}
 		
+		
+		//添加配件按钮
+		function addbtpart(){
+			$("#detailff").show();
+			$.ajax({
+				url:'/ERP/stock/StockInAddServlet',
+				data:{
+					'opt':'2',
+					'incode':$("input[name='code']").val()
+				},
+				type:"post",
+				dataType:"json",
+				async:false,
+				error:function(){alert("请求失败")},
+				success:function(data){
+					$("#detailtb").html("");
+					$("<tr><td>订单编号</td><td>件号</td><td>配件名称</td><td>配件品牌</td><td>配件类型</td><td>数量</td>"
+							+"<td>单价</td><td>金额</td><td>所属仓库</td><td>备注</td><td>操作</td></tr>").appendTo("#detailtb");
+					for(var i=0;i<data.length;i++){
+						var trobj=$("<tr >").appendTo("#detailtb");
+						var tdobj=$("<td>").appendTo(trobj);
+						var inputobj=$("<input size='15'>").appendTo(tdobj).val(data.rows[i].orderCode);
+						var tdobj=$("<td>").appendTo(trobj);
+						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].PCode);
+						var tdobj=$("<td>").appendTo(trobj);
+						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].nums);
+						var tdobj=$("<td>").appendTo(trobj);
+						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].price);
+						var tdobj=$("<td>").appendTo(trobj);
+						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].pdTotal);
+						var tdobj=$("<td>").appendTo(trobj);
+						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].wareHouse);
+						var tdobj=$("<td>").appendTo(trobj);
+						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].remarks);
+					}
+					var trobj=$("<tr>").appendTo("#detailtb");
+					var tdobj=$("<td width='50'>").appendTo(trobj);
+					var inputobj=$("<input >").appendTo(tdobj).val();
+					var tdobj=$("<td>").appendTo(trobj);
+					var inputobj=$("<input>").appendTo(tdobj).val();
+					var tdobj=$("<td>").appendTo(trobj);
+					var inputobj=$("<input>").appendTo(tdobj).val();
+					var tdobj=$("<td>").appendTo(trobj);
+					var inputobj=$("<input>").appendTo(tdobj).val();
+					var tdobj=$("<td>").appendTo(trobj);
+					var inputobj=$("<input>").appendTo(tdobj).val();
+					var tdobj=$("<td>").appendTo(trobj);
+					var inputobj=$("<input>").appendTo(tdobj).val();
+					var tdobj=$("<td>").appendTo(trobj);
+					var inputobj=$("<input>").appendTo(tdobj).val();
+					var tdobj=$("<td>").appendTo(trobj);
+					var inputobj=$("<input>").appendTo(tdobj).val();
+					var tdobj=$("<td>").appendTo(trobj);
+					var inputobj=$("<input>").appendTo(tdobj).val();
+					var tdobj=$("<td>").appendTo(trobj);
+					var inputobj=$("<input type='button'  value='添加' onclick='addpartrows()'>").appendTo(tdobj);
+					var inputobj=$("<input type='button'  value='删除' onclick='delpartrows()'>").appendTo(tdobj);
+					var tdobj=$("<td>").appendTo(trobj);
+					var inputobj=$("<input>").appendTo(tdobj).val();
+					
+					var trobj=$("<tr>").appendTo("#detailtb");
+					var tdobj=$("<td colspan='5' align='center' valign='middle'>").appendTo(trobj);
+					var inputobj=$("<input>").appendTo(tdobj).val("合计:");
+					var tdobj=$("<td colspan='2'>").appendTo(trobj);
+					var inputobj=$("<input>").appendTo(tdobj).val(data.rows[data.length-1].totalNums);
+					var tdobj=$("<td colspan='4'>").appendTo(trobj);
+					var inputobj=$("<input>").appendTo(tdobj).val(data.rows[data.length-1].totalMoney);
+				}
+			});
+			
+		}
 
 		
 	</script>
@@ -74,6 +163,7 @@
 		  				Date date=new Date();
 						DateUtilSly dut=new DateUtilSly();
 						String datestr="MTRK"+dut.getNamedByTime()+((int)(Math.random()*900+100)); 
+						String idstr=dut.getNamedByTime()+((int)(Math.random()*9000+1000));
 		  			 %>
   				<tr>	<td>入库单号</td><td><input type="text" name="code" value="<%=datestr %>" readonly="readonly" /></td>
   							<td>入库日期</td><td><input type="date" name="indate" value="" /></td></tr>
@@ -92,9 +182,9 @@
   				
   				<tr>	<td></td></tr>
   				
-  				<tr>	<td colspan="4"><input type="button" name="addbutton" value="新增" onclick="addff();"/>
-			  				<input type="button" name="orderdetail" value="采购订单"  onclick="orderpay();" disabled="disabled"/>
-			  				<input type="button" name="addparts" value="添加配件" onclick="addparts()" disabled="disabled"/>
+  				<tr>	<td colspan="4"><input type="button" name="addbutton" value="新增" onclick="addbtff();"/>
+			  				<input type="button" name="orderbtdetail" value="采购订单"  onclick="orderbtpay();" disabled="disabled"/>
+							<input type="button" name="addbtparts" value="添加配件"  onclick="addbtpart();" disabled="disabled"/>
 			  				<input type="button" name="" value="保存"  onclick="" disabled="disabled"/>
 			  				<input type="button" name="" value="审核" onclick="" disabled="disabled"/>
 			  				<input type="reset" name="" value="撤销"/>
@@ -105,30 +195,9 @@
   			</table>
   		</form>
   		
-  		<form id="detailff" action="/ERP/stock/StockInAddServlet?opt=2" target="_self" method="post">	
-  			<table rules="all" border="1" id="detailtb" >
+  		<form id="detailff" action="" target="_self" method="post">	
+  			<table rules="all"  id="detailtb" >
 
-  				<tr id="p1tr">	<td>订单编号</td><td>件号</td><td>配件名称</td><td>配件品牌</td>
-  							<td>配件类型</td><td>数量</td><td>单价</td><td>金额</td>
-  							<td>所属仓库</td><td>备注</td><td>操作</td></tr>
-  							
-  				<tr id="p2tr">	<input type="hidden" name="incode" value="<%=datestr %>"/>
-  							<td><input type="text" name="orderCode" size="10"/></td>
-  							<td><input type="text" name="pCode"  size="10"/></td>
-  							<td><input type="text" name="pName"  size="10"/></td>
-  							<td><input type="text" name="pBrand" size="10" /></td>
-  							<td><input type="text" name="pModel" size="10" /></td>
-  							<td><input type="text" name="nums" size="10" /></td>
-  							<td><input type="text" name="price" size="10" /></td>
-  							<td><input type="text" name="pdTotal" size="10" readonly="true" />
-  									 <input type="button" value=".." size="2" onclick="sly1();"/></td>
-  							<td><input type="text" name="wareHouse" size="10" /></td>
-  							<td><input type="text" name="remarksdetail" size="10" /></td>
-  							<td><input type="button" value="添加" onclick="continueadd();"/>
-  									<input type="button" value="删除" /></td></tr>		
-  				<tr id="p3tr">	<td colspan="5" align="center" valign="middle"><b>合计:</b></td>
-  							<td colspan="2"><input type="text" name="totalNums"/></td>
-  							<td colspan="4"><input type="text" name="totalMoney" readonly="true"/></td></tr>
   			</table>
   		</form>
   </body>

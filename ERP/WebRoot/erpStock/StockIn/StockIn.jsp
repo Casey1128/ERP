@@ -80,7 +80,8 @@
 			error:function(){alert("请求失败")},
 			success:function(data){
 				$("#detailtb").html("");
-				$("<td>订单编号</td><td>件号</td><td>数量</td>	<td>单价</td><td>金额</td><td>所属仓库</td><td>备注</td>").appendTo("#detailtb");
+				$("<td>订单编号</td><td>件号</td><td>数量</td>	<td>单价</td><td>金额</td><td>所属仓库</td>"
+						+"<td>备注</td>").appendTo("#detailtb");
 				for(var i=0;i<data.length;i++){
 					var trobj=$("<tr>").appendTo("#detailtb");
 					var tdobj=$("<td>").appendTo(trobj);
