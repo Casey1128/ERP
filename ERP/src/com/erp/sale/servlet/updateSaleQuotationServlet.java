@@ -74,7 +74,7 @@ public class updateSaleQuotationServlet extends HttpServlet {
 		if(hidcode.equals("2")){
 			int ret=saleQuotationService.updateQuotation(sQuotation);
 		}
-		response.sendRedirect("/ERP/sale/quatotion.jsp");
+		response.sendRedirect("/ERP/sale/quotation.jsp");
 	}
 
 	/**

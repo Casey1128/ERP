@@ -105,10 +105,16 @@ function linkQuotation(code){
 
 function change(code){
 
-    window.location.href="/ERP/sale/updateQuotation?code="+code;
+    window.location.href="/ERP/sale/updateQuotation?hid=2,code="+code;
    // $("input[name='ids']").val(1);
 	//window.location.href="/ERP/sale/addQuotation.jsp?code="+code;
 	//$("#toadd").submit();
+}
+function add(){
+ //$("input[name='ids']").val(2);
+  window.location.href="/ERP/sale/addSaleQuotationServlet?hid=1";
+ //$("#toadd").submit();
+  //window.location.href="/ERP/sale/addQuotation.jsp";
 }
 function del(code){
 	
@@ -144,12 +150,7 @@ function delBatch(){
 	}
 }
 
-function add(){
- //$("input[name='ids']").val(2);
-  window.location.href="/ERP/sale/addSaleQuotationServlet";
- //$("#toadd").submit();
-  //window.location.href="/ERP/sale/addQuotation.jsp";
-}
+
 
 function search(){
   var code=$("input[name='code']").val();

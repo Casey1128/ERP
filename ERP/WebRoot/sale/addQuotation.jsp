@@ -24,7 +24,7 @@
     
 	 <%
 	/* 	String scode=(String)request.getAttribute("code");
-		//String ids=(String)request.getParameter("ids");
+		String ids=(String)request.getParameter("ids");
 		
 		saleQuotationService sQuotationService=new saleQuotationServiceimpl();
 		saleQuotation sQuotation=sQuotationService.searchQuotation(scode);
@@ -32,7 +32,9 @@
 		String quotationCode=unitCode.getQuotationCode();
 		session.setAttribute("unitcode", quotationCode);
 		
-	 */	%>
+	 */
+	 String hids=(String)request.getParameter("hids");
+	 	%>
 	
 	
  <script >
@@ -235,7 +237,7 @@
 		window.location.href="/ERP/sale/quotation.jsp";
 	}
 	})  */
-	 $("#hid").val("1");
+	 $("#hid").val(<%=hids%>);
 	 $("#plist").submit();
 		 
  }
@@ -255,7 +257,7 @@
   </head>
   
   <body>
-   <form action="/ERP/sale/updateSaleQuotationServlet" name="plist">
+   <form action="/ERP/sale/updateSaleQuotationServlet" id="plist">
   	<input type="hidden" name="hid" value=""> 
   <div>
   	 <%
