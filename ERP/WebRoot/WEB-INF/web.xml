@@ -258,6 +258,11 @@
     <servlet-name>SearchQuotationServlet</servlet-name>
     <servlet-class>com.erp.sale.servlet.SearchQuotationServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>updateQuotation</servlet-name>
+    <servlet-class>com.erp.sale.servlet.updateQuotation</servlet-class>
+  </servlet>
+
 
 
 
@@ -539,6 +544,10 @@
   <servlet-mapping>
     <servlet-name>SearchQuotationServlet</servlet-name>
     <url-pattern>/sale/SearchQuotationServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>updateQuotation</servlet-name>
+    <url-pattern>/sale/updateQuotation</url-pattern>
   </servlet-mapping>
   
 
