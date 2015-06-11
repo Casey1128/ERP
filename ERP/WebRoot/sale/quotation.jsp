@@ -10,22 +10,22 @@
 <html>
   <head>   
     
-    <title>单位管理</title>
+    <title>报价单管理</title>
     
+	 <script src="/ERP/js/jquery-1.7.2.min.js"></script>
+	<script src="/ERP/js/jquery.easyui.min.js"></script>
+	<link type="text/css" href="/ERP/themes/default/easyui.css" rel="stylesheet" />
+	<link type="text/css" href="/ERP/themes/icon.css" rel="stylesheet" />
+	
 	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="../demo.css">
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
 
 <script>
 
 		
 $(function(){
-
-  
-	
-	$("input.easyui-datebox").datebox({
+	 $("input.easyui-datebox").datebox({
 		formatter:function(date){
 			var y = date.getFullYear();
 			var m = date.getMonth() + 1;
@@ -44,9 +44,9 @@ $(function(){
 				return new Date();
 		}
 	});
-	$("#customers").datagrid({
-	    url:'/ERP/unit/SearchUnitJsoServlet',
-		title:'客户与供应商',
+	$("#quotation").datagrid({
+	    url:'/ERP/sale/SearchQuotationServlet',
+		title:'报价单据管理',
 		idField:'code',
 		singleSelect:false,
 		fitColumns:true,
@@ -57,33 +57,32 @@ $(function(){
 		toolbar:'#Tool',
 		columns:[[	
 			{checkbox:true},
-			{field:'code',title:'代码',width:130},
-			{field:'csName',title:'名称',width:150},
-			{field:'categorycode',title:'类别',width:70,
+			{field:'code',title:'报价单号',width:130,
+				/* formatter:function(val,row,idx){
+			         return "<a href='#' onclick='linkQuotation(val)' />+"+val+"+</a>";
+			}, */
+			},
+			{field:'sqdate',title:'报价日期',width:130},
+			{field:'csName',title:'客户名称',width:150},
+			{field:'nums',title:'数量',width:130},
+			{field:'numsprice',title:'总货值',width:150},
+			{field:'contacter',title:'联系人',width:130},
+			{field:'telphone',title:'联系方式',width:150},
+						
+			{field:'state',title:'审核状态',width:70,
 			formatter:function(val,row,idx){
 			          if(val=="1"){
-			             return "客户";
+			             return "完成";
 			             }
-			             if(val=="2"){
-			             return "供应商";
-			             }
-			          
-			       }
-			},
-			{field:'contacter',title:'联系人',width:70},
-			{field:'telephone',title:'电话',width:120},
-			{field:'address',title:'地址',width:200},
-			{field:'isShow',title:'显示状态',width:70,
-			 formatter:function(val,row,idx){
-			          if(val=="1"){
-			             return "显示";
-			             }
-			             if(val=="2"){
-			             return "隐藏";
+			             if(val=="0"){
+			             return "未完成";
 			             }
 			          
 			       }
 			},
+			
+			{field:'adduser',title:'操作员',width:200},
+			
 			{field:'opt',title:'操作',formatter:function(val,row,idx){
 			var content = "<input type='button' value='删除' onclick=\"del('" + row.code + "')\" />";
 				content +="<input type='button' value='修改' onclick=\"change('" + row.code + "')\"/>";
@@ -92,26 +91,38 @@ $(function(){
 		]],
 		
 		});
-	$('#customers').datagrid('getPager').pagination({
+	$('#quotation').datagrid('getPager').pagination({
     	displayMsg:'当前显示从第 {from}到第 {to}，共 {total} 条记录'
-	}); 
-})
+	});  
+	
+	
+});
+
+function linkQuotation(code){
+
+    window.location.href="/ERP/sale/addQuotation.jsp?code="+code;
+}
+
 function change(code){
 
-    window.location.href="/ERP/unit/updateUnitServlet?code="+code;
+    window.location.href="/ERP/sale/updateQuotation?code="+code;
+   // $("input[name='ids']").val(1);
+	//window.location.href="/ERP/sale/addQuotation.jsp?code="+code;
+	//$("#toadd").submit();
 }
 function del(code){
 	
 	$.ajax({
-	url:'/ERP/unit/DeleteUnitServlet?code='+code,
+	url:'/ERP/sale/deleteSaleQuotationServlet?code='+code,
 	success:function(data){
-	 $("#customers").datagrid("reload");
+	alert(code);
+	 $("#quotation").datagrid("reload");
 	}
 	})
 }
 
 function delBatch(){
-	var rows = $("#customers").datagrid("getSelections");
+	var rows = $("#quotation").datagrid("getSelections");
 	if(rows.length == 0)
 		$.messager.alert("提示","请选择一条记录");
 	else{
@@ -120,10 +131,10 @@ function delBatch(){
 				for(var i = 0; i < rows.length; i++){
 					var code=rows[i].code;
 					$.ajax({
-					url:'/ERP/unit/DeleteSelectUnitServlet',
+					url:'/ERP/sale/deleteSaleQuotationServlet',
 					data:{'code':code},
 					success:function(data){
-					    $("#customers").datagrid("reload");
+					    $("#quotation").datagrid("reload");
 					}
 					
 					})
@@ -134,7 +145,10 @@ function delBatch(){
 }
 
 function add(){
-   window.location.href="/ERP/unit/AddUnitServlet";
+ //$("input[name='ids']").val(2);
+  window.location.href="/ERP/sale/addSaleQuotationServlet";
+ //$("#toadd").submit();
+  //window.location.href="/ERP/sale/addQuotation.jsp";
 }
 
 function search(){
@@ -142,17 +156,11 @@ function search(){
   //alert(code);
   var csName=$("input[name='csName']").val();
   //alert(csName);
-  var addDate=$("input[name='adddate']").val();
-  //alert(addDate);
- // $.ajax({
-  		
-		//url:'/ERP/unit/SearchUnitJsoServlet',
-		//data: {'code':code,'csName':csName,'addDate':addDate},
-		//success:function(data){
- $("#customers").datagrid("reload", {'code':code,'csName':csName,'addDate':addDate});
-		//return; 
-		//		}
-	//	});
+  var startdate=$("input[name='startdate']").val();
+  //alert(startdate);
+   var enddate=$("input[name='enddate']").val();
+   //alert(enddate);
+  $("#quotation").datagrid("reload",{'code':code,'csName':csName,'startdate':startdate,'enddate':enddate});
 	
  }
  
@@ -168,7 +176,7 @@ function outExcel(){
 	session.setAttribute("Bean", pb);
 	
 	%>
- window.location.href="/ERP/unit/PrintToExcelServlet";
+ window.location.href="/ERP/sale/PrintToExcelServlet";
 }
 
 </script>
@@ -176,11 +184,14 @@ function outExcel(){
 
 <body>
 <div id="Tool">
-	<form action="" method="post">
+	
+	<form action="/ERP/sale/addQuotation.jsp" method="post" id="toadd">
+	<input type="hidden" name="ids" val="">
         <b>检索条件：</b>
-        代码：<input type="text" name="code" width="10px;"/>
-        名称：<input type="text" name="csName" />
-        操作日期：<input type="text" class="easyui-datebox" name="adddate" />
+        报价单号：<input type="text" name="scode" width="10px;"/>
+        开始日期：<input type="text" class="easyui-datebox" name="startdate" />
+       结束日期：<input type="text" class="easyui-datebox" name="enddate" />
+       客户名称 ：   <input type="text" name="cname" width="10px;"/>
         <input type="button" value="搜索" onclick="search()" />
         <input type="reset" value="重置" />
     </form> 
@@ -190,8 +201,10 @@ function outExcel(){
     <button class="easyui-linkbutton" iconCls="icon-ok" onclick="outExcel()">导出excel</button>
    
 </div>
-<div id="customers" name="customers">
-	<input  type="hidden" name="cid"/> 
+<br/>
+
+<div id="quotation" class="easyui-datagrid" name="quotation">
+	
 </div>
 </body>
 </html>

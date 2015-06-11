@@ -78,7 +78,7 @@ function add(){
 		},
 		success:function(data){
 		
-			$("input[name='partsCode']").val(data.newId);
+			$("input[name='salecode']").val(data.newId);
 			
 		}
 	});

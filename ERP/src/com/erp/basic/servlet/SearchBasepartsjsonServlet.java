@@ -64,6 +64,7 @@ public class SearchBasepartsjsonServlet extends HttpServlet {
 		jsonObject.put("rows", pb.getData());
 		jsonObject.put("total",pb.getRecordCount());
 		String data=jsonObject.toString();
+		System.out.println(data);
 		response.getWriter().println(data);
 	}
 

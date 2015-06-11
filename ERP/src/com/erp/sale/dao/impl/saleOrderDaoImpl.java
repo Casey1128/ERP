@@ -1,6 +1,7 @@
 package com.erp.sale.dao.impl;
 
 import java.sql.ResultSet;
+
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,10 +9,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.erp.basic.entity.basecusTomerSipplier;
 import com.erp.sale.dao.saleOrderDao;
 import com.erp.sale.entity.saleOrder;
+
 import com.erp.sale.entity.saleOrderDetails;
 import com.erp.sale.service.impl.orderServiceImpl;
+
+import com.erp.sale.entity.saleQuotation;
+
 import com.erp.utils.BaseDao;
 import com.erp.utils.PageBean;
 import com.erp.utils.saleOrderCode;
@@ -123,6 +129,7 @@ public class saleOrderDaoImpl extends BaseDao implements saleOrderDao{
 		,saleorder.getCode()
 		});
 	}
+
 	@Override
 	public List<saleOrder> orderTransList() {
 		// TODO Auto-generated method stub
@@ -144,6 +151,7 @@ public class saleOrderDaoImpl extends BaseDao implements saleOrderDao{
 		}
 		return transList;
 	}
+
 
 	@Override
 	public List<saleOrderDetails> orderDetailsShow(String scode) {

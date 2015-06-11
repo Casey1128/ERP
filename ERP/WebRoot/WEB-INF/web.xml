@@ -214,6 +214,9 @@
     <servlet-class>com.erp.sale.servlet.orderListJsonServlet</servlet-class>
   </servlet>
   <servlet>
+
+
+<!--  -->
     <servlet-name>orderAddUpdateServlet</servlet-name>
     <servlet-class>com.erp.sale.servlet.orderAddUpdateServlet</servlet-class>
   </servlet>
@@ -238,7 +241,53 @@
     <servlet-class>com.erp.sale.servlet.ExportOrderDataServlet</servlet-class>
   </servlet>
 
+<!--  -->
+<servlet>
+    <servlet-name>SearchQuotationJsonServlet</servlet-name>
+    <servlet-class>com.erp.basic.servlet.SearchQuotationJsonServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>addSaleQuotation</servlet-name>
+    <servlet-class>com.erp.sale.servlet.addSaleQuotation</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>deleteSaleQuotation</servlet-name>
+    <servlet-class>com.erp.sale.servlet.deleteSaleQuotation</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>updateSaleQuotation</servlet-name>
+    <servlet-class>com.erp.sale.servlet.updateSaleQuotation</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>addSaleQuotationServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.addSaleQuotationServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>deleteSaleQuotationServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.deleteSaleQuotationServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>updateSaleQuotationServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.updateSaleQuotationServlet</servlet-class>
+  </servlet>
 
+
+
+
+
+	<servlet>
+    <servlet-name>StockInDetailServlet</servlet-name>
+    <servlet-class>com.erp.stock.servlet.StockInDetailServlet</servlet-class>
+     </servlet>
+  <servlet>
+    <servlet-name>StockInServlet</servlet-name>
+    <servlet-class>com.erp.stock.servlet.StockInServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SearchQuotationServlet</servlet-name>
+    <servlet-class>com.erp.sale.servlet.SearchQuotationServlet</servlet-class>
+  </servlet>
+<!--  -->
 
 
 
@@ -479,7 +528,9 @@
     <servlet-name>orderListJsonServlet</servlet-name>
     <url-pattern>/order/orderListJsonServlet</url-pattern>
   </servlet-mapping>
+  <!--  -->
   <servlet-mapping>
+
     <servlet-name>orderAddUpdateServlet</servlet-name>
     <url-pattern>/order/orderAddUpdateServlet</url-pattern>
   </servlet-mapping>
@@ -502,6 +553,51 @@
   <servlet-mapping>
     <servlet-name>ExportOrderDataServlet</servlet-name>
     <url-pattern>/order/ExportOrderDataServlet</url-pattern>
+ </servlet-mapping>
+ 
+ <!--  -->
+ <servlet-mapping>
+
+    <servlet-name>SearchQuotationJsonServlet</servlet-name>
+    <url-pattern>/sale/SearchQuotationJsonServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>addSaleQuotation</servlet-name>
+    <url-pattern>/sale/addSaleQuotation</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>deleteSaleQuotation</servlet-name>
+    <url-pattern>/sale/deleteSaleQuotation</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>updateSaleQuotation</servlet-name>
+    <url-pattern>/sale/updateSaleQuotation</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>addSaleQuotationServlet</servlet-name>
+    <url-pattern>/sale/addSaleQuotationServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>deleteSaleQuotationServlet</servlet-name>
+    <url-pattern>/sale/deleteSaleQuotationServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>updateSaleQuotationServlet</servlet-name>
+    <url-pattern>/sale/updateSaleQuotationServlet</url-pattern>
+ </servlet-mapping>
+<servlet-mapping>
+    <servlet-name>StockInDetailServlet</servlet-name>
+    <url-pattern>/stock/StockInDetailServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StockInServlet</servlet-name>
+    <url-pattern>/stock/StockInServlet</url-pattern>
+
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchQuotationServlet</servlet-name>
+    <url-pattern>/sale/SearchQuotationServlet</url-pattern>
+
   </servlet-mapping>
   
 

@@ -1,6 +1,7 @@
-package com.erp.basic.servlet;
+package com.erp.sale.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,19 +15,18 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import com.erp.basic.entity.basecusTomerSipplier;
-import com.erp.basic.service.UnitService;
-import com.erp.basic.service.impl.UnitServiceImpl;
+import com.erp.sale.entity.saleQuotation;
+import com.erp.sale.service.saleQuotationService;
+import com.erp.sale.service.impl.saleQuotationServiceimpl;
 import com.erp.utils.DateUtil;
 import com.erp.utils.PageBean;
 
-
-
-public class SearchUnitJsoServlet extends HttpServlet {
+public class SearchQuotationServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public SearchUnitJsoServlet() {
+	public SearchQuotationServlet() {
 		super();
 	}
 
@@ -40,41 +40,15 @@ public class SearchUnitJsoServlet extends HttpServlet {
 	 * @throws ServletException if an error occurred
 	 * @throws IOException if an error occurred
 	 */
-	public UnitService unitServlet=new UnitServiceImpl();
+	public saleQuotationService saleQuoService=new saleQuotationServiceimpl(); 
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		response.setContentType("text/json;charset=utf-8");
-//		
-//		String pageNo=request.getParameter("page");
-//		String pageSize=request.getParameter("rows");
-//		if(pageNo==null||pageNo.equals("")){
-//			pageNo="1";
-//		}
-//		if(pageSize==null||pageSize.equals("")){
-//			pageSize="5";
-//		}
-//		
-//		PageBean pb=unitServlet.getUnitList(Integer.parseInt(pageNo),
-//				Integer.parseInt(pageSize));
-//		pb.setPageNo(Integer.parseInt(pageNo));
-//		pb.setPageSize(Integer.parseInt(pageSize));
-//		JsonConfig  config=new JsonConfig();
-//		JSONObject jsonObject=new JSONObject();
-//		Map attrs=new HashMap();
-//		attrs.put("rows", pb.getData());
-//		attrs.put("total", pb.getRecordCount());
-//		jsonObject.putAll(attrs,config);
-//	//	jsonObject.put("rows",pb.getData());
-//		
-//		String data=jsonObject.toString();
-//	//	System.out.println(data);
-//	//	System.out.println(pageNo+"-----"+pageSize);
-//		//System.out.println(data);
-//        response.getWriter().println(data);
 		response.setContentType("text/json;charset=utf-8");
 		String code=request.getParameter("code");
 		String csname=request.getParameter("csName");
-		String optdate=request.getParameter("addDate");
+		String startdate=request.getParameter("startdate");
+		String enddate=request.getParameter("enddate");
 		String pageNo=request.getParameter("page");
 		String pageSize=request.getParameter("rows");
 		if(pageNo==null||pageNo.equals("")){
@@ -84,27 +58,36 @@ public class SearchUnitJsoServlet extends HttpServlet {
 			pageSize="5";
 		}
 		basecusTomerSipplier bSipplier=new basecusTomerSipplier();
-		
+		saleQuotation sQuotation=new saleQuotation();
 		if(code!=null&&!code.equals("")){
-			bSipplier.setCode(code);
+			sQuotation.setCode(code);
 		}
 		if(csname!=null&&!csname.equals("")){
 			bSipplier.setCsName(csname);
+			sQuotation.setbSipplier(bSipplier);
 		}
-		if(optdate!=null&&!optdate.equals("")){
+		if(startdate!=null&&!startdate.equals("")){
 		DateUtil dateUtil=new DateUtil();
 			try {
-				bSipplier.setAddDate(dateUtil.toDate(optdate));
+				sQuotation.setStartdate(dateUtil.toDate(startdate));
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-	
+		if(enddate!=null&&!enddate.equals("")){
+			DateUtil dateUtil=new DateUtil();
+				try {
+					sQuotation.setEnddate(dateUtil.toDate(enddate));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		
-		PageBean pb=unitServlet.findList(bSipplier,Integer.parseInt(pageNo),
-				Integer.parseInt(pageSize));
 		
+		PageBean pb=saleQuoService.searchSaleQuotation(Integer.parseInt(pageNo),
+				Integer.parseInt(pageSize),sQuotation);
 		pb.setPageNo(Integer.parseInt(pageNo));
 		pb.setPageSize(Integer.parseInt(pageSize));
 		JsonConfig  config=new JsonConfig();
@@ -112,10 +95,15 @@ public class SearchUnitJsoServlet extends HttpServlet {
 		Map attrs=new HashMap();
 		attrs.put("rows", pb.getData());
 		attrs.put("total", pb.getRecordCount());
-		jsonObject.putAll(attrs,config);		
+		jsonObject.putAll(attrs,config);
+	//	jsonObject.put("rows",pb.getData());
+		
 		String data=jsonObject.toString();
 		//System.out.println(data);
+		//System.out.println(pageNo+"-----"+pageSize);
+		System.out.println("************************");
         response.getWriter().println(data);
+		
 	}
 
 	/**
@@ -130,6 +118,7 @@ public class SearchUnitJsoServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		this.doGet(request, response);
 		
 	}
