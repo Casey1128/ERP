@@ -14,9 +14,11 @@
 		}
 		table tr td{
 		width:150px;
+		hight:22px;
 		}
 		#detailtb input{
 		width:80px;
+		hight:22px;
 		}
 		table{
 		  border:2px;
@@ -100,7 +102,7 @@
 					for(var i=0;i<data.length;i++){
 						var trobj=$("<tr >").appendTo("#detailtb");
 						var tdobj=$("<td>").appendTo(trobj);
-						var inputobj=$("<input size='15'>").appendTo(tdobj).val(data.rows[i].orderCode);
+						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].orderCode);
 						var tdobj=$("<td>").appendTo(trobj);
 						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].PCode);
 						var tdobj=$("<td>").appendTo(trobj);
@@ -115,7 +117,7 @@
 						var inputobj=$("<input>").appendTo(tdobj).val(data.rows[i].remarks);
 					}
 					var trobj=$("<tr>").appendTo("#detailtb");
-					var tdobj=$("<td width='50'>").appendTo(trobj);
+					var tdobj=$("<td>").appendTo(trobj);
 					var inputobj=$("<input >").appendTo(tdobj).val();
 					var tdobj=$("<td>").appendTo(trobj);
 					var inputobj=$("<input>").appendTo(tdobj).val();
@@ -140,12 +142,12 @@
 					var inputobj=$("<input>").appendTo(tdobj).val();
 					
 					var trobj=$("<tr>").appendTo("#detailtb");
-					var tdobj=$("<td colspan='5' align='center' valign='middle'>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val("合计:");
+					var tdobj=$("<td colspan='5' align='center' valign='middle'>合计：</td>").appendTo(trobj);
+					
 					var tdobj=$("<td colspan='2'>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val(data.rows[data.length-1].totalNums);
+					var inputobj=$("<input width='100'>").appendTo(tdobj).val();
 					var tdobj=$("<td colspan='4'>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val(data.rows[data.length-1].totalMoney);
+					var inputobj=$("<input width='150'>").appendTo(tdobj).val();
 				}
 			});
 			
