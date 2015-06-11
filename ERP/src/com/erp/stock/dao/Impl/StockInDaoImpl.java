@@ -102,7 +102,7 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 				stock.setIndate(rs.getTimestamp("indate"));
 				stock.setSupplierCode(rs.getString("supplierCode"));
 				stock.setContacter(rs.getString("contacter"));
-				stock.setTelephone(rs.getString("telephone"));
+				stock.setTeltphone(rs.getString("teltphone"));
 				stock.setFax(rs.getString("fax"));
 				stock.setIntype(rs.getString("intype"));
 				String intype=rs.getString("intype");

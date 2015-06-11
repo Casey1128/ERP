@@ -5,9 +5,6 @@ public class StockInDetail {
 	private String inCode;
 	private String orderCode;//订单编号
 	private String pCode;//配件编号
-	private String pName;//配件名称
-	private String pBrand;//配件品牌
-	private String pModel;//配件型号
 	private int nums;//配件数量
 	private int price;//配件单价
 	private String wareHouse;
@@ -34,24 +31,6 @@ public class StockInDetail {
 	}
 	public void setpCode(String pCode) {
 		this.pCode = pCode;
-	}
-	public String getpName() {
-		return pName;
-	}
-	public void setpName(String pName) {
-		this.pName = pName;
-	}
-	public String getpBrand() {
-		return pBrand;
-	}
-	public void setpBrand(String pBrand) {
-		this.pBrand = pBrand;
-	}
-	public String getpModel() {
-		return pModel;
-	}
-	public void setpModel(String pModel) {
-		this.pModel = pModel;
 	}
 	public String getCode() {
 		return code;

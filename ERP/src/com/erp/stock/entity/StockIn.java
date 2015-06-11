@@ -7,7 +7,7 @@ public class StockIn {
 	private Date indate;//.
 	private String supplierCode;
 	private String contacter;//.
-	private String telephone;//修改数据库数据
+	private String teltphone;//修改数据库数据
 	private String fax;
 	private String intype;
 	private String isroad;
@@ -32,18 +32,16 @@ public class StockIn {
 	
 	
 	
-	public String getIntypese() {
-		return intypese;
-	}
-	public void setIntypese(String intypese) {
-		this.intypese = intypese;
-	}
-	public String getIntypere() {
-		return intypere;
-	}
-	public void setIntypere(String intypere) {
-		this.intypere = intypere;
-	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public String getCode() {
 		return code;
 	}
@@ -68,11 +66,11 @@ public class StockIn {
 	public void setContacter(String contacter) {
 		this.contacter = contacter;
 	}
-	public String getTelephone() {
-		return telephone;
+	public String getTeltphone() {
+		return teltphone;
 	}
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
+	public void setTeltphone(String teltphone) {
+		this.teltphone = teltphone;
 	}
 	public String getFax() {
 		return fax;
@@ -158,8 +156,23 @@ public class StockIn {
 	public void setAddIp(String addIp) {
 		this.addIp = addIp;
 	}
+	public String getIntypese() {
+		return intypese;
+	}
+	public void setIntypese(String intypese) {
+		this.intypese = intypese;
+	}
+	public String getIntypere() {
+		return intypere;
+	}
+	public void setIntypere(String intypere) {
+		this.intypere = intypere;
+	}
 	
-	 
+	
+	
+	
+	
 	
 	
 }
