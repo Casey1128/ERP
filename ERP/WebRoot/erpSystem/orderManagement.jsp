@@ -165,6 +165,7 @@ function setpwd(idx,code,customercode,businesser,addUser){
 	$("input[name='businesser2']").attr("readonly","readonly");
 	$("input[name='opt']").val("2");
 	updateshowDialog("修改订单信息");
+	
 }
 
 function subFrm(){
