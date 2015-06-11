@@ -14,6 +14,17 @@ public class UnitCode {
 		return code;
 		
 	}
+	public String getQuotationCode(){
+		
+		Date date=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddhhmmss");
+		String code=sdf.format(date);
+		code="BJ"+code;
+		
+		return code;
+		
+	}
+	
 	public String getUnitTime(){
 		
 		Date date=new Date();

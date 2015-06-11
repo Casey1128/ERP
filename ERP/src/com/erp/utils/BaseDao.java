@@ -10,8 +10,10 @@ import java.util.List;
 public class BaseDao {
 	private static final String DRIVER_CLASS = "oracle.jdbc.driver.OracleDriver";
 	private static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
-	private static final String USER = "manager_user01";
-	private static final String PWD = "a1234";
+	private static final String USER = "crm_user";
+
+	private static final String PWD = "zcq1234";
+
 	private Connection conn = null;
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
@@ -207,8 +209,25 @@ public class BaseDao {
 
 	// 计算表的记录数
 	public int executeTotalCount(String sql) {
+		String sql1="select count(*)count from ( "+sql+")";
+		rs = this.executeQuery(sql1);
+		int total = 0;
+		try {
+			if (rs.next()) {
+				total = rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			this.close();
+		}
+		return total;
+	}
 
-		rs = this.executeQuery(sql);
+	public int executeTotalCount(String sql,Object[] params) {
+
+		rs = this.executeQuery(sql,params);
 		int total = 0;
 		try {
 			if (rs.next()) {
@@ -222,6 +241,7 @@ public class BaseDao {
 		}
 		return total;
 	}
+
 	public ResultSet executeQueryForPage(String sql,int pageNo,int pageSize){
 		String pageSql="select * from (select rownum r, x.* from ( ";
 		pageSql+=sql+") x  where rownum<=?)t  where t.r>?";

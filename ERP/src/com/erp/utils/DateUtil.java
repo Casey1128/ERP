@@ -19,7 +19,7 @@ public class DateUtil {
 	
 	public static Date toDate(String strDate) 
 			throws ParseException{
-		return longFormat.parse(strDate);
+		return dateFormat.parse(strDate);
 		
 	}
 	

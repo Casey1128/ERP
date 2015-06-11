@@ -122,7 +122,7 @@ function addTab(t,u){
        <div title="销售管理" data-options="iconCls:'icon-save'">
          <ul>
             <li><a href="#" onclick="addTab('报价单明细','')">报价单明细</a></li>
-            <li><a href="#" onclick="addTab('报价单管理','')">报价单管理</a></li>
+            <li><a href="#" onclick="addTab('报价单管理','/ERP/sale/quotation.jsp')">报价单管理</a></li>
             <li><a href="#" onclick="addTab('销售单明细','')">销售单明细</a></li>
             <li><a href="#" onclick="addTab('销售单管理','')">销售单管理</a></li>
             <li><a href="#" onclick="addTab('销售退货单据管理','')">销售退货单据管理</a></li>
