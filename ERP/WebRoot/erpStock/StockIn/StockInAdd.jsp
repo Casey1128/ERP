@@ -34,14 +34,13 @@
 			});
 			$("#supplierdivdata").datagrid({
 				url:'/ERP/stock/StockInAddServlet',
-				data:{
-					'opt':'3',
-				},			
+				data:[
+					{f1:'opt', f2:'1'}
+				],			
 				fit:true,
 	 			fitColumns:true,
 	 			singleSelect:true,
 				type:"post",
-	 			toolbar: '#tb',
 	 			pagination:true,
 	 			rownumbers:true,
 	 			pageList:[3,5,10],

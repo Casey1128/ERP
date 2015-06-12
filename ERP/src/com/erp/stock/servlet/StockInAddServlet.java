@@ -39,11 +39,11 @@ public class StockInAddServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		DateUtil dus=new DateUtil();
 		String opt=request.getParameter("opt");
+		System.out.println(opt);
 		
 		
 		
-		
-		if(opt.equals("3")){
+		if(opt.equals("1")){
 			String pageNostr=request.getParameter("page");
 			String pageSizestr=request.getParameter("rows");
 			if(pageNostr==null||pageNostr.equals("")){pageNostr="1";}
