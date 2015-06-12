@@ -73,7 +73,7 @@ var content="<input type='button' value='修改' onclick=\"setpwd("+idx+",'"+row
 				 for(var i=0;i<data.rows.length;i++)
 			     {
 			        var tr=$("<tr></tr>");
-			        price+=data.rows[i].total;
+			        price+=data.rows[i].totals;
 			        nums+=data.rows[i].nums;
 			        tr.appendTo(table);
 			           var td0=$("<td>"+data.rows[i].code+"</td>");
@@ -139,7 +139,21 @@ function del(nid){
 		}		
 	});	
 }
-
+function delDetails(code){
+	alert("删除"+code);
+	$.messager.confirm("删除提醒","确认删除吗？",function(r){
+		if(r){
+			$.ajax({
+		url:'/ERP/order/DeleteorderDetailsServlet?nid='+code,
+		success:function(data){
+			alert("删除成功");
+		//$("#category_list").datagrid("reload");
+			//$("#category_list").datagrid("uncheckAll");	
+		}
+	});
+		}		
+	});	
+}
 function add(){
 	showDialog('添加销售订单');
 	$.ajax({
@@ -165,9 +179,55 @@ function setpwd(idx,code,customercode,businesser,addUser){
 	$("input[name='businesser2']").attr("readonly","readonly");
 	$("input[name='opt']").val("2");
 	updateshowDialog("修改订单信息");
-	
+	showOrderdetails(code);
 }
-
+function showOrderdetails(code){
+	$.ajax({
+		url:'/ERP/order/getOrderDetailListServlet',
+		data:{"code":code},
+		type:'post',
+		error:function(){
+			alert("抱歉，没有得到数据");
+		},
+		success:function(data){
+			$("#createUpdateDetails").html("");
+var table=$("<table rules=\"all\" border=\"1\"><tr style=\"border-color: 'blue' ;background-color:'teal' ;\"><td>报价单号</td><td>件号</td><td>配件名称</td><td>配件品牌</td><td>配件型号</td><td>数量</td><td>单价</td><td>金额</td><td>备注</td><td>操作</td></tr>");
+		table.appendTo($("#createUpdateDetails"));
+		var nums=0;
+		var price=0;
+		for(var i=0;i<data.rows.length;i++){
+			var tr=$("<tr></tr>");
+			price+=data.rows[i].totals;
+			nums+=data.rows[i].nums;
+			tr.appendTo(table);
+			 var td0=$("<td>"+data.rows[i].code+"</td>");
+	           td0.appendTo(tr);
+	           var td1=$("<td>"+data.rows[i].partsNo+"</td>");
+	           td1.appendTo(tr);
+	           var td2=$("<td>"+data.rows[i].partsNname+"</td>");
+	           td2.appendTo(tr);
+	           var td3=$("<td>"+data.rows[i].partsBrand+"</td>");
+	           td3.appendTo(tr);
+	           var td4=$("<td>"+data.rows[i].partsModel+"</td>");
+	           td4.appendTo(tr);
+	           var td5=$("<td>"+data.rows[i].nums+"</td>");
+	           td5.appendTo(tr);
+	           var td6=$("<td>"+data.rows[i].price+"</td>");
+	           td6.appendTo(tr);
+	           var td7=$("<td>"+data.rows[i].totals+"</td>");
+	           td7.appendTo(tr);
+	           var td8=$("<td>"+data.rows[i].remark+"</td>");
+	           td8.appendTo(tr); 
+	           var td9=$("<td><input type='button' value='删除' onclick=\"delDetails('"+data.rows[i].code+"')\"/></td>");
+	           td9.appendTo(tr);
+		}
+		var tr1=$("<tr><td colspan=\"3\">"+"合计:"+"</td><td colspan=\"3\">"+"数量："+nums+"</td><td colspan=\"4\">"+"金额："+price+"</td></tr>");
+		 tr1.appendTo(table);
+		 trend.appendTo(table);
+	     $("#createUpdateDetails").append("</table>");
+		}
+	});
+}
 function subFrm(){
 	var orderdate=$("input[name='orderDates']").val(); 
 	var deldate=$("input[name='deliverydates']").val();
@@ -346,13 +406,12 @@ class="easyui-linkbutton" data-options="iconCls:'icon-save'">导出Excel</a>
 	  
     </form>
    </div> 
-   
+   <!-- 修改表单 -->
    <div id="mydgs"  style="padding:10px" class="easyui-dialog" >
       <table rules="all" bordercolor="#0000CC" border="1">
  <form id="myFrms" action="/ERP/order/orderAddUpdateServlet" method="post" >
- 	
  	<input type="hidden" name="opt"/>
- 	
+	
     <tr>
       <td>*订单编号：</td>
       <td><input type="text" name="code2"/></td>
@@ -408,7 +467,23 @@ class="easyui-linkbutton" data-options="iconCls:'icon-save'">导出Excel</a>
      <br/>
       <td><input type="button" value="确定" onclick="subFrms()"/></td>
       <td><input type="reset" name="重置"/></td>
+      
+      <button id="add">新增</button>
+      <button id="selectOrder">选报价单</button>
+      <button id="addParts">添加配件</button>
+      <button id="save">保存</button>
+      <button id="checkOrder" >审核</button>
+      <button id="backOrder">撤销</button>
       <button id="print" onclick="print();">打印</button>
+      <button id="createContract">生成合同</button>
+       <br/><br/>
+      <button id="createWord">生成Word</button>
+      <button id="createDelivery">生成出库</button>
+      <button id="finshOrder">完成订单</button>
+      <button id="closeUpdateDialog">关闭</button>
+      <br/><br/>
+      	<div id="createUpdateDetails"></div>
+        <div id="supplier"></div>
     </form>
     
     
@@ -428,7 +503,6 @@ class="easyui-linkbutton" data-options="iconCls:'icon-save'">导出Excel</a>
     </form>
    </div> 
    
-   <div style="height:10px"></div>
     <div id="details" class="easyui-panel" title="明细面板(双击单号即可显示哦！)" style="padding:3px">
      单据标号为:<span id="orderid"></span> 的明细如下所列!
      <div id="createtable" ></div>

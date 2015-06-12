@@ -18,5 +18,5 @@ public PageBean searchOrder(String code,Date startDate, Date endDate,
 	public List<saleOrder> orderTransList();
 	public List<saleOrderDetails> orderDetailsShow(String scode);//µ¥¾İÏêÏÔ
 	
-
+	public int delOrderDetails(String code);
 }
