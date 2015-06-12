@@ -24,7 +24,11 @@ public class StockInServiceImpl extends BaseDao implements StockInService {
 	}
 	
 	
-	
+	@Override
+	public List findSupplierByCode(String code) {
+		// TODO Auto-generated method stub
+		return stock.findSupplierByCode(code);
+	}
 	
 	
 	
@@ -79,6 +83,8 @@ public class StockInServiceImpl extends BaseDao implements StockInService {
 		// TODO Auto-generated method stub
 		return stock.SearchDataStIn(sql, sqlcount, pageNo, pageSize);
 	}
+
+
 
 
 	

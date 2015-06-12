@@ -97,8 +97,32 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 	}
 	
 	
-	
-	
+	//-------------------------------------------选择供应商信息
+	@Override
+	public List findSupplierByCode(String code) {
+		// TODO Auto-generated method stub
+		List<BaseCustomerSupplier> list=new ArrayList<BaseCustomerSupplier>();
+		String sql="select * from baseCustomerSupplier where (categorycode='2' or categorycode='3') and code=?";
+		rs=super.executeQuery(sql, code);
+		try {
+			while(rs.next()){	
+				BaseCustomerSupplier supplier=new BaseCustomerSupplier();
+				supplier.setCode(rs.getString("code"));
+				supplier.setCsName(rs.getString("csName"));
+				supplier.setContacter(rs.getString("contacter"));
+				supplier.setTelephone(rs.getString("telephone"));
+				supplier.setFax(rs.getString("fax"));
+
+				list.add(supplier);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			super.close();
+		}
+		return list;
+	}
 	
 	
 	
@@ -251,6 +275,10 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 		pb.setPageSize(pageSize);
 		return pb;
 	}
+
+
+
+
 
 
 

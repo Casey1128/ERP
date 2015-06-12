@@ -39,10 +39,9 @@ public class StockInAddServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		DateUtil dus=new DateUtil();
 		String opt=request.getParameter("opt");
-		System.out.println(opt);
 		
 		
-		
+		//------------------------添加供应商
 		if(opt.equals("1")){
 			String pageNostr=request.getParameter("page");
 			String pageSizestr=request.getParameter("rows");
@@ -58,12 +57,23 @@ public class StockInAddServlet extends HttpServlet {
 			jsonObj.put("rows",pb.getData());
 			jsonObj.put("total",pb.getRecordCount());
 			String data=jsonObj.toString();	
-			System.out.println(data);
 			response.getWriter().println(data);
 		}
 		
 		
-		
+
+		//------------------------选择供应商
+		if(opt.equals("2")){
+			String code=request.getParameter("code");
+			
+			List<BaseCustomerSupplier> list=new ArrayList<BaseCustomerSupplier>();
+			list=stock.findSupplierByCode(code);
+			
+			JSONObject jsonObj=new JSONObject();
+			jsonObj.put("rows",list);
+			String data=jsonObj.toString();	
+			response.getWriter().println(data);
+		}
 		
 		
 		

@@ -8,7 +8,7 @@ public interface StockInDao {
 
 	public PageBean findAllDataStIn(int pageNo, int pageSize);
 	public PageBean findSupplier(int pageNo,int pageSize);
-
+	public List findSupplierByCode(String code);
 	
 	
 	
