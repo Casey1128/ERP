@@ -104,7 +104,7 @@ $(function(){
 function linkQuotation(scode){	
    $("#parts").dialog({});
 	  $("#PartsList").datagrid({
-	    url:'/ERP/baseparts/SearchBasepartsjsonServlet',		
+	    url:'/ERP/baseparts/SearchBasepartsServlet?scode='+scode,		
 		idField:'partsNo',
 		singleSelect:false,
 		fitColumns:true,
@@ -240,7 +240,7 @@ function outExcel(){
 	
 </div>
 
-	<div id="tool">
+	<div id="tool" >
    	 单据标号为:<%=222%>的明细如下所列!
    </div>
    	 
