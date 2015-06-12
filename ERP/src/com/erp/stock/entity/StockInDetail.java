@@ -1,57 +1,30 @@
 package com.erp.stock.entity;
 
+import com.erp.stock.entity.others.PurchaseOrderDetail;
+
 public class StockInDetail {
 	private String code;
 	private String inCode;
 	private String orderCode;//订单编号
 	private String pCode;//配件编号
-	private String pName;//配件名称
-	private String pBrand;//配件品牌
-	private String pModel;//配件型号
 	private int nums;//配件数量
 	private int price;//配件单价
 	private String wareHouse;
 	private String remarks;
+	
+	private PurchaseOrderDetail purchaseOrderDetail;//订单明细表相关信息
+	private StockIn stockIn;
+	
+	
+	
+	
+	
 
-	
-	private int totalNums;//配件数量总数
-	private int pdTotal;//配件单个总价
-	private int totalMoney;//配件全部总价
-	
-	
-	
-	
-	
-	
-	public int getTotalNums() {
-		return totalNums;
-	}
-	public void setTotalNums(int totalNums) {
-		this.totalNums = totalNums;
-	}
 	public String getpCode() {
 		return pCode;
 	}
 	public void setpCode(String pCode) {
 		this.pCode = pCode;
-	}
-	public String getpName() {
-		return pName;
-	}
-	public void setpName(String pName) {
-		this.pName = pName;
-	}
-	public String getpBrand() {
-		return pBrand;
-	}
-	public void setpBrand(String pBrand) {
-		this.pBrand = pBrand;
-	}
-	public String getpModel() {
-		return pModel;
-	}
-	public void setpModel(String pModel) {
-		this.pModel = pModel;
 	}
 	public String getCode() {
 		return code;
@@ -95,18 +68,13 @@ public class StockInDetail {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	public int getPdTotal() {
-		return pdTotal;
+	public PurchaseOrderDetail getPurchaseOrderDetail() {
+		return purchaseOrderDetail;
 	}
-	public void setPdTotal(int pdTotal) {
-		this.pdTotal = pdTotal;
+	public void setPurchaseOrderDetail(PurchaseOrderDetail purchaseOrderDetail) {
+		this.purchaseOrderDetail = purchaseOrderDetail;
 	}
-	public int getTotalMoney() {
-		return totalMoney;
-	}
-	public void setTotalMoney(int totalMoney) {
-		this.totalMoney = totalMoney;
-	}
+
 	
 
 	

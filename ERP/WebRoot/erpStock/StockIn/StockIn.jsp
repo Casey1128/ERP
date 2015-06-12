@@ -1,14 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<jsp:include page="/erpStock/StockIn/page.jsp"/>
+
 <html>
   <head>
     <title>3-2-1 库存管理-入库管理-管理界面</title>
-	<script src="js/jquery.min.js"></script>
-	<script src="js/jquery.easyui.min.js"></script>
-	<link rel="stylesheet" type="text/css"  href="themes/icon.css" />
-	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css" /> 	
+	<script src="/ERP/erpStock/StockIn/js_lib/jquery-2.1.3.min.js" type="text/javascript"></script>
+	<script src="/ERP/erpStock/StockIn/js_lib/jquery-easyui-1.4/jquery.easyui.min.js" type="text/javascript"></script>
+	<link href="/ERP/erpStock/StockIn/js_lib/jquery-easyui-1.4/themes/default/easyui.css" rel="stylesheet"  type="text/css"></link>
+	<link href="/ERP/erpStock/StockIn/js_lib/jquery-easyui-1.4/themes/icon.css" rel="stylesheet"  type="text/css"></link>
  	
- 		<style>
+ 	<style>
 	body,div,table,form{
 	margin:0px;
 	padding:0px;
@@ -16,6 +16,9 @@
 	#bigbox{
 	width:100%;
 	height:95%;
+	}
+	#detailtb td{
+	width:150px;
 	}
 	</style>
  	<script>
@@ -36,7 +39,7 @@
  				{field:'id',checkbox:true}, 
 		        {field:'code',title:'入库单号',width:100},    
 		        {field:'indate',title:'入库日期',width:100},    
-		        {field:'contacter',title:'供应商名',width:100},
+		        {field:'csName',title:'供应商名',width:100,formater:function(value,row,index){return row.baseCustomerSupplier.csName}},
 		        {field:'nums',title:'数量',width:100},
 		        {field:'numsPrice',title:'总货值',width:100},
 		        {field:'state',title:'审核状态',width:100},
@@ -77,13 +80,14 @@
 			error:function(){alert("请求失败")},
 			success:function(data){
 				$("#detailtb").html("");
-				$("#detailtbtr").appendTo("#detailtb");
+				$("<td>订单编号</td><td>件号</td><td>数量</td>	<td>单价</td><td>金额</td><td>所属仓库</td>"
+						+"<td>备注</td>").appendTo("#detailtb");
 				for(var i=0;i<data.length;i++){
 					var trobj=$("<tr>").appendTo("#detailtb");
 					var tdobj=$("<td>").appendTo(trobj);
 					var inputobj=$("<input>").appendTo(tdobj).val(data[i].orderCode);
 					var tdobj=$("<td>").appendTo(trobj);
-					var inputobj=$("<input>").appendTo(tdobj).val(data[i].PCode);
+					var inputobj=$("<input>").appendTo(tdobj).val(data[i].pCode);
 					var tdobj=$("<td>").appendTo(trobj);
 					var inputobj=$("<input>").appendTo(tdobj).val(data[i].nums);
 					var tdobj=$("<td>").appendTo(trobj);
@@ -119,7 +123,7 @@
  	function del(code){
  		$.messager.confirm("删除提醒","确认要执行删除操作吗?",function(r){
 			if(r){
-				window.location.href="/ERP/stock/StockInDelServlet?opt=1&code";
+				window.location.href="/ERP/stock/StockInDelServlet?opt=1&code="+code;
 			}
 		});
  	}
@@ -144,19 +148,20 @@
 		});
  	}
 
-	//搜索
+	//搜索.
  	function selerows(){
  		$.ajax({
- 			url:'',
+ 			url:'/ERP/stock/StockInSearServlet',
  			type:"post",
  			data:{
  				'page':'1',
  				'rows':'3',
- 				'search':$("input[name='searchcode']").val(),
- 				'search':$("input[name='searchstartdate']").val(),
- 				'search':$("select[name='searchenddate']").val(),
+ 				'searchcode':$("input[name='searchcode']").val(),
+ 				'searchstartdate':$("input[name='searchstartdate']").val(),
+ 				'searchenddate':$("input[name='searchenddate']").val(),
  			},			
 			dataType:"json",
+			error:function(data){alert("条件错误")},
 			success:function(data){
 				$("#stockface").datagrid("loadData",data);//重读
 			}
@@ -164,7 +169,9 @@
  	}
  	
  	function selereset(){
- 		$("#seleff").reset();
+ 		$("input[name='searchcode']").val("");
+ 		$("input[name='searchstartdate']").val("");
+ 		$("input[name='searchenddate']").val("");
  	}
  	
  	
@@ -189,16 +196,10 @@
 
 				<span><b>开始日期</b></span>
 					<input type="date" name="searchstartdate">
-						<option></option>
-					</select>
+
 					
 				<span><b>结束日期</b></span>
 					<input type="date" name="searchenddate">
-						<option></option>
-					</select>
-					
-				<span><b></b></span>
-				<input type="text" name="search" />
 				
 				<a href="javascript:selerows()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
 				<a href="javascript:selereset()" class="easyui-linkbutton" data-options="iconCls:'icon-undo'">重置</a>	
@@ -214,15 +215,11 @@
 	<div id="smallbox">
 			<div id="detailtitle">
 				<span><b>单据标号为：</b></span>
-				<input type="text" display="display" name="detailincode" style="border-style:none" />
+				<input type="text" readonly="true" name="detailincode" style="border-style:none" />
 				<span><b>的明细如下所列</b></span>
 			</div>
 
 			<table rules="all" border="1" id="detailtb">
-				<tr id="detailtbtr">
-					<td>订单编号</td><td>件号</td><td>数量</td>
-					<td>单价</td><td>金额</td><td>所属仓库</td><td>备注</td>
-				</tr>
 			</table>
 	</div>
 	

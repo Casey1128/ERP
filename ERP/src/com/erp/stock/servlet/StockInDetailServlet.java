@@ -28,11 +28,10 @@ public class StockInDetailServlet extends HttpServlet {
 		response.setContentType("text/json;charset=utf-8");
 		String incode=request.getParameter("incode");
 		List<StockInDetail> list=new ArrayList<StockInDetail>();
-		list=stockin.findAllDataStInDetail(incode);
+		list=stockin.findDataStInDetailByIncode(incode);
 		
 		JSONArray arr=JSONArray.fromObject(list);
 		String data=arr.toString();
-		System.out.println(data);
 		response.getWriter().println(data);
 		
 //		JSONObject obj=new JSONObject();

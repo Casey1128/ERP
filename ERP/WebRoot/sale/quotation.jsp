@@ -4,7 +4,6 @@
 <%@page import="com.erp.basic.service.UnitService"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<jsp:include page="/common/base_path.jsp"/>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -50,7 +49,7 @@ $(function(){
 		idField:'code',
 		singleSelect:false,
 		fitColumns:true,
-		fit:true,
+		//fit:true,
 		pageSize:5,
 		pagination:true,
 		pageList:[2,5,10],
@@ -58,12 +57,16 @@ $(function(){
 		columns:[[	
 			{checkbox:true},
 			{field:'code',title:'报价单号',width:130,
-				/* formatter:function(val,row,idx){
-			         return "<a href='#' onclick='linkQuotation(val)' />+"+val+"+</a>";
-			}, */
+				 formatter:function(val,row,idx){
+			    return "<a onclick=\"linkQuotation('" + row.code + "')\" href='#' target='_self' >"+val+"</a>";
+			},  
 			},
 			{field:'sqdate',title:'报价日期',width:130},
-			{field:'csName',title:'客户名称',width:150},
+			{field:'bSipplier',title:'客户名称',width:150,
+			formatter:function(val,row,idx){
+			     return val.csName;
+			     }
+			},
 			{field:'nums',title:'数量',width:130},
 			{field:'numsprice',title:'总货值',width:150},
 			{field:'contacter',title:'联系人',width:130},
@@ -98,14 +101,43 @@ $(function(){
 	
 });
 
-function linkQuotation(code){
-
-    window.location.href="/ERP/sale/addQuotation.jsp?code="+code;
+function linkQuotation(scode){	
+   $("#parts").dialog({});
+	  $("#PartsList").datagrid({
+	    url:'/ERP/baseparts/SearchBasepartsServlet?scode='+scode,		
+		idField:'partsNo',
+		singleSelect:false,
+		fitColumns:true,
+		//fit:true,
+		pageSize:5,
+		pagination:true,
+		pageList:[2,5,10],
+		toolbar:'#tool',
+		columns:[[	
+			{checkbox:true},
+			{field:'code',title:'报价单号',width:130},
+			{field:'partsNo',title:'件号',width:130},
+			{field:'partsName',title:'配件名称',width:130},
+			{field:'partsBrand',title:'配件品牌',width:150},
+			{field:'partsModel',title:'配件型号',width:150},
+			{field:'nums',title:'数量',width:130},
+			{field:'numsprice',title:'单价',width:150},
+			{field:'contacter',title:'金额',width:130},
+			/* {field:'telphone',title:'交货期',width:150},
+			{field:'contacter',title:'库存量',width:130},
+			{field:'telphone',title:'销售单价',width:150},
+			{field:'remarks',title:'上次价格',width:200}, */
+			{field:'remarks',title:'备注',width:200},
+			
+			
+		]],
+		
+		})
 }
 
 function change(code){
 
-    window.location.href="/ERP/sale/updateQuotation?hid=2,code="+code;
+    window.location.href="/ERP/sale/updateQuotation?hid=2&code="+code;
    // $("input[name='ids']").val(1);
 	//window.location.href="/ERP/sale/addQuotation.jsp?code="+code;
 	//$("#toadd").submit();
@@ -204,9 +236,20 @@ function outExcel(){
 </div>
 <br/>
 
-<div id="quotation" class="easyui-datagrid" name="quotation">
+<div id="quotation" name="quotation" >
 	
 </div>
+
+	<div id="tool" >
+   	 单据标号为:<%=222%>的明细如下所列!
+   </div>
+   	 
+   	<div id="parts"  style=" width:1000 ; height:300 ">
+   		 <div id="PartsList">
+		  	
+	   	 </div>
+   	 </div>
+   
 </body>
 </html>
 

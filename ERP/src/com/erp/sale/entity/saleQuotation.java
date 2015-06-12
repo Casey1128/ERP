@@ -2,6 +2,7 @@ package com.erp.sale.entity;
 
 import java.util.Date;
 
+
 import com.erp.basic.entity.basecusTomerSipplier;
 
 public class saleQuotation {

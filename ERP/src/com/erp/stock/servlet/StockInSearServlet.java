@@ -1,8 +1,13 @@
 package com.erp.stock.servlet;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
+import com.erp.stock.service.StockInService;
+import com.erp.stock.service.Impl.StockInServiceImpl;
+import com.erp.utils.JSONDateProcessor;
 import com.erp.utils.PageBean;
 
 public class StockInSearServlet extends HttpServlet {
@@ -19,6 +28,7 @@ public class StockInSearServlet extends HttpServlet {
 		super();
 	}
 
+	StockInService stock=new StockInServiceImpl();
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -26,8 +36,36 @@ public class StockInSearServlet extends HttpServlet {
 		response.setContentType("text/json;charset=utf-8");
 		
 		String code=request.getParameter("searchcode");
-		String startdate=request.getParameter("searchstartdate");
-		String enddate =request.getParameter("searchenddate");
+		String startdatestr=request.getParameter("searchstartdate");
+		String enddatestr =request.getParameter("searchenddate");
+		
+		Date startdate=new Date();
+		Date enddate=new Date();
+		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf2=new SimpleDateFormat("dd-MÔÂ-yyyy");
+		if(startdatestr!=null&&!startdatestr.equals("")){
+			try {
+				startdate=sdf.parse(startdatestr);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//startdate=new java.sql.Date(startdatetime.getTime());
+		}
+		
+		if(enddatestr!=null&&!enddatestr.equals("")){
+			try {
+				enddate=sdf.parse(enddatestr);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//enddate=new java.sql.Date(enddatetime.getTime());	
+		}
+		
+		
+
 		String pageNostr=request.getParameter("page");
 		String pageSizestr=request.getParameter("rows");
 		if(pageNostr==null||pageNostr.equals("")){pageNostr="1";}
@@ -35,50 +73,46 @@ public class StockInSearServlet extends HttpServlet {
 		int pageNo=Integer.parseInt(pageNostr);
 		int pageSize=Integer.parseInt(pageSizestr);
 		
-		String sql1="select  from where 1=1";
-		String sql6="select  from where 1=1";
+		String sql1="select * from stockin where 1=1 ";
+		String sql6="select count(*) from stockin where 1=1 ";
 		String sql2="";
 		String sql3="";
 		String sql4="";
-		String sql5="";
 		List liststr=new ArrayList();
 		if(code==null || code.equals("")){
 			sql2="";
 		}else{
-			sql2="";
+			sql2=" and code like '%"+code+"%' ";
 		}
-		if(startdate==null || startdate.equals("")){
+		if(startdatestr==null || startdatestr.equals("")){
 			sql3="";
 		}else{
-			sql3="";
+			sql3=" and indate>='"+sdf2.format(startdate)+"'";
 		}
-		if(enddate==null || enddate.equals("")){
+		if(enddatestr==null || enddatestr.equals("")){
 			sql4="";
 		}else{
-			sql4="";
+			sql4=" and indate<='"+sdf2.format(enddate)+"'";
 		}
-		String sql=sql1+sql2+sql3+sql4+sql5;
-		String sqlcount=sql6+sql2+sql3+sql4+sql5;
+		String sql=sql1+sql2+sql3+sql4;
+		String sqlcount=sql6+sql2+sql3+sql4;
+		
 		
 		PageBean pb=new PageBean();
+		pb=stock.SearchDataStIn(sql, sqlcount, pageNo, pageSize);
 		
 		
+		JsonConfig config=new JsonConfig();
+		config.registerJsonValueProcessor(Date.class,new JSONDateProcessor("yyyy-MM-dd"));
 		
+		Map attrs =new HashMap();
+		JSONObject obj=new JSONObject();
+		attrs.put("rows", pb.getData());
+		attrs.put("total", pb.getRecordCount());
 		
+		obj.putAll(attrs,config);
 		
-		
-		
-		pb.setPageNo(pageNo);
-		pb.setPageSize(pageSize);
-		
-		JSONObject jsonobj=new JSONObject();
-		jsonobj.put("rows", pb.getData());
-		jsonobj.put("total", pb.getRecordCount());
-		
-		jsonobj.putAll(jsonobj);
-		
-		String data=jsonobj.toString();	
-
+		String data=obj.toString();	
 		response.getWriter().println(data);
 	}
 
