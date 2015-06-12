@@ -1,8 +1,10 @@
 package com.erp.sale.servlet;
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +21,7 @@ import com.erp.sale.entity.saleQuotation;
 import com.erp.sale.service.saleQuotationService;
 import com.erp.sale.service.impl.saleQuotationServiceimpl;
 import com.erp.utils.DateUtil;
+import com.erp.utils.JSONDateProcessor;
 import com.erp.utils.PageBean;
 
 public class SearchQuotationServlet extends HttpServlet {
@@ -86,22 +89,27 @@ public class SearchQuotationServlet extends HttpServlet {
 			}
 		
 		
+
 		PageBean pb=saleQuoService.searchSaleQuotation(Integer.parseInt(pageNo),
 				Integer.parseInt(pageSize),sQuotation);
 		pb.setPageNo(Integer.parseInt(pageNo));
 		pb.setPageSize(Integer.parseInt(pageSize));
-		JsonConfig  config=new JsonConfig();
+		//JsonConfig  config=new JsonConfig();
+		JsonConfig config=new JsonConfig();
+		config.registerJsonValueProcessor(Date.class,
+				new JSONDateProcessor("yyyy-MM-dd"));
 		JSONObject jsonObject=new JSONObject();
 		Map attrs=new HashMap();
 		attrs.put("rows", pb.getData());
 		attrs.put("total", pb.getRecordCount());
-		jsonObject.putAll(attrs,config);
+		jsonObject.putAll(attrs,
+				config);
 	//	jsonObject.put("rows",pb.getData());
 		
 		String data=jsonObject.toString();
-		//System.out.println(data);
+		System.out.println(data);
 		//System.out.println(pageNo+"-----"+pageSize);
-		System.out.println("************************");
+		//System.out.println("************************");
         response.getWriter().println(data);
 		
 	}

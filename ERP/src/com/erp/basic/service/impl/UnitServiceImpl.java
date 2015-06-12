@@ -65,6 +65,12 @@ public class UnitServiceImpl implements UnitService {
 		// TODO Auto-generated method stub
 		return  unitDao.getUnitList();
 	}
+
+	@Override
+	public basecusTomerSipplier findBaseCustomerSupplierbycsname(String csname) {
+		// TODO Auto-generated method stub
+		return unitDao.findBaseCustomerSupplierbycsname(csname) ;
+	}
 }
 
 

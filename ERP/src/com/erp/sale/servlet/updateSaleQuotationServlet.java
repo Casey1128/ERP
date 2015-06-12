@@ -61,7 +61,7 @@ public class updateSaleQuotationServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		sQuotation.setAddDate(new java.sql.Date(addDate.getTime()));
+		sQuotation.setSqdate(new java.sql.Date(addDate.getTime()));
 		pSipplier.setCsName(csName);
 		sQuotation.setbSipplier(pSipplier);
 		sQuotation.setContacter(contacter);

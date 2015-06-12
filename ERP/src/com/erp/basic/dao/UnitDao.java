@@ -14,5 +14,6 @@ public interface UnitDao {
 	public List<basecusTomerSipplier> searchList();
 	public PageBean findList(basecusTomerSipplier bts,int pageNo,int pageSize);
 	public basecusTomerSipplier findBaseCustomerSupplier(String code);
-
+	public basecusTomerSipplier findBaseCustomerSupplierbycsname(String csname);
+	
 }
