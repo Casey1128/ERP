@@ -11,13 +11,9 @@
 	<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
 <script type="text/javascript">
 $(function(){
+$("#details").hide();
 
-	$("#salereturn_list").datagrid({
-				onDblClickRow:function(rowIndex,rowData){
-					alert(rowData.code);
-					alert(rowIndex);
-				}
-			});
+	
 $("#mydg").dialog("close"); 
 $("input.easyui-datebox").datebox({
    		 formatter: function(date){
@@ -38,7 +34,7 @@ $("input.easyui-datebox").datebox({
 
 $("#salereturn_list").datagrid({
 		title:'销售退货管理列表',
-		fit:true,
+		//fit:true,
 		fitColumns:true,
 		url:'/ERP/saleReturn/saleReturnListJsonServlet',
 		idField:'code',
@@ -62,7 +58,34 @@ $("#salereturn_list").datagrid({
 					content+="<input type='button' value='删除账号' onclick=\"del('"+row.code+"')\"/>";
 				return content;
 		}}
-		]]
+		]],
+		onDblClickRow:function(rowIndex,rowData){
+					alert(rowData.code);
+					alert(rowIndex);
+			$("#details").show();
+			$("#salereturnid").text(rowData.code);
+			$("#createtable").datagrid({
+				url:'/ERP/saleReturn/getSaleReturnDetailListServlet',
+				queryParams:{"code":rowData.code},
+				idField:'code',				
+				columns:[[				
+				{field:'ckCode',title:'出库单号',width:100},
+				{field:'partsNo',title:'件号',width:100},
+				{field:'partsName',title:'配件名称',width:100},
+				{field:'partsBrand',title:'配件品牌',width:100},
+				{field:'partsModel',title:'配件型号',width:100},
+				{field:'nums',title:'数量',width:100},
+				{field:'price',title:'单价',width:100},
+				{field:'totalprice',title:'总金额',width:100,formatter:function(val,row,idx){				
+					return row.nums*row.price;
+				}},
+				{field:'remarks',title:'备注',width:100},
+				
+				]]
+				
+			});
+
+		}
 });
 
 
@@ -248,8 +271,6 @@ window.location.href="/ERP/saleReturn/getSaleReturnExecelServlet";
       <tr>
       	<td>备注：</td><td><input type="text" name="remarks" /></td>
       </tr>   
-  
-
     </form>
     </table>
     <td><input type="button" value="确定" onclick="subFrm()" /></td>
@@ -260,5 +281,14 @@ window.location.href="/ERP/saleReturn/getSaleReturnExecelServlet";
       <td><input type="button" value="打印" /></td>
       <td><input type="button" value="关闭"/></td>
    </div> 
+   
+    <div style="height:10px"></div>
+    <div id="details" class="easyui-panel" title="明细面板(双击单号即可显示哦！)" style="padding:3px">
+   		  单据标号为:<span id="salereturnid"></span> 的明细如下所列!
+     	<div id="createtable" ></div>
+  	</div>
+  	
+    <div id="detailscreatetable" ></div>
+  	
 </body>
 </html>
