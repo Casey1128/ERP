@@ -109,13 +109,68 @@
 				async:false,
 				error:function(){alert("请求失败")},
 				success:function(data){
-
+					alert("添加成功");
 				}
 			});
 			$("input[name='addbutton']").attr("disabled","disabled");
 			$("input[name='orderbtdetail']").attr("disabled",false);
 			$("input[name='addbtparts']").attr("disabled",false);
 		}
+		
+		/*
+		//-------------------显示采购订单
+		function orderbtpay(){
+			$("#ordernewsdiv").dialog({
+				title: '采购订单列表',    
+			    width: 600,    
+			    height: 400,    
+			    closed: false,    
+			    cache: false,  
+			    resizable:true,
+			});
+			$("#ordernewsdivdata").datagrid({
+				url:'/ERP/stock/StockInAddServlet?opt=4',	
+				fit:true,
+	 			fitColumns:true,
+				type:"post",
+	 			pagination:true,
+	 			rownumbers:true,
+	 			toolbar: '#tbs',
+	 			pageList:[3,5,10],
+	 		    pageSize:3,
+	 			columns:[[
+	 				{field:'id',checkbox:true}, 
+			        {field:'code',title:'订单编号',width:100},  
+			        {field:'csName',title:'供应商名称',width:100},
+			        {field:'nums',title:'数量',width:100},
+			        {field:'numsPrice',title:'价格',width:100},
+
+			    ]],
+			});
+		}
+		
+		
+		//------------------------添加订单信息
+		function addordernews(){
+			var row=$("#ordernewsdivdata").datagrid("getSelections");
+			if (row.length==0){
+				alert("请选择");
+				return;
+			}
+			$.messager.confirm("选择提醒","确认您要进行的操作？",function(r){
+				if(r){
+					var ids="";
+					for(var i=0;i<row.length;i++){
+						if(i!=row.length-1){
+							ids+=row[i].code+",";
+						}else ids+=row[i].code;
+					}
+					$("#addnewsinput").val(ids);
+					$("#addnewsff").submit();
+				}
+			});
+	 	}
+	 	*/
 	</script>
 	
   </head>
@@ -162,9 +217,7 @@
   		</form>
   		
   		<form id="detailff" action="" target="_self" method="post">	
-  			<table rules="all"  id="detailtb" >
-
-  			</table>
+  			<table rules="all"  id="detailtb" ></table>
   		</form>
   		
   		
@@ -173,9 +226,29 @@
   		
   		
   		
+  		
+  		
+  		
+  		
   		<div id="supplierdiv" class="easyui-class">
-  			<div id="supplierdivdata" class="easyui-class">
+  			<div id="supplierdivdivdata" class="easyui-class"></div>
+  		</div>
+  		
+  		
+  		
+  		
+  		<div id="ordernewsdiv" class="easyui-class">
+  			<div id="ordernewsdivdata" class="easyui-class"></div>
+  		</div>
+  		
+  		<div id="tbs">
+  			<div>
+  				<a href="javascript:addordernews()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加订单信息</a>
   			</div>
   		</div>
+  		
+  		<form id="addnewsff" action="/ERP/stock/StockInAddServlet?opt=5" method="post" target="_self">
+			<input id="addnewsinput" type="hidden"  value="" />
+		</form>
   </body>
 </html>

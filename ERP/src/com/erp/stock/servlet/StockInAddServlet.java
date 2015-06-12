@@ -125,11 +125,45 @@ public class StockInAddServlet extends HttpServlet {
 			attrs.put("rows", list);
 			jsonObj.putAll(attrs,config);
 			String data=jsonObj.toString();	
-			System.out.println(data);
 			response.getWriter().println(data);
 		}
 		
 		
+		
+		
+		//------------------采购订单列表
+		if(opt.equals("4")){
+			String pageNostr=request.getParameter("page");
+			String pageSizestr=request.getParameter("rows");
+			if(pageNostr==null||pageNostr.equals("")){pageNostr="1";}
+			if(pageSizestr==null||pageSizestr.equals("")){pageSizestr="3";}
+			int pageNo=Integer.parseInt(pageNostr);
+			int pageSize=Integer.parseInt(pageSizestr);
+			
+			PageBean pb=new PageBean();
+			pb=stock.findPurchaseOrder(pageNo, pageSize);
+			
+			JSONObject jsonObj=new JSONObject();
+			jsonObj.put("rows",pb.getData());
+			jsonObj.put("total",pb.getRecordCount());
+			String data=jsonObj.toString();	
+			response.getWriter().println(data);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//------------------------添加订单信息
+		if(opt.equals("5")){
+			
+		}
 		
 		
 		

@@ -11,6 +11,7 @@ import com.erp.stock.dao.StockInDao;
 import com.erp.stock.entity.StockIn;
 import com.erp.stock.entity.StockInDetail;
 import com.erp.stock.entity.others.BaseCustomerSupplier;
+import com.erp.stock.entity.others.PurchaseOrder;
 import com.erp.utils.BaseDao;
 import com.erp.utils.PageBean;
 
@@ -20,7 +21,7 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 	PreparedStatement pstm=null;
 	ResultSet rs=null;
 
-	//----------------------------------查找stockin数据并返回显示
+	//----------------------------------查找StockIn数据并返回显示
 	@Override
 	public PageBean findAllDataStIn(int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
@@ -176,7 +177,132 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 	
 	
 	
+	//----------------------------显示采购订单
+	@Override
+	public PageBean findPurchaseOrder(int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		PageBean pb=new PageBean();
+		List<PurchaseOrder> list=new ArrayList<PurchaseOrder>();
+		String sql="select * from purchaseorder left join "
+				+ "(select * from baseCustomerSupplier where categorycode='2' or categorycode='3') supplier"
+				+ "on purchaseorder.supplierCode=supplier.code";
+		rs=super.executeQueryForPage(sql, pageNo, pageSize);
+		try {
+			while(rs.next()){
+				PurchaseOrder purchaseOrder=new PurchaseOrder();
+				
+				purchaseOrder.setCode(rs.getString("code"));
+				purchaseOrder.setNums(rs.getInt("nums"));
+				purchaseOrder.setNumsPrice(rs.getInt("numsPrice"));
+				
+				BaseCustomerSupplier supplier=new BaseCustomerSupplier();
+				supplier.setCsName(rs.getString("csName"));
+				purchaseOrder.setBaseCustomerSupplier(supplier);
+				
+				list.add(purchaseOrder);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			super.close();
+		}
+		pb.setData(list);
+		sql="select count(*) from purchaseorder left join "
+				+ "(select * from baseCustomerSupplier where categorycode='2' or categorycode='3') supplier"
+				+ "on purchaseorder.supplierCode=supplier.code";
+		int total=super.executeTotalCount(sql);
+		pb.setRecordCount(total);
+		pb.setPageCount(total%pageSize==0?total/pageSize:total/pageSize+1);
+		pb.setPageNo(pageNo);
+		pb.setPageSize(pageSize);
+		return pb;
+	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public PageBean findPurchaseOrderDetail(int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		PageBean pb=new PageBean();
+		List<StockIn> list=new ArrayList<StockIn>();
+		String sql="select code,purchaseorder.nums nums,numsprice,dcode,aa.nums detailnums,"
+				+ "price,partsname,partsBrand,partsNo,partsModel "
+				+ "from purchaseorder left join "
+				+ "(select * from purchaseorder_detail left join baseparts on purchaseorder_detail.pcode=baseparts.partscode) aa "
+				+ "on purchaseorder.code=aa.ocode;";
+		rs=super.executeQueryForPage(sql, pageNo, pageSize);
+		try {
+			while(rs.next()){
+				
+				
+				
+				StockIn stock=new StockIn();
+				stock.setCode(rs.getString("code"));
+				stock.setIndate(rs.getTimestamp("indate"));
+				stock.setNums(rs.getInt("nums"));
+				stock.setNumsPrice(rs.getInt("numsPrice"));
+				stock.setState(rs.getString("state"));
+				stock.setAddUser(rs.getString("addUser"));	
+				BaseCustomerSupplier supplier=new BaseCustomerSupplier();
+				supplier.setCsName(rs.getString("csName"));
+				
+				stock.setBaseCustomerSupplier(supplier);
+				list.add(stock);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			super.close();
+		}
+		pb.setData(list);
+		sql="select count(*) from StockIn";
+		int total=super.executeTotalCount(sql);
+		pb.setRecordCount(total);
+		pb.setPageCount(total%pageSize==0?total/pageSize:total/pageSize+1);
+		pb.setPageNo(pageNo);
+		pb.setPageSize(pageSize);
+		return pb;
+	}
 	
 	
 	
@@ -279,6 +405,13 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 		pb.setPageSize(pageSize);
 		return pb;
 	}
+
+
+
+
+
+
+
 
 
 

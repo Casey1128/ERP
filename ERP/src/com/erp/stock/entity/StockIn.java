@@ -34,7 +34,7 @@ public class StockIn {
 	private String supplierCode;//供应商编号
 	
 	
-	private StockInDetail stockInDetail;//入库明细相关信息
+	
 	private BaseCustomerSupplier baseCustomerSupplier;//供应商表相关信息
 	
 	
@@ -177,12 +177,6 @@ public class StockIn {
 		this.intypere = intypere;
 	}
 
-	public StockInDetail getStockInDetail() {
-		return stockInDetail;
-	}
-	public void setStockInDetail(StockInDetail stockInDetail) {
-		this.stockInDetail = stockInDetail;
-	}
 	public BaseCustomerSupplier getBaseCustomerSupplier() {
 		return baseCustomerSupplier;
 	}

@@ -11,12 +11,21 @@ public interface StockInDao {
 	public List findSupplierByCode(String code);
 	public int addDataStIn(Object[] obj);
 	public List findDataStInByCode(String code);
+	public PageBean findPurchaseOrder(int pageNo,int pageSize);
 	
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	public PageBean findPurchaseOrderDetail(int pageNo,int pageSize);
 	public List findDataStInDetailByIncode(String incode);
 
 	public int delDataStIn(String code);
