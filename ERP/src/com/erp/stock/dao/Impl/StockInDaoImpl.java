@@ -125,26 +125,18 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 	}
 	
 	
+	//---------------------------------新增-〉数据库
+	@Override
+	public int addDataStIn(Object[] obj) {
+		// TODO Auto-generated method stub
+		String sql="insert into Stockin(code,indate,supplierCode,contacter,teltphone,fax,intype,isinvoice,remarks) "
+				+ "values(?,?,?,?,?,?,?,?,?)";
+		int ret=super.executeUpdate(sql, obj);
+		return ret;
+	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//------------------新增并初始化
 	@Override
 	public List findDataStInByCode(String code) {
 		// TODO Auto-generated method stub
@@ -158,7 +150,7 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 				stock.setIndate(rs.getTimestamp("indate"));
 				stock.setSupplierCode(rs.getString("supplierCode"));
 				stock.setContacter(rs.getString("contacter"));
-				stock.setTeltphone(rs.getString("teltphone"));
+				stock.setTelephone(rs.getString("teltphone"));
 				stock.setFax(rs.getString("fax"));
 				stock.setIntype(rs.getString("intype"));
 				String intype=rs.getString("intype");
@@ -181,6 +173,25 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 		}
 		return list;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	@Override
 	public List findDataStInDetailByIncode(String incode) {
@@ -222,14 +233,7 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 	}
 		
 
-	@Override
-	public int addDataStIn(Object[] obj) {
-		// TODO Auto-generated method stub
-		String sql="insert into Stockin(code,indate,supplierCode,contacter,telephone,fax,intype,isinvoice,remarks) "
-				+ "values(?,?,?,?,?,?,?,?,?)";
-		int ret=super.executeUpdate(sql, obj);
-		return ret;
-	}
+
 
 	@Override
 	public int delDataStIn(String code) {

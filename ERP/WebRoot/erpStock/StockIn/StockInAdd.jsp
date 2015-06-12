@@ -94,8 +94,8 @@
 					'opt':'3',
 					'code':$("input[name='code']").val(),
 					'indate':$("input[name='indate']").val(),
-					'csName':$("input[name='csName']").val(),
 					'supplierCode':$("input[name='supplierCode']").val(),
+					'csName':$("input[name='csName']").val(),
 					'contacter':$("input[name='contacter']").val(),
 					'telephone':$("input[name='telephone']").val(),
 					'fax':$("input[name='fax']").val(),
@@ -109,18 +109,7 @@
 				async:false,
 				error:function(){alert("请求失败")},
 				success:function(data){
-						$("input[name='code']").val(data.rows[0].code);
-						$("input[name='indate']").val(data.rows[0].indate);
-						$("input[name='supplierCode']").val(data.rows[0].supplierCode);
-						$("input[name='contacter']").val(data.rows[0].contacter);
-						$("input[name='telephone']").val(data.rows[0].telephone);
-						$("input[name='fax']").val(data.rows[0].fax);
-						$("select[name='intypese']").val(data.rows[0].intypese);
-						if("1"==(data.rows[0].intypere)){$("input[name='intypere'][value='1']").attr("checked","checked");}
-						if("0"==(data.rows[0].intypere)){$("input[name='intypere'][value='0']").attr("checked","checked");}
-						if("1"==(data.rows[0].isinvoice)){$("input[name='isinvoice'][value='1']").attr("checked","checked");}
-						if("0"==(data.rows[0].isinvoice)){$("input[name='isinvoice'][value='0']").attr("checked","checked");}
-						$("input[name='remarks']").val(data.rows[0].remarks);
+
 				}
 			});
 			$("input[name='addbutton']").attr("disabled","disabled");
@@ -138,9 +127,10 @@
 		  				Date date=new Date();
 						DateUtilSly dut=new DateUtilSly();
 						String datestr="MTRK"+dut.getNamedByTime()+((int)(Math.random()*900+100)); 
+						String todaydate=dut.toString(date);
 		  			 %>
   				<tr>	<td>入库单号</td><td><input type="text" name="code" value="<%=datestr %>" readonly="readonly" /></td>
-  							<td>入库日期</td><td><input type="date" name="indate" /></td></tr>
+  							<td>入库日期</td><td><input type="date" name="indate"  value="<%=todaydate%>"/></td></tr>
   				<tr>	<td>供应商名</td><td><input type="text" name="csName" readonly="readonly"/>
   							<input type="button" value="请选择" onclick="supplierclick();"/></td>
   							<input type="hidden" name="supplierCode"/>

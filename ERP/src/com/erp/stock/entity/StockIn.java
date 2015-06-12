@@ -8,7 +8,7 @@ public class StockIn {
 	private String code;//...入库单据主键
 	private Date indate;//...入库日期
 	private String contacter;
-	private String teltphone;
+	private String telephone;
 	private String fax;
 	private String intype;
 	private String isroad;
@@ -74,11 +74,11 @@ public class StockIn {
 	public void setContacter(String contacter) {
 		this.contacter = contacter;
 	}
-	public String getTeltphone() {
-		return teltphone;
+	public String getTelephone() {
+		return telephone;
 	}
-	public void setTeltphone(String teltphone) {
-		this.teltphone = teltphone;
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 	public String getFax() {
 		return fax;

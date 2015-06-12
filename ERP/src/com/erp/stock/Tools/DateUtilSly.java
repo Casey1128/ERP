@@ -23,7 +23,11 @@ public class DateUtilSly {
 			e.printStackTrace();
 		}
 		return date;
-
+	}
+	
+	public static String toString(Date date) {
+		String todatestr=dateFormat.format(date);
+		return todatestr;
 	}
 
 	public static String toFormatDate(long time) {
