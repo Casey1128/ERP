@@ -2,15 +2,21 @@ package com.erp.stock.servlet;
 
 import java.io.IOException;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 import com.erp.stock.service.StockInService;
 import com.erp.stock.service.Impl.StockInServiceImpl;
+import com.erp.utils.JSONDateProcessor;
 import com.erp.utils.PageBean;
 
 public class StockInServlet extends HttpServlet {
@@ -31,9 +37,17 @@ public class StockInServlet extends HttpServlet {
 		int pageNo=Integer.parseInt(pgNo);
 		int pageSize=Integer.parseInt(pgSize);
 		pb=stockin.findAllDataStIn(pageNo, pageSize);
+		
+		JsonConfig config=new JsonConfig();
+		config.registerJsonValueProcessor(Date.class,new JSONDateProcessor("yyyy-MM-dd"));
+		
+		Map attrs =new HashMap();
 		JSONObject obj=new JSONObject();
-		obj.put("rows",pb.getData());
-		obj.put("total", pb.getRecordCount());
+		attrs.put("rows", pb.getData());
+		attrs.put("total", pb.getRecordCount());
+		
+		obj.putAll(attrs,config);
+			
 		String data=obj.toString();
 		response.getWriter().println(data);
 	}

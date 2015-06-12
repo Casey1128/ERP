@@ -14,5 +14,6 @@ public interface UnitService {
 	public List<basecusTomerSipplier> searchList();
 	public PageBean findList(basecusTomerSipplier bSipplier,int pageNo,int pageSize);
 	public basecusTomerSipplier findBaseCustomerSupplier(String code);
+	public basecusTomerSipplier findBaseCustomerSupplierbycsname(String csname);
 
 }

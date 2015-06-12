@@ -18,11 +18,17 @@ public class JSONDateProcessor implements JsonValueProcessor{
 
 	public Object processObjectValue(String key, Object val, JsonConfig conf) {
 		// TODO Auto-generated method stub
+		if(val==null){
+			return "";
+		}
 		return sdf.format((Date)val);
 	}
 	
 	public Object processArrayValue(Object val, JsonConfig conf) {
 		// TODO Auto-generated method stub
+		if(val==null){
+			return "";
+		}
 		return sdf.format((Date)val);
 	}
 

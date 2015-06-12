@@ -224,4 +224,46 @@ public class UnitDaoImpl extends BaseDao implements UnitDao {
 		return null;
 	}
 
+	@Override
+	public basecusTomerSipplier findBaseCustomerSupplierbycsname(String csname) {
+		// TODO Auto-generated method stub
+		String sql="select * from basecustomersupplier where csname=?";
+		ResultSet rs= super.executeQuery(sql, csname);
+		basecusTomerSipplier bSipplier=null;
+		try {
+			while (rs.next()) {
+			bSipplier=new basecusTomerSipplier();
+			bSipplier.setCode(rs.getString("code"));
+			/*bSipplier.setCsName(rs.getString("csname"));
+			bSipplier.setCategorycode(rs.getString("categorycode"));
+			bSipplier.setContacter(rs.getString("contacter"));
+			bSipplier.setTelephone(rs.getString("telephone"));
+			bSipplier.setAddress(rs.getString("address"));
+			bSipplier.setIsShow(rs.getString("isshow"));
+			bSipplier.setAddDate(rs.getDate("adddate"));
+			bSipplier.setFax(rs.getString("fax"));
+			bSipplier.setPostcide(rs.getString("postcode"));
+			bSipplier.setEmall(rs.getString("email"));
+			bSipplier.setProvince(rs.getString("province"));
+			bSipplier.setCity(rs.getString("city"));
+			bSipplier.setLegaler(rs.getString("legaler"));
+			bSipplier.setUrl(rs.getString("url"));
+			bSipplier.setQq(rs.getString("qq"));
+			bSipplier.setMsn(rs.getString("msn"));
+			bSipplier.setAliwang(rs.getString("aliwang"));
+			bSipplier.setAgent(rs.getString("agent"));
+			bSipplier.setBank(rs.getString("bank"));
+			bSipplier.setAccount(rs.getString("account"));
+			bSipplier.setTax(rs.getString("tax"));
+			bSipplier.setReMarks(rs.getString("remarks"));	*/
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			super.close();
+		}
+		return bSipplier;
+	}
+
 }

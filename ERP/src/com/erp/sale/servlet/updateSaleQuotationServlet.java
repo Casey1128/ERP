@@ -61,7 +61,7 @@ public class updateSaleQuotationServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		sQuotation.setAddDate(new java.sql.Date(addDate.getTime()));
+		sQuotation.setSqdate(new java.sql.Date(addDate.getTime()));
 		pSipplier.setCsName(csName);
 		sQuotation.setbSipplier(pSipplier);
 		sQuotation.setContacter(contacter);
@@ -74,7 +74,7 @@ public class updateSaleQuotationServlet extends HttpServlet {
 		if(hidcode.equals("2")){
 			int ret=saleQuotationService.updateQuotation(sQuotation);
 		}
-		response.sendRedirect("/ERP/sale/quatotion.jsp");
+		response.sendRedirect("/ERP/sale/quotation.jsp");
 	}
 
 	/**

@@ -2,26 +2,52 @@ package com.erp.stock.entity;
 
 import java.util.Date;
 
+import com.erp.stock.entity.others.BaseCustomerSupplier;
+
 public class StockIn {
-	private String code;//.
-	private Date indate;//.
-	private String supplierCode;
-	private String contacter;//.
-	private String telephone;//修改数据库数据
+	private String code;//...入库单据主键
+	private Date indate;//...入库日期
+	private String contacter;
+	private String teltphone;
 	private String fax;
 	private String intype;
 	private String isroad;
 	private String isinvoice;
 	private String remarks;
 	private String isShow;
-	private int nums;//.
-	private int numsPrice;//.
-	private String state;//.入库单据状态，1已审核0未审核
+	private int nums;//...入库配件数量
+	private int numsPrice;//...入库配件总价值
+	private String state;//...入库单据状态，1已审核0未审核
 	private String compCode;
 	private Date addDate;
-	private String addUser;//.
+	private String addUser;//...操作员
 	private String addUserName;
 	private String addIp;
+	
+	
+	private String intypese;
+	private String intypere;
+	
+	
+	
+	
+	private String supplierCode;//供应商编号
+	
+	
+	private StockInDetail stockInDetail;//入库明细相关信息
+	private BaseCustomerSupplier baseCustomerSupplier;//供应商表相关信息
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	public String getCode() {
@@ -48,11 +74,11 @@ public class StockIn {
 	public void setContacter(String contacter) {
 		this.contacter = contacter;
 	}
-	public String getTelephone() {
-		return telephone;
+	public String getTeltphone() {
+		return teltphone;
 	}
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
+	public void setTeltphone(String teltphone) {
+		this.teltphone = teltphone;
 	}
 	public String getFax() {
 		return fax;
@@ -138,36 +164,36 @@ public class StockIn {
 	public void setAddIp(String addIp) {
 		this.addIp = addIp;
 	}
-	public StockIn(String code, Date indate, String supplierCode,
-			String contacter, String telephone, String fax, String intype,
-			String isroad, String isinvoice, String remarks, String isShow,
-			int nums, int numsPrice, String state, String compCode,
-			Date addDate, String addUser, String addUserName, String addIp) {
-		super();
-		this.code = code;
-		this.indate = indate;
-		this.supplierCode = supplierCode;
-		this.contacter = contacter;
-		this.telephone = telephone;
-		this.fax = fax;
-		this.intype = intype;
-		this.isroad = isroad;
-		this.isinvoice = isinvoice;
-		this.remarks = remarks;
-		this.isShow = isShow;
-		this.nums = nums;
-		this.numsPrice = numsPrice;
-		this.state = state;
-		this.compCode = compCode;
-		this.addDate = addDate;
-		this.addUser = addUser;
-		this.addUserName = addUserName;
-		this.addIp = addIp;
+	public String getIntypese() {
+		return intypese;
 	}
-	public StockIn() {
-		super();
+	public void setIntypese(String intypese) {
+		this.intypese = intypese;
 	}
-	 
+	public String getIntypere() {
+		return intypere;
+	}
+	public void setIntypere(String intypere) {
+		this.intypere = intypere;
+	}
+
+	public StockInDetail getStockInDetail() {
+		return stockInDetail;
+	}
+	public void setStockInDetail(StockInDetail stockInDetail) {
+		this.stockInDetail = stockInDetail;
+	}
+	public BaseCustomerSupplier getBaseCustomerSupplier() {
+		return baseCustomerSupplier;
+	}
+	public void setBaseCustomerSupplier(BaseCustomerSupplier baseCustomerSupplier) {
+		this.baseCustomerSupplier = baseCustomerSupplier;
+	}
+	
+	
+	
+	
+	
 	
 	
 }

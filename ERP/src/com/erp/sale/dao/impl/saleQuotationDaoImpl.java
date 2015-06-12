@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.erp.basic.entity.basecusTomerSipplier;
@@ -62,9 +63,11 @@ public class saleQuotationDaoImpl extends BaseDao implements saleQuotationDao {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}finally{
 			super.close();
+			
 		}
 		pagebean.setData(orderList);
 		pagebean.setRecordCount(super.executeTotalCount(sql));
@@ -140,9 +143,11 @@ public class saleQuotationDaoImpl extends BaseDao implements saleQuotationDao {
 	@Override
 	public int insertQuotation(saleQuotation sQuotation) {
 		// TODO Auto-generated method stub
+		
 		String sql="insert into salequotation values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		int ret=super.executeUpdate(sql, new Object[]{
-				sQuotation.getCode(),sQuotation.getSqdate(),sQuotation.getCustomercode(),sQuotation.getContacter(),sQuotation.getTelphone(),
+				sQuotation.getCode(),new java.sql.Date(sQuotation.getSqdate().getTime()),
+sQuotation.getCustomercode(),sQuotation.getContacter(),sQuotation.getTelphone(),
 				sQuotation.getFax(),sQuotation.getNums(),sQuotation.getNumsprice(),sQuotation.getIsShow(),sQuotation.getState(),
 				sQuotation.getRemarks(),sQuotation.getAddDate(),sQuotation.getAddUser(),sQuotation.getAddUserName(),sQuotation.getAddIp(),
 				sQuotation.getCompcode()});
@@ -161,10 +166,11 @@ public class saleQuotationDaoImpl extends BaseDao implements saleQuotationDao {
 	public int updateQuotation(saleQuotation sQuotation) {
 		// TODO Auto-generated method stub
 		String sql="update salequotation set"
-				+ " sqdate=?,customercode=?,contacer=?,telphone=?,fax=?,"
+				+ " sqdate=?,customercode=?,contacter=?,telphone=?,fax=?,"
 				+ "nums=?,numsprice=?,isshow=?,state=?,remarks=?,"
 				+ "adddate=?,adduser=?,addusername=?,addip=?,compcode=? "
 				+ "where code=?";
+		String sql1="update basecustomersupplier set csname=? where code=?";
 		
 		int ret=super.executeUpdate(sql, new Object[]{
 				sQuotation.getSqdate(),sQuotation.getCustomercode(),sQuotation.getContacter(),sQuotation.getTelphone(),
@@ -172,6 +178,7 @@ public class saleQuotationDaoImpl extends BaseDao implements saleQuotationDao {
 				sQuotation.getRemarks(),sQuotation.getAddDate(),sQuotation.getAddUser(),sQuotation.getAddUserName(),sQuotation.getAddIp(),
 				sQuotation.getCompcode(),sQuotation.getCode()
 		});
+		ret+=super.executeUpdate(sql1, new Object[]{sQuotation.getbSipplier().getCsName(),sQuotation.getCustomercode()});
 		return ret;
 	}
 

@@ -37,6 +37,7 @@ public class addSaleQuotationServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String hids=request.getParameter("hid");
 		UnitCode uc=new UnitCode();
 	    String code= uc.getQuotationCode();
 	    Date date=new Date();
@@ -51,7 +52,7 @@ public class addSaleQuotationServlet extends HttpServlet {
 		list.add(saleQuotation);
 		request.setAttribute("list",list);
 		
-		request.getRequestDispatcher("/sale/addQuotation.jsp").forward(request, response);
+		request.getRequestDispatcher("/sale/addQuotation.jsp?hids="+hids).forward(request, response);
 
 		
 	}

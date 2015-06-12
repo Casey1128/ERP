@@ -24,7 +24,7 @@
     
 	 <%
 	/* 	String scode=(String)request.getAttribute("code");
-		//String ids=(String)request.getParameter("ids");
+		String ids=(String)request.getParameter("ids");
 		
 		saleQuotationService sQuotationService=new saleQuotationServiceimpl();
 		saleQuotation sQuotation=sQuotationService.searchQuotation(scode);
@@ -32,7 +32,9 @@
 		String quotationCode=unitCode.getQuotationCode();
 		session.setAttribute("unitcode", quotationCode);
 		
-	 */	%>
+	 */
+	 String hids=(String)request.getParameter("hids");
+	 	%>
 	
 	
  <script >
@@ -173,10 +175,17 @@
 		})
     
  }
- function addCustomer(){
+ function showUnit(){
  	$("#Customer").dialog({});
 	
 	$("#CustomerList").datagrid({
+		onDblClickRow:function(idx,row){
+		 var row=$("#CustomerList").datagrid("getRows")[idx];
+		 var code=row.csName;
+		 $("input[name='csName']").val(code);
+		 $("#Customer").window('close');  
+		},
+		  
 	    url:'/ERP/unit/SearchUnitJsoServlet',
 		
 		idField:'code',
@@ -227,15 +236,8 @@
  
  } 
  function save(){
-	/*  $.ajax({
-	url:'/ERP/sale/updateSaleQuotationServlet',
-	success:function(data){
-	alert(code)
-	// $("#quotation").datagrid("reload");
-		window.location.href="/ERP/sale/quotation.jsp";
-	}
-	})  */
-	 $("#hid").val("1");
+	
+	 $("input[name='hid']").val(<%=hids%>);
 	 $("#plist").submit();
 		 
  }
@@ -255,8 +257,8 @@
   </head>
   
   <body>
-   <form action="/ERP/sale/updateSaleQuotationServlet" name="plist">
-  	<input type="hidden" name="hid" value=""> 
+   <form action="/ERP/sale/updateSaleQuotationServlet" id="plist">
+  	<input type="hidden"  name="hid" value=""> 
   <div>
   	 <%
   			Date date=new Date();
@@ -268,7 +270,7 @@
 	   		<td>*报价日期</td><td><input type="text" class="easyui-datebox" name="adddate" value="<%=time %>" /></td>
 	   	</tr>
 	   	<tr>
-	   		<td>*客户名称</td><td><input type="text" name="csName" value="${list.get(0).getbSipplier().getCsName()}"></td>
+	   		<td>*客户名称</td><td><input type="text" onclick="showUnit()" name="csName" value="${list.get(0).getbSipplier().getCsName()}"></td>
 	   		<td>*联系人员</td><td><input type="text" name="contacter" value="${list.get(0).getContacter() }"></td>
 	   	</tr>
 	   	<tr>
