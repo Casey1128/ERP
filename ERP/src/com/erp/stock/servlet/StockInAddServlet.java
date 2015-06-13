@@ -153,19 +153,40 @@ public class StockInAddServlet extends HttpServlet {
 		
 		
 		
-		
-		
-		
-		
+		//----------------------查看订单明细信息
+		if(opt.equals("5")){
+			String code=request.getParameter("code");
+			String pageNostr=request.getParameter("page");
+			String pageSizestr=request.getParameter("rows");
+			if(pageNostr==null||pageNostr.equals("")){pageNostr="1";}
+			if(pageSizestr==null||pageSizestr.equals("")){pageSizestr="3";}
+			int pageNo=Integer.parseInt(pageNostr);
+			int pageSize=Integer.parseInt(pageSizestr);
+			String sql="select * from purchaseOrder_detail left join baseParts "
+					+ "on purchaseOrder_detail.pCode=baseParts.partscode "
+					+ "where ocode='"+code+"'";
+			
+			PageBean pb=new PageBean();
+			pb=stock.findPurchaseOrderDetail(sql, pageNo, pageSize);
+			
+			JSONObject jsonObj=new JSONObject();
+			jsonObj.put("rows",pb.getData());
+			jsonObj.put("total",pb.getRecordCount());
+			String data=jsonObj.toString();	
+			response.getWriter().println(data);
+		}
 		
 		
 		
 		//------------------------添加订单信息
-		if(opt.equals("5")){
-			
+		if(opt.equals("6")){
+			String ids=request.getParameter("ids");
+			String[] code=new String[]{};
+			code=ids.split(",");
+			for(int i=0;i<code.length;i++){
+				
+			}
 		}
-		
-		
 		
 		
 		

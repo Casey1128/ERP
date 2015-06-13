@@ -19,6 +19,7 @@
 	</style>
 	<script>
 		$(function(){
+			$("#tbs").hide();
 			$("#detailff").hide();
 		});
 
@@ -34,15 +35,17 @@
 			    resizable:true,
 			});
 			$("#supplierdivdata").datagrid({
-				url:'/ERP/stock/StockInAddServlet?opt=1',	
+				url:'/ERP/stock/StockInAddServlet',
+				queryParams:{opt:'1',},
 				fit:true,
 	 			fitColumns:true,
 	 			singleSelect:true,
 				type:"post",
 	 			pagination:true,
 	 			rownumbers:true,
-	 			pageList:[3,5,10],
-	 		    pageSize:3,
+	 			checkOnSelect:false,
+	 			pageList:[5,10,15],
+	 		    pageSize:5,
 	 			columns:[[
 	 				{field:'id',checkbox:true}, 
 			        {field:'code',title:'供应商编号',width:100},    
@@ -57,7 +60,7 @@
 						}
 			        }, 
 			    ]],
-			})
+			});
 		}
 		
 		
@@ -67,8 +70,8 @@
 			$.ajax({
 				url:'/ERP/stock/StockInAddServlet',
 				data:{
-				'opt':'2',
-				'code':code
+					'opt':'2',
+					'code':code
 				},
 				async:true,
 				type:'post',
@@ -117,7 +120,7 @@
 			$("input[name='addbtparts']").attr("disabled",false);
 		}
 		
-		/*
+		
 		//-------------------显示采购订单
 		function orderbtpay(){
 			$("#ordernewsdiv").dialog({
@@ -136,17 +139,67 @@
 	 			pagination:true,
 	 			rownumbers:true,
 	 			toolbar: '#tbs',
-	 			pageList:[3,5,10],
-	 		    pageSize:3,
+	 			checkOnSelect:false,
+	 			pageList:[5,10,15],
+	 		    pageSize:10,
 	 			columns:[[
 	 				{field:'id',checkbox:true}, 
 			        {field:'code',title:'订单编号',width:100},  
-			        {field:'csName',title:'供应商名称',width:100},
+			        {field:'csName',title:'供应商名称',width:100,
+			        	formatter: function(value,row,index){return row.baseCustomerSupplier.csName}},
 			        {field:'nums',title:'数量',width:100},
 			        {field:'numsPrice',title:'价格',width:100},
-
+					{field:'opt',title:'操作',width:100,
+			        	formatter: function(value,row,index){
+							var content="<input type='button' value='查看详情' onclick=\"seePurchaseOrderDetail('"+row.code+"')\"/>";
+							return content;
+						}
+			        }, 
 			    ]],
 			});
+		}
+		
+		
+		//----------------------查看订单明细信息
+		function seePurchaseOrderDetail(code){
+			$("#orderDetaildiv").dialog({
+				title: '采购订单明细列表',    
+			    width: 500,    
+			    height: 300,    
+			    closed: false,    
+			    cache: false,  
+			    resizable:true,
+			    buttons:[{
+						text:'确定',
+						handler:function(){orderDetaildivclose();}
+					}]
+			});
+			$("#orderDetaildivdata").datagrid({
+				url:'/ERP/stock/StockInAddServlet?opt=5&code='+code,	
+				fit:true,
+	 			fitColumns:true,
+				type:"post",
+	 			pagination:true,
+	 			rownumbers:true,
+	 			pageList:[5,10,15],
+	 		    pageSize:10,
+	 			columns:[[
+	 				{field:'id',checkbox:false}, 
+	 				{field:'dCode',title:'订单明细编号',width:100,hidden:true},
+	 				{field:'partsNo',title:'件号',width:100,formatter: function(value,row,index){return row.baseParts.partsNo}},
+	 				{field:'partsName',title:'配件名称',width:100,formatter: function(value,row,index){return row.baseParts.partsName}},
+	 				{field:'partsBrand',title:'配件品牌',width:100,formatter: function(value,row,index){return row.baseParts.partsBrand}},
+	 				{field:'partsModel',title:'型号',width:100,formatter: function(value,row,index){return row.baseParts.partsModel}},
+	 				{field:'nums',title:'数量',width:100},
+	 				{field:'price',title:'单价',width:100},
+	 				{field:'pdMoney',title:'金额',width:100},
+			    ]],
+			});
+		}
+		
+		//-------------关闭订单明细信息窗口
+		function orderDetaildivclose(){
+			$("#orderDetaildiv").dialog("close");
 		}
 		
 		
@@ -154,7 +207,7 @@
 		function addordernews(){
 			var row=$("#ordernewsdivdata").datagrid("getSelections");
 			if (row.length==0){
-				alert("请选择");
+				alert("请选择记录");
 				return;
 			}
 			$.messager.confirm("选择提醒","确认您要进行的操作？",function(r){
@@ -164,13 +217,44 @@
 						if(i!=row.length-1){
 							ids+=row[i].code+",";
 						}else ids+=row[i].code;
-					}
-					$("#addnewsinput").val(ids);
-					$("#addnewsff").submit();
+					}	
+				//	$("#addnewsinput").val(ids);
+				//	$("#addnewsff").submit();
+					$.ajax({
+						url:'/ERP/stock/StockInAddServlet',
+						data:{
+							'opt':'6',
+							'ids':ids,
+						},
+						type:"post",
+						dataType:"json",
+						async:false,
+						error:function(){alert("请求失败");},
+						success:function(data){
+							//showorderdetailnews();
+							$("#ordernewsdiv").dialog("close");
+					 		$("#detailffdiv").datagrid({
+					 			fitColumns:true,
+					 			columns:[[
+				/*	 				{field:'id',checkbox:false}, 
+					 				{field:'dCode',title:'订单明细编号',width:100,hidden:true},
+					 				{field:'partsNo',title:'件号',width:100,formatter: function(value,row,index){return row.baseParts.partsNo}},
+					 				{field:'partsName',title:'配件名称',width:100,formatter: function(value,row,index){return row.baseParts.partsName}},
+					 				{field:'partsBrand',title:'配件品牌',width:100,formatter: function(value,row,index){return row.baseParts.partsBrand}},
+					 				{field:'partsModel',title:'型号',width:100,formatter: function(value,row,index){return row.baseParts.partsModel}},
+					 				{field:'nums',title:'数量',width:100},
+					 				{field:'price',title:'单价',width:100},
+					 				{field:'pdMoney',title:'金额',width:100},			*/
+							    ]],
+					 		})
+						}
+					});
 				}
 			});
 	 	}
-	 	*/
+	 	
+	 	//function showorderdetailnews(){}
+	 	
 	</script>
 	
   </head>
@@ -204,7 +288,7 @@
   				<tr>	<td></td></tr>
   				
   				<tr>	<td colspan="4"><input type="button" name="addbutton" value="新增" onclick="addbtff();"/>
-			  				<input type="button" name="orderbtdetail" value="采购订单"  onclick="orderbtpay();" disabled="disabled"/>
+			  				<input type="button" name="orderbtdetail" value="采购订单"  onclick="orderbtpay();"/>
 							<input type="button" name="addbtparts" value="添加配件"  onclick="addbtpart();" disabled="disabled"/>
 			  				<input type="button" name="" value="保存"  onclick="" disabled="disabled"/>
 			  				<input type="button" name="" value="审核" onclick="" disabled="disabled"/>
@@ -214,11 +298,11 @@
 			  				<input type="button" name="" value="打印"  onclick="printff();"/>
 			  				<input type="button" name="" value="关闭" onclick="close();"/></td></tr>
   			</table>
+  			
+  			<div id="detailffdiv" action="" target="_self" method="post">	</div>
   		</form>
   		
-  		<form id="detailff" action="" target="_self" method="post">	
-  			<table rules="all"  id="detailtb" ></table>
-  		</form>
+
   		
   		
   		
@@ -231,7 +315,7 @@
   		
   		
   		<div id="supplierdiv" class="easyui-class">
-  			<div id="supplierdivdivdata" class="easyui-class"></div>
+  			<div id="supplierdivdata" class="easyui-class"></div>
   		</div>
   		
   		
@@ -247,8 +331,16 @@
   			</div>
   		</div>
   		
-  		<form id="addnewsff" action="/ERP/stock/StockInAddServlet?opt=5" method="post" target="_self">
+  		<div id="orderDetaildiv" class="easyui-class">
+  			<div id="orderDetaildivdata" class="easyui-class"></div>
+  		</div>
+  		
+  		<form id="addnewsff" action="" method="post" target="_self">
 			<input id="addnewsinput" type="hidden"  value="" />
 		</form>
+		
+		
+		 
+		
   </body>
 </html>

@@ -209,7 +209,7 @@ public class BaseDao {
 
 	// 计算表的记录数
 	public int executeTotalCount(String sql) {
-		String sql1="select count(*)count from ( "+sql+")";
+		String sql1="select count(*) count from ( "+sql+")";
 		rs = this.executeQuery(sql1);
 		int total = 0;
 		try {

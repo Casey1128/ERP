@@ -11,6 +11,7 @@ public interface StockInService {
 	public int addDataStIn(Object[] obj);
 	public List findDataStInByCode(String code);
 	public PageBean findPurchaseOrder(int pageNo,int pageSize);
+	public PageBean findPurchaseOrderDetail(String sql,int pageNo,int pageSize);
 	
 	
 	

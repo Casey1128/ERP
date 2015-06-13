@@ -52,6 +52,14 @@ public class StockInServiceImpl extends BaseDao implements StockInService {
 	}
 
 	
+	@Override
+	public PageBean findPurchaseOrderDetail(String sql, int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		return stock.findPurchaseOrderDetail(sql, pageNo, pageSize);
+	}
+	
+	
+	
 	
 	
 	
@@ -94,6 +102,8 @@ public class StockInServiceImpl extends BaseDao implements StockInService {
 		// TODO Auto-generated method stub
 		return stock.SearchDataStIn(sql, sqlcount, pageNo, pageSize);
 	}
+
+
 
 
 

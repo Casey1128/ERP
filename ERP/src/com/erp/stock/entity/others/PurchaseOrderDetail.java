@@ -5,7 +5,6 @@ public class PurchaseOrderDetail {//订单明细表
 	private int nums;//...单个物品数量
 	private int price;//...单个物品价格
 	
-	private PurchaseOrder purchaseOrder;
 	private BaseParts baseParts;//配件信息表相关信息
 	
 	private int pdMoney;//...单个物品总价
@@ -46,11 +45,6 @@ public class PurchaseOrderDetail {//订单明细表
 	public void setPdMoney(int pdMoney) {
 		this.pdMoney = pdMoney;
 	}
-	public PurchaseOrder getPurchaseOrder() {
-		return purchaseOrder;
-	}
-	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
-		this.purchaseOrder = purchaseOrder;
-	}
+
 	
 }

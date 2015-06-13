@@ -11,7 +11,9 @@ import com.erp.stock.dao.StockInDao;
 import com.erp.stock.entity.StockIn;
 import com.erp.stock.entity.StockInDetail;
 import com.erp.stock.entity.others.BaseCustomerSupplier;
+import com.erp.stock.entity.others.BaseParts;
 import com.erp.stock.entity.others.PurchaseOrder;
+import com.erp.stock.entity.others.PurchaseOrderDetail;
 import com.erp.utils.BaseDao;
 import com.erp.utils.PageBean;
 
@@ -51,7 +53,6 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 			super.close();
 		}
 		pb.setData(list);
-		sql="select count(*) from StockIn";
 		int total=super.executeTotalCount(sql);
 		pb.setRecordCount(total);
 		pb.setPageCount(total%pageSize==0?total/pageSize:total/pageSize+1);
@@ -88,7 +89,6 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 			super.close();
 		}
 		pb.setData(list);
-		sql="select count(*) from baseCustomerSupplier where categorycode='2' or categorycode='3'";
 		int total=super.executeTotalCount(sql);
 		pb.setRecordCount(total);
 		pb.setPageCount(total%pageSize==0?total/pageSize:total/pageSize+1);
@@ -183,9 +183,9 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 		// TODO Auto-generated method stub
 		PageBean pb=new PageBean();
 		List<PurchaseOrder> list=new ArrayList<PurchaseOrder>();
-		String sql="select * from purchaseorder left join "
-				+ "(select * from baseCustomerSupplier where categorycode='2' or categorycode='3') supplier"
-				+ "on purchaseorder.supplierCode=supplier.code";
+		String sql="select purchaseorder.code code,nums,numsPrice,csName,baseCustomerSupplier.code supcode "
+				+ "from purchaseorder left join baseCustomerSupplier "
+				+ "on purchaseorder.supplierCode=baseCustomerSupplier.code";
 		rs=super.executeQueryForPage(sql, pageNo, pageSize);
 		try {
 			while(rs.next()){
@@ -196,6 +196,7 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 				purchaseOrder.setNumsPrice(rs.getInt("numsPrice"));
 				
 				BaseCustomerSupplier supplier=new BaseCustomerSupplier();
+				supplier.setCode(rs.getString("supcode"));
 				supplier.setCsName(rs.getString("csName"));
 				purchaseOrder.setBaseCustomerSupplier(supplier);
 				
@@ -208,9 +209,6 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 			super.close();
 		}
 		pb.setData(list);
-		sql="select count(*) from purchaseorder left join "
-				+ "(select * from baseCustomerSupplier where categorycode='2' or categorycode='3') supplier"
-				+ "on purchaseorder.supplierCode=supplier.code";
 		int total=super.executeTotalCount(sql);
 		pb.setRecordCount(total);
 		pb.setPageCount(total%pageSize==0?total/pageSize:total/pageSize+1);
@@ -220,10 +218,56 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 	}
 	
 	
+	//----------------------查看订单明细信息
+	@Override
+	public PageBean findPurchaseOrderDetail(String sql, int pageNo,
+			int pageSize) {
+		// TODO Auto-generated method stub
+		PageBean pb=new PageBean();
+		List<PurchaseOrderDetail> list=new ArrayList<PurchaseOrderDetail>();
+		rs=super.executeQueryForPage(sql, pageNo, pageSize);
+		try {
+			while(rs.next()){
+				PurchaseOrderDetail purchaseOrderDetail=new PurchaseOrderDetail();
+				
+				purchaseOrderDetail.setdCode(rs.getString("dcode"));
+				purchaseOrderDetail.setNums(rs.getInt("nums"));
+				purchaseOrderDetail.setPrice(rs.getInt("Price"));
+				purchaseOrderDetail.setPdMoney(rs.getInt("nums")*rs.getInt("Price"));
+				
+				BaseParts baseParts=new BaseParts();
+				baseParts.setPartsCode(rs.getString("PartsCode"));
+				baseParts.setPartsName(rs.getString("PartsName"));
+				baseParts.setPartsBrand(rs.getString("PartsBrand"));
+				baseParts.setPartsNo(rs.getString("PartsNo"));
+				baseParts.setPartsModel(rs.getString("PartsModel"));
+				purchaseOrderDetail.setBaseParts(baseParts);
+				
+				list.add(purchaseOrderDetail);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			super.close();
+		}
+		pb.setData(list);
+		int total=super.executeTotalCount(sql);
+		pb.setRecordCount(total);
+		pb.setPageCount(total%pageSize==0?total/pageSize:total/pageSize+1);
+		pb.setPageNo(pageNo);
+		pb.setPageSize(pageSize);
+		return pb;
+	}
+
 	
-	
-	
-	
+	//------------------------添加订单信息
+	@Override
+	public int addDataStInDetail(String code) {
+		// TODO Auto-generated method stub
+		
+		return 0;
+	}
 	
 	
 	
@@ -405,6 +449,13 @@ public class StockInDaoImpl extends BaseDao implements StockInDao {
 		pb.setPageSize(pageSize);
 		return pb;
 	}
+
+
+
+
+
+
+
 
 
 
