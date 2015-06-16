@@ -59,15 +59,15 @@ public class SaleReturn_DetailDaoImpl extends BaseDao implements
 				"on skd.pcode=baseparts.partscode " +
 				"left join stockout sk " +
 				"on sk.code=skd.outcode where 1=1 ";
-		if(partsNo!=null&&partsNo.equals("")){
+		if(partsNo!=null&&!partsNo.equals("")){
 			sql+="and partsNo='"+partsNo+"'";
 		}
-		if(partsName!=null&&partsName.equals("")){
+		if(partsName!=null&&!partsName.equals("")){
 			sql+="and partsName='"+partsName+"'";
 			
 		}
-		if(ckCode!=null&&ckCode.equals("")){
-			sql+="and ckCode='"+ckCode+"'";
+		if(ckCode!=null&&!ckCode.equals("")){
+			sql+="and sk.code='"+ckCode+"'";
 		}
 		ResultSet rs=super.executeQueryForPage(sql, pageNo, pageSize);
 		PageBean pageBean=new PageBean();
@@ -76,11 +76,11 @@ public class SaleReturn_DetailDaoImpl extends BaseDao implements
 		try {
 			while(rs.next()){
 				srs=new SaleReturnStockOut();
-				srs.setCode(rs.getString("code"));
+				srs.setCkCode(rs.getString("code"));
 				srs.setOutDate(rs.getDate("outDate"));
 				srs.setPartsNo(rs.getString("partsNo"));
 				srs.setPartsName(rs.getString("partsName"));
-				srs.setPartsbrand(rs.getString("partsbrand"));
+				srs.setPartsBrand(rs.getString("partsBrand"));
 				srs.setPartsModel(rs.getString("partsModel"));
 				srs.setNums(rs.getInt("nums"));
 				srs.setPrice(rs.getDouble("price"));
@@ -93,7 +93,7 @@ public class SaleReturn_DetailDaoImpl extends BaseDao implements
 			super.close();
 		}
 		pageBean.setData(srsList);
-		sql="select count(*)  from SaleReturnStockOut";
+		//sql="select count(*) from SaleReturnStockOut";
 		pageBean.setRecordCount(super.executeTotalCount(sql));
 		return pageBean;
 	}

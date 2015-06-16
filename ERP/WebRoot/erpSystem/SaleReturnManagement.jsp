@@ -13,8 +13,19 @@
 $(function(){
 $("#details").hide();
 
-	
+$("#selectkucun").dialog({
+		title:'出库单选择列表',
+		width:1000,
+		height:300,
+		modal:true,
+		closed:true,
+		resizable:true
+		  
+			
+});
+$("#selectkucun").dialog("close"); 	
 $("#mydg").dialog("close"); 
+$("#mydgs").dialog("close");	
 $("input.easyui-datebox").datebox({
    		 formatter: function(date){
 		   	var y = date.getFullYear();
@@ -60,8 +71,8 @@ $("#salereturn_list").datagrid({
 		}}
 		]],
 		onDblClickRow:function(rowIndex,rowData){
-					alert(rowData.code);
-					alert(rowIndex);
+					//alert(rowData.code);
+					//alert(rowIndex);
 			$("#details").show();
 			$("#salereturnid").text(rowData.code);
 			$("#createtable").datagrid({
@@ -95,7 +106,7 @@ function showDialog(stitle){
 	$("#mydg").dialog({
 		title:stitle,
 		width:500,
-		heigth:400,
+		height:300,
 		modal:true,
 		closed:true	
 		});
@@ -135,7 +146,7 @@ function updateRow(idx){
 	var row= $("#salereturn_list").datagrid("getRows")[idx];
 	var code=row.code;
 	var xtDate=row.xtDate;
-	alert(xtDate);
+	//alert(xtDate);
 	var customerCode=row.customerCode;
 	var contacter=row.contacter;
 	var telphone=row.telphone;
@@ -211,6 +222,60 @@ function sousuo(){
   //alert(customerCode);
   $("#salereturn_list").datagrid("reload",{code:code,startDate:startDate,endDate:endDate,customerCode:customerCode});
 }
+function selectshowDialog(stitle){
+	$("#mydgs").dialog({
+		title:stitle,
+		width:1000,
+		height:400,
+		modal:true,
+		closed:true	
+		});
+		$("#mydgs").dialog("open");	
+	}	
+function selectStock(){
+	//selectshowDialog('选出库单');
+	$("#selectkucun").dialog("open"); 	
+	$("#detailscreatetable").datagrid({
+		//	title:'出库单选择列表',
+		fit:true,
+		fitColumns:true,
+		url:'/ERP/saleReturn/detailscreatetableServlet',
+		idField:'code',
+		singleSelect:false,
+		pagination:true,
+		pageList:[3,5,10,20],
+		toolbar:"#detailscreatetable_tb",
+		columns:[[
+				{checkbox:true},
+				{field:'ckCode',title:'出库单号',width:100},
+				{field:'outDate',title:'出库日期',width:100},
+				{field:'partsNo',title:'件号',width:100},
+				{field:'partsName',title:'配件名称',width:100},
+				{field:'partsBrand',title:'配件品牌',width:100},
+				{field:'partsModel',title:'配件型号',width:100},
+				{field:'nums',title:'数量',width:100},
+				{field:'price',title:'单价',width:100},
+				{field:'totalprice',title:'总金额',width:100,formatter:function(val,row,idx){				
+					return row.nums*row.price;
+				}},
+				
+		
+		]],
+		
+});
+
+	
+}
+function sousuoStock(){
+  var partsNo=$("input[name='partsNo']").val();
+  alert(partsNo);
+ 
+  var partsName=$("input[name='partsName']").val();
+  alert(partsName);
+  var ckCode=$("input[name='ckCode']").val();
+  //alert(code);
+  $("#detailscreatetable").datagrid("reload",{partsNo:partsNo,partsName:partsName,code:ckCode});
+}	
 function getExcel(){
 window.location.href="/ERP/saleReturn/getSaleReturnExecelServlet";
 }
@@ -274,7 +339,7 @@ window.location.href="/ERP/saleReturn/getSaleReturnExecelServlet";
     </form>
     </table>
     <td><input type="button" value="确定" onclick="subFrm()" /></td>
-      <td><input type="button" value="选出库单"/></td>
+      <td><input type="button" value="选出库单" onclick="selectStock()"/></td>
       <td><input type="button" value="保存"/></td>
       <td><input type="button" value="审核"/></td>
       <td><input type="reset" name="撤销"/></td>
@@ -288,7 +353,31 @@ window.location.href="/ERP/saleReturn/getSaleReturnExecelServlet";
      	<div id="createtable" ></div>
   	</div>
   	
-    <div id="detailscreatetable" ></div>
+  	<div id="mydgs"  style="padding:10px" class="easyui-dialog" >
+  		<div id="detailscreatetable_tb"  style="padding:3px">
+			<form action="#" method="post" name="Form" >
+			检索条件:
+			<input type="hidden" value="1" name="status"/>
+		
+			<span>件号:</span><input type="text"  class="txt" name="partsNo"/>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span>名称:</span>
+			 	<input type="text" name="partsName" class="txt" >	        	
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span>出库单号:</span>
+			 	<input type="text" name="ckCode" class="txt">	        	
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="sousuoStock()">搜索</a>
+		            <a href="#" class="easyui-linkbutton" iconCls="icon-search">重置</a>
+			<div style="height:10px;"></div>		
+		</form>
+	</div>
+  </div>
+  	
+   <div id="selectkucun"  style="padding:10px" class="easyui-dialog">
+   	<div id="detailscreatetable" ></div>
+   </div>
   	
 </body>
 </html>

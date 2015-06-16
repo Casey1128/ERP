@@ -5,19 +5,19 @@ import java.util.Date;
 
 
 public class SaleReturnStockOut {
-	private String code;//出库单号
+	private String ckCode;//出库单号
 	private Date outDate;//出库日期
 	private String partsNo;//件号
 	private String partsName;//配件名称
-	private String partsbrand;//配件品牌
+	private String partsBrand;//配件品牌
 	private String partsModel;//配件型号
 	private int nums;//数量
 	private double price;//价格
-	public String getCode() {
-		return code;
+	public String getCkCode() {
+		return ckCode;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setCkCode(String ckCode) {
+		this.ckCode = ckCode;
 	}
 	public Date getOutDate() {
 		return outDate;
@@ -37,11 +37,11 @@ public class SaleReturnStockOut {
 	public void setPartsName(String partsName) {
 		this.partsName = partsName;
 	}
-	public String getPartsbrand() {
-		return partsbrand;
+	public String getPartsBrand() {
+		return partsBrand;
 	}
-	public void setPartsbrand(String partsbrand) {
-		this.partsbrand = partsbrand;
+	public void setPartsBrand(String partsBrand) {
+		this.partsBrand = partsBrand;
 	}
 	public String getPartsModel() {
 		return partsModel;
@@ -61,15 +61,15 @@ public class SaleReturnStockOut {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public SaleReturnStockOut(String code, Date outDate, String partsNo,
-			String partsName, String partsbrand, String partsModel, int nums,
+	public SaleReturnStockOut(String ckCode, Date outDate, String partsNo,
+			String partsName, String partsBrand, String partsModel, int nums,
 			double price) {
 		super();
-		this.code = code;
+		this.ckCode = ckCode;
 		this.outDate = outDate;
 		this.partsNo = partsNo;
 		this.partsName = partsName;
-		this.partsbrand = partsbrand;
+		this.partsBrand = partsBrand;
 		this.partsModel = partsModel;
 		this.nums = nums;
 		this.price = price;
@@ -78,6 +78,4 @@ public class SaleReturnStockOut {
 		super();
 	}
 	
-	
-
 }
