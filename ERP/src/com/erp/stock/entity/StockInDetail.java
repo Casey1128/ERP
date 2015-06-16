@@ -1,20 +1,23 @@
 package com.erp.stock.entity;
 
+import com.erp.stock.entity.others.BaseParts;
 import com.erp.stock.entity.others.PurchaseOrderDetail;
 
 public class StockInDetail {
-	private String code;
+	private String code;//入库明细主键
 	private String inCode;
-	private String orderCode;//订单编号
-	private String pCode;//配件编号
 	private int nums;//配件数量
 	private int price;//配件单价
 	private String wareHouse;
 	private String remarks;
 	
-	private PurchaseOrderDetail purchaseOrderDetail;//订单明细表相关信息
-	private StockIn stockIn;
+
+	private String orderCode;//订单编号
+	private String pCode;//配件编号
 	
+	private StockIn stockIn;
+	private PurchaseOrderDetail purchaseOrderDetail;//订单明细表相关信息
+	private BaseParts baseParts;
 	
 	
 	
@@ -74,7 +77,19 @@ public class StockInDetail {
 	public void setPurchaseOrderDetail(PurchaseOrderDetail purchaseOrderDetail) {
 		this.purchaseOrderDetail = purchaseOrderDetail;
 	}
-
+	public StockIn getStockIn() {
+		return stockIn;
+	}
+	public void setStockIn(StockIn stockIn) {
+		this.stockIn = stockIn;
+	}
+	public BaseParts getBaseParts() {
+		return baseParts;
+	}
+	public void setBaseParts(BaseParts baseParts) {
+		this.baseParts = baseParts;
+	}
+	
 	
 
 	

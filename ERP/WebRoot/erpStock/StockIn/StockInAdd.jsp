@@ -19,11 +19,13 @@
 	</style>
 	<script>
 		$(function(){
+			$("#tbs").hide();
 			$("#detailff").hide();
 		});
 
+
+		//------------------------添加供应商
 		function supplierclick(){
-			
 			$("#supplierdiv").dialog({
 				title: '供应商选择列表',    
 			    width: 600,    
@@ -34,18 +36,16 @@
 			});
 			$("#supplierdivdata").datagrid({
 				url:'/ERP/stock/StockInAddServlet',
-				data:{
-					'opt':'3',
-				},			
+				queryParams:{opt:'1',},
 				fit:true,
 	 			fitColumns:true,
 	 			singleSelect:true,
 				type:"post",
-	 			toolbar: '#tb',
 	 			pagination:true,
 	 			rownumbers:true,
-	 			pageList:[3,5,10],
-	 		    pageSize:3,
+	 			checkOnSelect:false,
+	 			pageList:[5,10,15],
+	 		    pageSize:5,
 	 			columns:[[
 	 				{field:'id',checkbox:true}, 
 			        {field:'code',title:'供应商编号',width:100},    
@@ -55,14 +55,206 @@
 			        {field:'fax',title:'传真',width:100},
 			        {field:'opt',title:'操作',width:100,
 			        	formatter: function(value,row,index){
-							var content="<input type='button' value='确定' onclick=\"oksubs('"+row.code+"')\"/>";
+							var content="<input type='button' value='确定' onclick=\"chosesupplier('"+row.code+"')\"/>";
 							return content;
 						}
 			        }, 
 			    ]],
+			});
+		}
+		
+		
+		//------------------------选择供应商
+		function chosesupplier(code){
+			$("#supplierdiv").dialog("close");
+			$.ajax({
+				url:'/ERP/stock/StockInAddServlet',
+				data:{
+					'opt':'2',
+					'code':code
+				},
+				async:true,
+				type:'post',
+				dataType:"json",
+				error:function(){alert("请求失败");},
+				success:function(data){
+					$("input[name='supplierCode']").val(data.rows[0].supplierCode)
+					$("input[name='csName']").val(data.rows[0].csName);
+					$("input[name='contacter']").val(data.rows[0].contacter);
+					$("input[name='telephone']").val(data.rows[0].telephone);
+					$("input[name='fax']").val(data.rows[0].fax);
+				}
 			})
 		}
 		
+		
+		
+		//------------------------新增
+		function addbtff(){
+			$.ajax({
+				url:'/ERP/stock/StockInAddServlet',
+				data:{
+					'opt':'3',
+					'code':$("input[name='code']").val(),
+					'indate':$("input[name='indate']").val(),
+					'supplierCode':$("input[name='supplierCode']").val(),
+					'csName':$("input[name='csName']").val(),
+					'contacter':$("input[name='contacter']").val(),
+					'telephone':$("input[name='telephone']").val(),
+					'fax':$("input[name='fax']").val(),
+					'intypese':$("select[name='intypese']").val(),
+					'intypere':$("input[name='intypere']").val(),
+					'isinvoice':$("input[name='isinvoice']").val(),
+					'remarks':$("input[name='remarks']").val()
+				},
+				type:"post",
+				dataType:"json",
+				async:false,
+				error:function(){alert("请求失败")},
+				success:function(data){
+					alert("添加成功");
+				}
+			});
+			$("input[name='addbutton']").attr("disabled","disabled");
+			$("input[name='orderbtdetail']").attr("disabled",false);
+			$("input[name='addbtparts']").attr("disabled",false);
+		}
+		
+		
+		//-------------------显示采购订单
+		function orderbtpay(){
+			$("#ordernewsdiv").dialog({
+				title: '采购订单列表',    
+			    width: 600,    
+			    height: 400,    
+			    closed: false,    
+			    cache: false,  
+			    resizable:true,
+			});
+			$("#ordernewsdivdata").datagrid({
+				url:'/ERP/stock/StockInAddServlet?opt=4',	
+				fit:true,
+	 			fitColumns:true,
+				type:"post",
+	 			pagination:true,
+	 			rownumbers:true,
+	 			toolbar: '#tbs',
+	 			checkOnSelect:false,
+	 			pageList:[5,10,15],
+	 		    pageSize:10,
+	 			columns:[[
+	 				{field:'id',checkbox:true}, 
+			        {field:'code',title:'订单编号',width:100},  
+			        {field:'csName',title:'供应商名称',width:100,
+			        	formatter: function(value,row,index){return row.baseCustomerSupplier.csName}},
+			        {field:'nums',title:'数量',width:100},
+			        {field:'numsPrice',title:'价格',width:100},
+					{field:'opt',title:'操作',width:100,
+			        	formatter: function(value,row,index){
+							var content="<input type='button' value='查看详情' onclick=\"seePurchaseOrderDetail('"+row.code+"')\"/>";
+							return content;
+						}
+			        }, 
+			    ]],
+			});
+		}
+		
+		
+		//----------------------查看订单明细信息
+		function seePurchaseOrderDetail(code){
+			$("#orderDetaildiv").dialog({
+				title: '采购订单明细列表',    
+			    width: 500,    
+			    height: 300,    
+			    closed: false,    
+			    cache: false,  
+			    resizable:true,
+			    buttons:[{
+						text:'确定',
+						handler:function(){orderDetaildivclose();}
+					}]
+			});
+			$("#orderDetaildivdata").datagrid({
+				url:'/ERP/stock/StockInAddServlet?opt=5&code='+code,	
+				fit:true,
+	 			fitColumns:true,
+				type:"post",
+	 			pagination:true,
+	 			rownumbers:true,
+	 			pageList:[5,10,15],
+	 		    pageSize:10,
+	 			columns:[[
+	 				{field:'id',checkbox:false}, 
+	 				{field:'dCode',title:'订单明细编号',width:100,hidden:true},
+	 				{field:'partsNo',title:'件号',width:100,formatter: function(value,row,index){return row.baseParts.partsNo}},
+	 				{field:'partsName',title:'配件名称',width:100,formatter: function(value,row,index){return row.baseParts.partsName}},
+	 				{field:'partsBrand',title:'配件品牌',width:100,formatter: function(value,row,index){return row.baseParts.partsBrand}},
+	 				{field:'partsModel',title:'型号',width:100,formatter: function(value,row,index){return row.baseParts.partsModel}},
+	 				{field:'nums',title:'数量',width:100},
+	 				{field:'price',title:'单价',width:100},
+	 				{field:'pdMoney',title:'金额',width:100},
+			    ]],
+			});
+		}
+		
+		//-------------关闭订单明细信息窗口
+		function orderDetaildivclose(){
+			$("#orderDetaildiv").dialog("close");
+		}
+		
+		
+		//------------------------添加订单信息
+		function addordernews(){
+			var row=$("#ordernewsdivdata").datagrid("getSelections");
+			if (row.length==0){
+				alert("请选择记录");
+				return;
+			}
+			$.messager.confirm("选择提醒","确认您要进行的操作？",function(r){
+				if(r){
+					var ids="";
+					for(var i=0;i<row.length;i++){
+						if(i!=row.length-1){
+							ids+=row[i].code+",";
+						}else ids+=row[i].code;
+					}	
+				//	$("#addnewsinput").val(ids);
+				//	$("#addnewsff").submit();
+					$.ajax({
+						url:'/ERP/stock/StockInAddServlet',
+						data:{
+							'opt':'6',
+							'ids':ids,
+						},
+						type:"post",
+						dataType:"json",
+						async:false,
+						error:function(){alert("请求失败");},
+						success:function(data){
+							//showorderdetailnews();
+							$("#ordernewsdiv").dialog("close");
+					 		$("#detailffdiv").datagrid({
+					 			fitColumns:true,
+					 			columns:[[
+				/*	 				{field:'id',checkbox:false}, 
+					 				{field:'dCode',title:'订单明细编号',width:100,hidden:true},
+					 				{field:'partsNo',title:'件号',width:100,formatter: function(value,row,index){return row.baseParts.partsNo}},
+					 				{field:'partsName',title:'配件名称',width:100,formatter: function(value,row,index){return row.baseParts.partsName}},
+					 				{field:'partsBrand',title:'配件品牌',width:100,formatter: function(value,row,index){return row.baseParts.partsBrand}},
+					 				{field:'partsModel',title:'型号',width:100,formatter: function(value,row,index){return row.baseParts.partsModel}},
+					 				{field:'nums',title:'数量',width:100},
+					 				{field:'price',title:'单价',width:100},
+					 				{field:'pdMoney',title:'金额',width:100},			*/
+							    ]],
+					 		})
+						}
+					});
+				}
+			});
+	 	}
+	 	
+	 	//function showorderdetailnews(){}
+	 	
 	</script>
 	
   </head>
@@ -74,14 +266,16 @@
 		  				Date date=new Date();
 						DateUtilSly dut=new DateUtilSly();
 						String datestr="MTRK"+dut.getNamedByTime()+((int)(Math.random()*900+100)); 
+						String todaydate=dut.toString(date);
 		  			 %>
   				<tr>	<td>入库单号</td><td><input type="text" name="code" value="<%=datestr %>" readonly="readonly" /></td>
-  							<td>入库日期</td><td><input type="date" name="indate" value="" /></td></tr>
-  				<tr>	<td>供应商名</td><td><input type="text" name="supplierCode" value="" readonly="readonly""/>
+  							<td>入库日期</td><td><input type="date" name="indate"  value="<%=todaydate%>"/></td></tr>
+  				<tr>	<td>供应商名</td><td><input type="text" name="csName" readonly="readonly"/>
   							<input type="button" value="请选择" onclick="supplierclick();"/></td>
-  							<td>联系人员</td><td><input type="text" name="contacter" value="" /></td></tr>
-  				<tr>	<td>电话</td><td><input type="text" name="telephone" value="" /></td>
-  							<td>传真</td><td><input type="text" name="fax" value="" /></td></tr>
+  							<input type="hidden" name="supplierCode"/>
+  							<td>联系人员</td><td><input type="text" name="contacter"/></td></tr>
+  				<tr>	<td>电话</td><td><input type="text" name="telephone" /></td>
+  							<td>传真</td><td><input type="text" name="fax" /></td></tr>
   				<tr>	<td>入库类型</td><td><select name="intypese">
   																	<option>采购入库</option>
   																	<option>回收入库</option></select>
@@ -94,7 +288,7 @@
   				<tr>	<td></td></tr>
   				
   				<tr>	<td colspan="4"><input type="button" name="addbutton" value="新增" onclick="addbtff();"/>
-			  				<input type="button" name="orderbtdetail" value="采购订单"  onclick="orderbtpay();" disabled="disabled"/>
+			  				<input type="button" name="orderbtdetail" value="采购订单"  onclick="orderbtpay();"/>
 							<input type="button" name="addbtparts" value="添加配件"  onclick="addbtpart();" disabled="disabled"/>
 			  				<input type="button" name="" value="保存"  onclick="" disabled="disabled"/>
 			  				<input type="button" name="" value="审核" onclick="" disabled="disabled"/>
@@ -104,13 +298,15 @@
 			  				<input type="button" name="" value="打印"  onclick="printff();"/>
 			  				<input type="button" name="" value="关闭" onclick="close();"/></td></tr>
   			</table>
+  			
+  			<div id="detailffdiv" action="" target="_self" method="post">	</div>
   		</form>
   		
-  		<form id="detailff" action="" target="_self" method="post">	
-  			<table rules="all"  id="detailtb" >
 
-  			</table>
-  		</form>
+  		
+  		
+  		
+  		
   		
   		
   		
@@ -119,8 +315,32 @@
   		
   		
   		<div id="supplierdiv" class="easyui-class">
-  			<div id="supplierdivdata" class="easyui-class">
+  			<div id="supplierdivdata" class="easyui-class"></div>
+  		</div>
+  		
+  		
+  		
+  		
+  		<div id="ordernewsdiv" class="easyui-class">
+  			<div id="ordernewsdivdata" class="easyui-class"></div>
+  		</div>
+  		
+  		<div id="tbs">
+  			<div>
+  				<a href="javascript:addordernews()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加订单信息</a>
   			</div>
   		</div>
+  		
+  		<div id="orderDetaildiv" class="easyui-class">
+  			<div id="orderDetaildivdata" class="easyui-class"></div>
+  		</div>
+  		
+  		<form id="addnewsff" action="" method="post" target="_self">
+			<input id="addnewsinput" type="hidden"  value="" />
+		</form>
+		
+		
+		 
+		
   </body>
 </html>

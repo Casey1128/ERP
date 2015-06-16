@@ -41,9 +41,8 @@ public class StockInAddServlet extends HttpServlet {
 		String opt=request.getParameter("opt");
 		
 		
-		
-		
-		if(opt.equals("3")){
+		//------------------------添加供应商
+		if(opt.equals("1")){
 			String pageNostr=request.getParameter("page");
 			String pageSizestr=request.getParameter("rows");
 			if(pageNostr==null||pageNostr.equals("")){pageNostr="1";}
@@ -58,17 +57,136 @@ public class StockInAddServlet extends HttpServlet {
 			jsonObj.put("rows",pb.getData());
 			jsonObj.put("total",pb.getRecordCount());
 			String data=jsonObj.toString();	
-			System.out.println(data);
+			response.getWriter().println(data);
+		}
+		
+		
+
+		//------------------------选择供应商
+		if(opt.equals("2")){
+			String code=request.getParameter("code");
+			
+			List<BaseCustomerSupplier> list=new ArrayList<BaseCustomerSupplier>();
+			list=stock.findSupplierByCode(code);
+			
+			JSONObject jsonObj=new JSONObject();
+			jsonObj.put("rows",list);
+			String data=jsonObj.toString();	
+			response.getWriter().println(data);
+		}
+		
+		
+		
+		//------------------------新增
+		if(opt.equals("3")){
+			String code=request.getParameter("code");
+
+			String indatestr=request.getParameter("indate");
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date indatetime=new Date();
+			try {
+				 indatetime=sdf.parse(indatestr);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			java.sql.Date indate=new java.sql.Date(indatetime.getTime());
+			
+			String supplierCode=request.getParameter("supplierCode");
+			String contacter=request.getParameter("contacter");
+			String telephone=request.getParameter("telephone");
+			String fax=request.getParameter("fax");
+			String intypese=request.getParameter("intypese");
+			String intypere=request.getParameter("intypere");
+			if(intypere.equals("0")){intypere="正常入库";}
+			if(intypere.equals("1")){intypere="冲抵入库";}
+			String intype=intypese+"-"+intypere;
+			String isinvoice=request.getParameter("isinvoice");
+			String remarks=request.getParameter("remarks");
+			
+			
+			List<StockIn> liststr=new ArrayList<StockIn>();
+			liststr=stock.findDataStInByCode(code);
+			if( liststr.size()!=0){
+				stock.delDataStIn(code);
+			}
+			
+			
+			Object[] obj=new Object[]{code,indate,supplierCode,contacter,telephone,fax,intype,isinvoice,remarks};
+			int ret=stock.addDataStIn(obj);
+			
+			
+			List<StockIn> list=new ArrayList<StockIn>();
+			list=stock.findDataStInByCode(code);
+			JsonConfig config=new JsonConfig();
+			config.registerJsonValueProcessor(Date.class,new JSONDateProcessor("yyyy-MM-dd"));
+			Map attrs =new HashMap();
+			JSONObject jsonObj=new JSONObject();
+			attrs.put("rows", list);
+			jsonObj.putAll(attrs,config);
+			String data=jsonObj.toString();	
 			response.getWriter().println(data);
 		}
 		
 		
 		
 		
+		//------------------采购订单列表
+		if(opt.equals("4")){
+			String pageNostr=request.getParameter("page");
+			String pageSizestr=request.getParameter("rows");
+			if(pageNostr==null||pageNostr.equals("")){pageNostr="1";}
+			if(pageSizestr==null||pageSizestr.equals("")){pageSizestr="3";}
+			int pageNo=Integer.parseInt(pageNostr);
+			int pageSize=Integer.parseInt(pageSizestr);
+			
+			PageBean pb=new PageBean();
+			pb=stock.findPurchaseOrder(pageNo, pageSize);
+			
+			JSONObject jsonObj=new JSONObject();
+			jsonObj.put("rows",pb.getData());
+			jsonObj.put("total",pb.getRecordCount());
+			String data=jsonObj.toString();	
+			response.getWriter().println(data);
+		}
 		
 		
 		
 		
+		//----------------------查看订单明细信息
+		if(opt.equals("5")){
+			String code=request.getParameter("code");
+			String pageNostr=request.getParameter("page");
+			String pageSizestr=request.getParameter("rows");
+			if(pageNostr==null||pageNostr.equals("")){pageNostr="1";}
+			if(pageSizestr==null||pageSizestr.equals("")){pageSizestr="3";}
+			int pageNo=Integer.parseInt(pageNostr);
+			int pageSize=Integer.parseInt(pageSizestr);
+			String sql="select * from purchaseOrder_detail left join baseParts "
+					+ "on purchaseOrder_detail.pCode=baseParts.partscode "
+					+ "where ocode='"+code+"'";
+			
+			PageBean pb=new PageBean();
+			pb=stock.findPurchaseOrderDetail(sql, pageNo, pageSize);
+			
+			JSONObject jsonObj=new JSONObject();
+			jsonObj.put("rows",pb.getData());
+			jsonObj.put("total",pb.getRecordCount());
+			String data=jsonObj.toString();	
+			response.getWriter().println(data);
+		}
+		
+		
+		
+		//------------------------添加订单信息
+		if(opt.equals("6")){
+			String ids=request.getParameter("ids");
+			String[] code=new String[]{};
+			code=ids.split(",");
+			for(int i=0;i<code.length;i++){
+				
+			}
+		}
 		
 		
 		
